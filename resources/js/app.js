@@ -8,15 +8,15 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-import AdminLayout from "@/Layouts/AdminLayout.vue"
+import RecruiterLayout from "@/Layouts/RecruiterLayout.vue"
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: async name => {
         const page = await resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'))
         if (page.default.layout === undefined) {
-            if (name.startsWith("Admin")) {
-                page.default.layout = AdminLayout;
+            if (name.startsWith("Recruiter")) {
+                page.default.layout = RecruiterLayout;
             }
         }
         return page;

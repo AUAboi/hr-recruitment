@@ -6,7 +6,7 @@ const page = usePage();
 
 const isUrl = (...urls) => {
     let currentUrl = page.url.substring(1);
-    currentUrl = currentUrl.replace("admin/", "");
+    currentUrl = currentUrl.replace("recruiter/", "");
     if (urls[0] === "") {
         return currentUrl === "";
     }
@@ -19,7 +19,7 @@ const isUrl = (...urls) => {
             <Link
                 :class="{ 'text-white': isUrl('dashboard') }"
                 class="m-2"
-                :href="route('admin.dashboard')"
+                :href="route('recruiter.dashboard')"
                 >Dashboard</Link
             >
         </div>
@@ -27,7 +27,7 @@ const isUrl = (...urls) => {
             <Link
                 :class="{ 'text-white': isUrl('profile') }"
                 class="m-2"
-                :href="route('admin.profile.edit')"
+                :href="route('recruiter.profile.edit')"
                 >Profile</Link
             >
         </div>

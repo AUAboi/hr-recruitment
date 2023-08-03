@@ -1,6 +1,6 @@
 <script setup>
 import IconChevronDown from "~icons/mdi/chevron-down";
-import AdminMenu from "@/Components/AdminMenu.vue";
+import RecruiterMenu from "@/Components/RecruiterMenu.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Link, usePage } from "@inertiajs/vue3";
@@ -19,7 +19,9 @@ const appName = computed(() => {
         <header>
             <nav>
                 <div class="nav-title">
-                    <Link :href="route('admin.dashboard')" class="mt-1 text-2xl"
+                    <Link
+                        :href="route('recruiter.dashboard')"
+                        class="mt-1 text-2xl"
                         >RL Academia</Link
                     >
                     <Dropdown
@@ -43,7 +45,7 @@ const appName = computed(() => {
 
                         <template v-slot:content>
                             <div>
-                                <AdminMenu />
+                                <RecruiterMenu />
                             </div>
                         </template>
                     </Dropdown>
@@ -58,7 +60,7 @@ const appName = computed(() => {
                                 <div
                                     class="text-gray-700 group-hover:text-indigo-600 focus:text-indigo-600 mr-1 whitespace-nowrap"
                                 >
-                                    <span>{{ user.name }}</span>
+                                    <span>{{ user.username }}</span>
                                 </div>
 
                                 <IconChevronDown
@@ -73,7 +75,7 @@ const appName = computed(() => {
                                 <div>
                                     <Link
                                         class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
-                                        :href="route('admin.profile.edit')"
+                                        :href="route('recruiter.profile.edit')"
                                         >My Profile</Link
                                     >
 
@@ -95,7 +97,7 @@ const appName = computed(() => {
             <nav
                 class="hidden md:block bg-indigo-800 text-white flex-shrink-0 w-56 p-12 overflow-y-auto"
             >
-                <AdminMenu />
+                <RecruiterMenu />
             </nav>
 
             <main

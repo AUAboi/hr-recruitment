@@ -17,7 +17,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/';
+    public const RECHOME = '/recruiter/dashboard';
+    public const APPHOME = '/applicant/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -36,5 +38,21 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+    }
+
+    public function redirectToRole($role)
+    {
+        switch ($role) {
+            case 'recruiter':
+                return RouteServiceProvider::RECHOME;
+                break;
+
+            case 'applicant':
+                return RouteServiceProvider::APPHOME;
+                break;
+            default:
+                return RouteServiceProvider::HOME;
+                break;
+        }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,14 +26,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/admin/dashboard', function () {
-    return Inertia::render('Admin/Dashboard');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+Route::get('/recruiter/dashboard', function () {
+    return Inertia::render('Recruiter/Dashboard');
+})->middleware(['auth', 'verified'])->name('recruiter.dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
-    Route::patch('/admin/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
-    Route::delete('/admin/profile', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
+    Route::get('/recruiter/profile', [ProfileController::class, 'edit'])->name('recruiter.profile.edit');
+    Route::patch('/recruiter/profile', [ProfileController::class, 'update'])->name('recruiter.profile.update');
+    Route::delete('/recruiter/profile', [ProfileController::class, 'destroy'])->name('recruiter.profile.destroy');
 });
+
+Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);
 
 require __DIR__ . '/auth.php';
