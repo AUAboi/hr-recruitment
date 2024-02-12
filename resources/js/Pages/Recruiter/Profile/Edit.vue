@@ -27,6 +27,7 @@ const form = useForm({
 
 const handleSelectedMedia = (files) => {
     form.image = files;
+    submit();
 };
 
 const setFormValues = async () => {
@@ -64,7 +65,6 @@ const previewClick = () => {
                 ref="inputFile"
                 v-model="form.image"
             />
-            <button @click="submit" class="bg-white px-2">SUBMIT</button>
             <div class="p-4 sm:p-8 bg-primaryGray shadow sm:rounded-lg">
                 <UpdateProfileInformationForm
                     :must-verify-email="mustVerifyEmail"
