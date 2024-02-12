@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/vue3";
 </script>
 <template>
     <div
-        class="flex flex-col items-center justify-center h-screen bg-indigo-800"
+        class="flex flex-col items-center justify-center h-screen bg-orange-800"
     >
         <div class="mb-6 text-white text-xl">
             <h3>Redirect to</h3>

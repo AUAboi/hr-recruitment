@@ -14,10 +14,10 @@ const isUrl = (...urls) => {
 };
 </script>
 <template>
-    <div class="flex flex-col text-indigo-300">
+    <div class="flex flex-col text-white">
         <div class="nav-item">
             <Link
-                :class="{ 'text-white': isUrl('dashboard') }"
+                :class="{ 'text-orange-400': isUrl('dashboard') }"
                 class="m-2"
                 :href="route('recruiter.dashboard')"
                 >Dashboard</Link
@@ -25,7 +25,7 @@ const isUrl = (...urls) => {
         </div>
         <div class="nav-item">
             <Link
-                :class="{ 'text-white': isUrl('profile') }"
+                :class="{ 'text-orange-400': isUrl('profile') }"
                 class="m-2"
                 :href="route('recruiter.profile.edit')"
                 >Profile</Link

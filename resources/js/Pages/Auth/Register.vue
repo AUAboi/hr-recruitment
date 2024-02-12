@@ -11,6 +11,7 @@ const form = useForm({
     email: "",
     password: "",
     password_confirmation: "",
+    role: "",
 });
 
 const submit = () => {
@@ -40,7 +41,20 @@ const submit = () => {
 
                 <InputError class="mt-2" :message="form.errors.username" />
             </div>
+            <div class="mt-4">
+                <InputLabel for="role" value="Role" />
 
+                <select
+                    id="role"
+                    class="mt-1 block w-full"
+                    v-model="form.role"
+                    required
+                >
+                    <option value="recruiter">Recruiter</option>
+                </select>
+
+                <InputError class="mt-2" :message="form.errors.email" />
+            </div>
             <div class="mt-4">
                 <InputLabel for="email" value="Email" />
 
@@ -95,7 +109,7 @@ const submit = () => {
             <div class="flex items-center justify-end mt-4">
                 <Link
                     :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 >
                     Already registered?
                 </Link>

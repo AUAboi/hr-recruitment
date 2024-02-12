@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RecruiterSeeder extends Seeder
 {
@@ -12,6 +14,14 @@ class RecruiterSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $user = User::create([
+            'first_name' => 'Admin',
+            'last_name' => 'Recruiter',
+            'username' => 'AdminRecruiter',
+            'email' => 'recruiter@admin.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        $user->assignRole('recruiter');
     }
 }

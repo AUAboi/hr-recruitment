@@ -1,10 +1,12 @@
 <script setup>
 import IconChevronDown from "~icons/mdi/chevron-down";
+import MdiUser from "~icons/mdi/user";
 import RecruiterMenu from "@/Components/RecruiterMenu.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const user = computed(() => {
     return usePage().props.auth.user;
@@ -17,18 +19,19 @@ const appName = computed(() => {
 <template>
     <div class="md:h-screen md:flex md:flex-col">
         <header>
-            <nav>
+            <nav class="border-b border-b-neutral-700">
                 <div class="nav-title">
                     <Link
                         :href="route('recruiter.dashboard')"
                         class="mt-1 text-2xl"
-                        >RL Academia</Link
                     >
+                        <ApplicationLogo />
+                    </Link>
                     <Dropdown
                         class="md:hidden"
                         :contentClasses="[
                             'mt-1',
-                            'mt-2 px-8 py-4 shadow-lg bg-indigo-800 rounded',
+                            'mt-2 px-8 py-4 shadow-lg bg-primaryGray rounded',
                         ]"
                     >
                         <template v-slot:trigger>
@@ -52,35 +55,35 @@ const appName = computed(() => {
                 </div>
                 <div class="nav-header">
                     <div class="mt-1 mr-4">{{ appName }}</div>
-                    <Dropdown :contentClasses="['mt-1', 'bg-white']">
+                    <Dropdown :contentClasses="['mt-1']">
                         <template v-slot:trigger>
                             <div
                                 class="flex items-center cursor-pointer select-none group"
                             >
                                 <div
-                                    class="text-gray-700 group-hover:text-indigo-600 focus:text-indigo-600 mr-1 whitespace-nowrap"
+                                    class="group-hover:text-orange-600 text-orange-400 focus:text-orange-500 mr-1 whitespace-nowrap"
                                 >
                                     <span>{{ user.username }}</span>
                                 </div>
 
                                 <IconChevronDown
-                                    class="w-5 h-5 group-hover:text-indigo-600 text-gray-700 focus:text-indigo-600 flex align-middle"
+                                    class="w-5 h-5 group-hover:text-orange-500 text-orange-400 focus:text-orange-500 flex align-middle"
                                 />
                             </div>
                         </template>
                         <template v-slot:content>
                             <div
-                                class="mt-2 py-2 shadow-xl bg-white rounded text-sm"
+                                class="mt-2 py-2 shadow-xl bg-primaryGray rounded text-sm"
                             >
                                 <div>
                                     <Link
-                                        class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
+                                        class="block px-6 py-2 hover:text-orange-500 transition-colors duration-150"
                                         :href="route('recruiter.profile.edit')"
                                         >My Profile</Link
                                     >
 
                                     <Link
-                                        class="block px-6 py-2 hover:bg-indigo-500 hover:text-white w-full text-left"
+                                        class="block px-6 py-2 hover:text-orange-500 transition-colors duration-150 w-full text-left"
                                         :href="route('logout')"
                                         method="post"
                                         as="button"
@@ -95,13 +98,13 @@ const appName = computed(() => {
         </header>
         <div class="md:flex md:flex-grow md:overflow-hidden">
             <nav
-                class="hidden md:block bg-indigo-800 text-white flex-shrink-0 w-56 p-12 overflow-y-auto"
+                class="hidden md:block bg-primaryGray text-white flex-shrink-0 py-12 overflow-y-auto"
             >
                 <RecruiterMenu />
             </nav>
 
             <main
-                class="px-4 py-8 overflow-x-hidden md:flex-1 md:p-12 md:overflow-y-auto"
+                class="px-4 py-8 overflow-x-hidden md:flex-1 md:p-12 md:overflow-y-auto bg-neutral-900"
             >
                 <FlashMessage
                     v-if="
@@ -118,12 +121,12 @@ const appName = computed(() => {
 
 <style scoped>
 nav {
-    @apply md:flex md:flex-shrink-0;
+    @apply md:flex md:flex-shrink-0 text-white bg-primaryGray;
 }
 .nav-title {
-    @apply bg-indigo-900 text-white md:flex-shrink-0 md:w-56 px-6 py-4 flex items-center justify-between md:justify-center;
+    @apply md:flex-shrink-0 px-6 py-4 flex items-center justify-between md:justify-center;
 }
 .nav-header {
-    @apply bg-white border-b w-full p-4 md:py-0 md:px-12 text-sm md:text-base flex justify-between items-center;
+    @apply w-full p-4 md:py-0 md:px-12 text-sm md:text-base flex justify-between items-center;
 }
 </style>

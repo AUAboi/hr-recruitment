@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    public function redirectToRole($role)
+    public static function redirectToRole($role)
     {
         switch ($role) {
             case 'recruiter':
@@ -51,6 +51,7 @@ class RouteServiceProvider extends ServiceProvider
                 return RouteServiceProvider::APPHOME;
                 break;
             default:
+                dd("Test");
                 return RouteServiceProvider::HOME;
                 break;
         }

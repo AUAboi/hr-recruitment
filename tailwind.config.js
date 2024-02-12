@@ -24,7 +24,9 @@ export default {
                     600: "#5661b3",
                     800: "#2f365f",
                     900: "#191e38"
-                }
+                },
+                primaryGray: "#222222",
+                primaryOrange: "#ff8d4e"
             },
         },
     },
