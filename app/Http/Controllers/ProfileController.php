@@ -36,6 +36,20 @@ class ProfileController extends Controller
         return Redirect::route('recruiter.profile.edit');
     }
 
+    public function updateImage(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        if ($user->media) {
+            $user->media->delete();
+        }
+        $usertMedia = $user->media()->create([]);
+        $usertMedia->baseMedia()->associate(
+            $usertMedia->addMedia($request->file('image'))->toMediaCollection()
+        )->save();
+
+        return Redirect::route('recruiter.profile.edit');
+    }
+
     /**
      * Delete the user's account.
      */

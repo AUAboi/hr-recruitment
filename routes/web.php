@@ -33,6 +33,7 @@ Route::get('/recruiter/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/recruiter/profile', [ProfileController::class, 'edit'])->name('recruiter.profile.edit');
     Route::patch('/recruiter/profile', [ProfileController::class, 'update'])->name('recruiter.profile.update');
+    Route::put('/recruiter/profile/image', [ProfileController::class, 'updateImage'])->name('recruiter.profile.updateImage');
     Route::delete('/recruiter/profile', [ProfileController::class, 'destroy'])->name('recruiter.profile.destroy');
 });
 
