@@ -7,6 +7,9 @@ import FlashMessage from "@/Components/FlashMessage.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import MdiMenuClose from "~icons/mdi/menu-close";
+import MdiMenuOpen from "~icons/mdi/menu-open";
+import { useToggle } from "@vueuse/core";
 
 const user = computed(() => {
     return usePage().props.auth.user;
@@ -15,6 +18,8 @@ const user = computed(() => {
 const appName = computed(() => {
     return usePage().props.appName;
 });
+
+const [menuOpen, toggle] = useToggle();
 </script>
 <template>
     <div class="md:h-screen md:flex md:flex-col">
@@ -98,11 +103,15 @@ const appName = computed(() => {
         </header>
         <div class="md:flex md:flex-grow md:overflow-hidden">
             <nav
-                class="hidden md:block bg-primaryGray text-white flex-shrink-0 py-12 overflow-y-auto"
+                class="hidden md:block flex-col bg-primaryGray text-white flex-shrink-0 pb-12 pt-6 overflow-y-auto transition-all"
+                :class="menuOpen ? 'w-36' : 'w-10'"
             >
-                <RecruiterMenu />
+                <button class="pb-4 text-2xl mx-auto" @click.prevent="toggle()">
+                    <MdiMenuClose v-if="!menuOpen" />
+                    <MdiMenuOpen v-else />
+                </button>
+                <RecruiterMenu :menu-open="menuOpen" />
             </nav>
-
             <main
                 class="px-4 py-8 overflow-x-hidden md:flex-1 md:p-12 md:overflow-y-auto bg-neutral-900"
             >
