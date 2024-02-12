@@ -2,6 +2,7 @@
 import IconChevronDown from "~icons/mdi/chevron-down";
 import MdiUser from "~icons/mdi/user";
 import RecruiterMenu from "@/Components/RecruiterMenu.vue";
+import RecruiterMenuMobile from "@/Components/RecruiterMenuMobile.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Link, usePage } from "@inertiajs/vue3";
@@ -53,7 +54,7 @@ const [menuOpen, toggle] = useToggle();
 
                         <template v-slot:content>
                             <div>
-                                <RecruiterMenu />
+                                <RecruiterMenuMobile />
                             </div>
                         </template>
                     </Dropdown>
