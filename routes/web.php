@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CVExtractorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
@@ -30,11 +31,13 @@ Route::get('/recruiter/dashboard', function () {
     return Inertia::render('Recruiter/Dashboard');
 })->middleware(['auth', 'verified'])->name('recruiter.dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/recruiter/profile', [ProfileController::class, 'edit'])->name('recruiter.profile.edit');
-    Route::patch('/recruiter/profile', [ProfileController::class, 'update'])->name('recruiter.profile.update');
-    Route::put('/recruiter/profile/image', [ProfileController::class, 'updateImage'])->name('recruiter.profile.updateImage');
-    Route::delete('/recruiter/profile', [ProfileController::class, 'destroy'])->name('recruiter.profile.destroy');
+Route::middleware('auth')->prefix('/recruiter')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('recruiter.profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('recruiter.profile.update');
+    Route::put('/profile/image', [ProfileController::class, 'updateImage'])->name('recruiter.profile.updateImage');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('recruiter.profile.destroy');
+
+    Route::get('/cv-extractor', [CVExtractorController::class, 'index'])->name('recruiter.extractor');
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);

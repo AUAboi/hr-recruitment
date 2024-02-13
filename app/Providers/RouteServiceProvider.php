@@ -51,7 +51,6 @@ class RouteServiceProvider extends ServiceProvider
                 return RouteServiceProvider::APPHOME;
                 break;
             default:
-                dd("Test");
                 return RouteServiceProvider::HOME;
                 break;
         }

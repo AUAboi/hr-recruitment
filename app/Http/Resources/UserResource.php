@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'username' => $this->username,
             'email' => $this->email,
+            'roles' => $this->roles,
             'media' => $this->media ? $this->media->baseMedia->getUrl() : null,
         ];
     }

@@ -108,8 +108,11 @@ const [menuOpen, toggle] = useToggle();
                 :class="menuOpen ? 'w-36' : 'w-10'"
             >
                 <button class="pb-4 text-2xl mx-auto" @click.prevent="toggle()">
-                    <MdiMenuClose v-if="!menuOpen" />
-                    <MdiMenuOpen v-else />
+                    <MdiMenuClose
+                        class="bg-gray-500 rounded-md"
+                        v-if="!menuOpen"
+                    />
+                    <MdiMenuOpen class="bg-gray-500 rounded-md" v-else />
                 </button>
                 <RecruiterMenu :menu-open="menuOpen" />
             </nav>
