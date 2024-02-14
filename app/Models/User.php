@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function media()
     {
         return $this->hasOne(UserMedia::class);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return "$this->first_name $this->last_name";
     }
 }
