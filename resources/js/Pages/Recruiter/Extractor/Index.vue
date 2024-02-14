@@ -1,11 +1,15 @@
 <script setup>
-import UserAvatar from "@/Components/UserAvatar.vue";
 import { Head } from "@inertiajs/vue3";
-import MdiTick from "~icons/mdi/tick";
-import MdiClose from "~icons/mdi/close";
-import MdiHistory from "~icons/mdi/history";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/Components/ui/badge";
+import ProfileSection from "./Partials/ProfileSection.vue";
+import { ref } from "vue";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/Components/ui/collapsible";
 
+const isOpen = ref(false);
 const rawJSON = {
     name: "Basim Bashir",
     father_name: "Haseeb Bashir",
@@ -34,8 +38,18 @@ const data = {
         "Database Management",
         "Data Analysis",
     ],
-    project:
-        "Developed and implemented a chatbot using GPT-2 as a Language Model, enhancing customer support and engagement. Created a voice bot capable of processing voice input and generating voice-based responses, improving user interaction. Built a call bot for automated phone calls, improving efficiency and customer experience in call centers. Person Detection and Recognition, Fall Detection using OpenCV and MediaPipe, Online Live Transmission Attendance using OpenCV and VGGNet16, Person Detection using YOLO, Chatbot Development using GPT-2, Voice Bot Development, Call Bot Development",
+    projects: [
+        "Developed and implemented a chatbot using GPT-2 as a Language Model, enhancing customer support and engagement",
+        "Created a voice bot capable of processing voice input and generating voice-based responses, improving user interaction",
+        "Built a call bot for automated phone calls, improving efficiency and customer experience in call centers",
+        "Person Detection and Recognition",
+        "Fall Detection using OpenCV and MediaPipe",
+        "Online Live Transmission Attendance using OpenCV and VGGNet16",
+        "Person Detection using YOLO",
+        "Chatbot Development using GPT-2",
+        "Voice Bot Development",
+        "Call Bot Development",
+    ],
     programming_language: "",
     education_history:
         "Bachelor Degree of Software Engineering from Riphah International University",
@@ -48,6 +62,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const MAX_SHOWN_PROJECTS = 4;
 </script>
 
 <template>
@@ -55,47 +71,74 @@ const props = defineProps({
     <section class="bg-primaryGray max-w-6xl mx-auto rounded-md">
         <div class="flex">
             <div class="w-1/2 border-r border-stone-700">
-                <div
-                    class="text-white text-center border-b border-stone-700 py-8"
-                >
-                    <UserAvatar size="lg" :user="user" />
-                    <h4 class="font-semibold">
-                        {{ user.full_name }}
-                    </h4>
-                </div>
-
-                <div
-                    class="flex gap-4 justify-evenly px-6 py-4 border-b border-stone-700"
-                >
-                    <button
-                        class="bg-stone-600 w-full rounded-full p-2 transition-colors hover:bg-stone-700"
-                    >
-                        <MdiTick class="mx-auto text-green-600 text-xl" />
-                    </button>
-                    <button
-                        class="bg-stone-600 w-full rounded-full p-2 transition-colors hover:bg-stone-700"
-                    >
-                        <MdiHistory class="mx-auto text-yellow-600 text-xl" />
-                    </button>
-                    <button
-                        class="bg-stone-600 w-full rounded-full p-2 transition-colors hover:bg-stone-700"
-                    >
-                        <MdiClose class="mx-auto text-red-500 text-xl" />
-                    </button>
-                </div>
+                <ProfileSection :user="user" />
             </div>
 
             <div class="w-full">
-                <div class="px-10 py-6 flex gap-10">
+                <div class="pl-10 py-10 flex gap-20">
                     <div class="text-stone-400 uppercase">
                         <h5>Skills</h5>
                     </div>
-                    <div
-                        class="max-w-md flex flex-wrap gap-x-4 gap-y-2 border-b border-stone-700 pb-6"
-                    >
-                        <Badge v-for="skill in data.skills">
-                            {{ skill }}
-                        </Badge>
+                    <div class="flex-grow border-b border-stone-700 pb-10">
+                        <div class="max-w-lg flex flex-wrap gap-x-4 gap-y-2">
+                            <Badge v-for="skill in data.skills" :key="skill">
+                                {{ skill }}
+                            </Badge>
+                        </div>
+                    </div>
+                </div>
+                <div class="pl-10 py-10 flex gap-20">
+                    <div class="text-stone-400 uppercase">
+                        <h5>Projects</h5>
+                    </div>
+                    <div class="flex-grow border-b border-stone-700 pb-10">
+                        <div class="max-w-lg space-y-4">
+                            <Collapsible
+                                v-model:open="isOpen"
+                                class="w-[350px] space-y-2"
+                            >
+                                <div
+                                    class="text-gray-200"
+                                    v-for="(project, index) in data.projects"
+                                >
+                                    <p v-if="index < MAX_SHOWN_PROJECTS">
+                                        {{ project }}
+                                    </p>
+                                    <CollapsibleContent
+                                        v-else
+                                        class="space-y-2"
+                                    >
+                                        <p>
+                                            {{ project }}
+                                        </p>
+                                    </CollapsibleContent>
+                                </div>
+                                <CollapsibleTrigger
+                                    v-if="
+                                        data.projects.length >
+                                        MAX_SHOWN_PROJECTS
+                                    "
+                                    as-child
+                                >
+                                    <p
+                                        v-if="!isOpen"
+                                        class="text-blue-500 text-sm hover:underline cursor-pointer"
+                                    >
+                                        {{
+                                            data.projects.length -
+                                            MAX_SHOWN_PROJECTS
+                                        }}
+                                        More
+                                    </p>
+                                    <p
+                                        class="text-blue-500 text-sm hover:underline cursor-pointer"
+                                        v-else
+                                    >
+                                        Show less
+                                    </p>
+                                </CollapsibleTrigger>
+                            </Collapsible>
+                        </div>
                     </div>
                 </div>
             </div>
