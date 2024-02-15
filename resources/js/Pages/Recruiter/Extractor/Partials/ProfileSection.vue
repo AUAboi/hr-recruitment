@@ -18,6 +18,7 @@ import {
 } from "@/Components/ui/popover";
 import { ref } from "vue";
 import { useToast } from "@/Components/ui/toast/use-toast";
+import { Progress } from "@/Components/ui/progress";
 
 const { toast } = useToast();
 
@@ -73,7 +74,7 @@ const copyText = (text) => {
         </Popover>
     </div>
 
-    <div class="flex gap-4 justify-evenly px-6 py-4 border-b border-stone-700">
+    <div class="flex gap-4 justify-evenly px-6 py-6 border-b border-stone-700">
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger as-child>
@@ -117,9 +118,16 @@ const copyText = (text) => {
             </Tooltip>
         </TooltipProvider>
     </div>
-    <div class="px-6 py-4 text-gray-200">
-        <p>Name: {{ data.name }}</p>
-        <p>Father Name: {{ data.father_name }}</p>
-        <p>Phone No: {{ data.phone_no }}</p>
+    <div class="px-6 py-6 text-gray-200 space-y-4">
+        <h4 class="text-center font-semibold pb-4">Skill Evaluation</h4>
+        <div
+            v-for="skill in data.skills"
+            class="grid grid-cols-2 gap-4 items-center"
+        >
+            <p class="text-sm">{{ skill }}</p>
+            <div class="flex-grow">
+                <Progress class="h-1" :model-value="Math.random() * 100" />
+            </div>
+        </div>
     </div>
 </template>

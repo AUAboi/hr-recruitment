@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CVExtractorController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
@@ -38,6 +39,11 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('recruiter.profile.destroy');
 
     Route::get('/cv-extractor', [CVExtractorController::class, 'index'])->name('recruiter.extractor');
+
+    Route::get('/cv-evaluation/show/{evaluation}', [EvaluationController::class, 'show'])->name('recruiter.evaluation.show');
+
+    Route::get('/cv-evaluation/create', [EvaluationController::class, 'create'])->name('recruiter.evaluation.create');
+    Route::post('/cv-evaluation/store', [EvaluationController::class, 'store'])->name('recruiter.evaluation.store');
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);

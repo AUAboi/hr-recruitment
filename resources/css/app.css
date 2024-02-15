@@ -89,7 +89,7 @@
 
 /* Handle */
 .main-scroller::-webkit-scrollbar-thumb {
-    @apply bg-orange-500;
+    @apply bg-orange-500 rounded-lg;
 }
 
 /* Handle on hover */

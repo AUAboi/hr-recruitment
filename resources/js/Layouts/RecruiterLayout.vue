@@ -104,8 +104,8 @@ const [menuOpen, toggle] = useToggle();
         </header>
         <div class="md:flex md:flex-grow md:overflow-hidden">
             <nav
-                class="hidden md:block flex-col bg-primaryGray text-white flex-shrink-0 pb-12 pt-6 overflow-y-auto transition-all"
-                :class="menuOpen ? 'w-36' : 'w-10'"
+                class="hidden md:block flex-col bg-primaryGray text-white flex-shrink-0 pb-12 pt-6 overflow-y-auto transition-all items-center"
+                :class="menuOpen ? 'w-36' : 'w-12'"
             >
                 <button class="pb-4 text-2xl mx-auto" @click.prevent="toggle()">
                     <MdiMenuClose
