@@ -12,7 +12,7 @@ class CVExtractorController extends Controller
     public function index()
     {
         $user = User::latest()->first();
-        return Inertia::render('Recruiter/Extractor/Index', [
+        return Inertia::render('Recruiter/Extractor/SampleIndex', [
             'user' => new UserResource($user)
         ]);
     }

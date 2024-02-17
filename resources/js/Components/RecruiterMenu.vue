@@ -36,9 +36,9 @@ const isUrl = (...urls) => {
         </div>
         <div class="nav-item">
             <Link
-                :class="{ 'text-orange-400': isUrl('cv-extractor') }"
+                :class="{ 'text-orange-400': isUrl('cv-evaluation') }"
                 class="m-2 flex justify-between gap-4"
-                :href="route('recruiter.extractor')"
+                :href="route('recruiter.evaluation.create')"
             >
                 <span v-if="menuOpen">Summarizer</span>
                 <MdiBriefcase class="text-xl" />

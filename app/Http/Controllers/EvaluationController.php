@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Evaluation;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -18,20 +19,25 @@ class EvaluationController extends Controller
 
     public function create()
     {
-        return Inertia::render('Recruiter/Extractor/Create');
+        $evaluations = Evaluation::all();
+        return Inertia::render('Recruiter/Extractor/Create', ['evaluations' => $evaluations]);
     }
 
     public function store(Request $request)
     {
-        $response = Http::asMultipart()->attach(
-            'file',
-            file_get_contents($request->file('file')),
-            'cv.pdf'
-        )
-            ->withQueryParameters([
-                'query' => 'Extract the useful info from the CV'
-            ])
-            ->post('http://127.0.0.1:5431/extract-cv-info');
+        try {
+            $response = Http::asMultipart()->attach(
+                'file',
+                file_get_contents($request->file('file')),
+                'cv.pdf'
+            )
+                ->withQueryParameters([
+                    'query' => 'Extract the useful info from the CV'
+                ])
+                ->post('http://127.0.0.1:5431/extract-cv-info');
+        } catch (ConnectionException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         $evaluation = Evaluation::create([
             'user_id' => 2,

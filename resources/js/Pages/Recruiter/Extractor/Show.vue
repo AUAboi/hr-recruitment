@@ -34,9 +34,9 @@ console.log(props.evaluation);
             </div>
 
             <div class="w-full max-h-[75vh] overflow-y-auto main-scroller">
-                <div class="eval-row">
+                <div v-if="evaluation.data.skills.length" class="eval-row">
                     <div
-                        class="text-stone-400 uppercase flex-grow pl-4 sm:pl-0"
+                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Skills</h5>
                     </div>
@@ -53,9 +53,9 @@ console.log(props.evaluation);
                         </div>
                     </div>
                 </div>
-                <div class="eval-row">
+                <div v-if="evaluation.data.projects.length" class="eval-row">
                     <div
-                        class="text-stone-400 uppercase flex-grow pl-4 sm:pl-0"
+                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Projects</h5>
                     </div>
@@ -112,29 +112,57 @@ console.log(props.evaluation);
                         </div>
                     </div>
                 </div>
-                <div class="eval-row">
+                <div
+                    v-if="evaluation.data.programming_language.length"
+                    class="eval-row"
+                >
                     <div
-                        class="text-stone-400 uppercase flex-grow pl-4 sm:pl-0"
+                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
+                    >
+                        <h5>Programming Language</h5>
+                    </div>
+                    <div
+                        class="flex-grow border-b border-stone-700 pb-10 pr-4 pl-4 sm:pl-0"
+                    >
+                        <div class="max-w-lg flex flex-wrap gap-x-4 gap-y-2">
+                            <Badge
+                                v-for="lang in evaluation.data
+                                    .programming_language"
+                                :key="lang"
+                            >
+                                {{ lang }}
+                            </Badge>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="evaluation.data.education_history.length"
+                    class="eval-row"
+                >
+                    <div
+                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Education</h5>
                     </div>
                     <div
                         class="flex-grow border-b border-stone-700 pb-10 pr-4 pl-4 sm:pl-0"
                     >
-                        <div class="max-w-lg flex flex-wrap gap-x-4 gap-y-2">
-                            <p
-                                class="text-gray-200"
+                        <div class="max-w-lg flex flex-wrap gap-x-4 gap-y-4">
+                            <div
                                 v-for="education in evaluation.data
                                     .education_history"
+                                class="text-gray-200"
                             >
-                                {{ education }}
-                            </p>
+                                <p>
+                                    {{ education }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="eval-row">
+                <div v-if="evaluation.data.summary" class="eval-row">
                     <div
-                        class="text-stone-400 uppercase flex-grow pl-4 sm:pl-0"
+                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Summary</h5>
                     </div>

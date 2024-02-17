@@ -118,7 +118,10 @@ const copyText = (text) => {
             </Tooltip>
         </TooltipProvider>
     </div>
-    <div class="px-6 py-6 text-gray-200 space-y-4">
+    <div
+        v-if="data.skills.length"
+        class="px-6 py-6 text-gray-200 space-y-4 sm:max-h-[280px] overflow-y-auto main-scroller main-scroller"
+    >
         <h4 class="text-center font-semibold pb-4">Skill Evaluation</h4>
         <div
             v-for="skill in data.skills"
