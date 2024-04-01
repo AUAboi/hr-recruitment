@@ -11,6 +11,13 @@ const isUrl = (...urls) => {
     }
     return urls.filter((url) => currentUrl.startsWith(url)).length;
 };
+
+const props = defineProps({
+    routes: {
+        type: Array,
+        required: true,
+    },
+});
 </script>
 <template>
     <div>
@@ -18,23 +25,14 @@ const isUrl = (...urls) => {
             <div class="nav-item">
                 <Link
                     :class="{
-                        'text-orange-400': isUrl('dashboard'),
+                        'text-orange-400': isUrl(item.slug),
                     }"
+                    v-for="(item, index) in routes"
+                    :key="index"
                     class="m-2 flex justify-between gap-4"
-                    :href="route('recruiter.dashboard')"
+                    :href="route(item.route)"
                 >
-                    Dashboard
-                </Link>
-            </div>
-            <div class="nav-item">
-                <Link
-                    :class="{
-                        'text-orange-400': isUrl('profile'),
-                    }"
-                    class="m-2 flex justify-between gap-4"
-                    :href="route('recruiter.profile.edit')"
-                >
-                    Profile
+                    {{ item.title }}
                 </Link>
             </div>
         </div>

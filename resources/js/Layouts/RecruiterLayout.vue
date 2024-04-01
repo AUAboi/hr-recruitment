@@ -11,6 +11,9 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import MdiMenuClose from "~icons/mdi/menu-close";
 import MdiMenuOpen from "~icons/mdi/menu-open";
 import { useToggle } from "@vueuse/core";
+import MdiUserMultiple from "~icons/mdi/user-multiple";
+import MdiHome from "~icons/mdi/home";
+import MdiBriefcase from "~icons/mdi/briefcase";
 
 const user = computed(() => {
     return usePage().props.auth.user;
@@ -21,6 +24,27 @@ const appName = computed(() => {
 });
 
 const [menuOpen, toggle] = useToggle();
+
+const routes = [
+    {
+        title: "Dashboard",
+        route: "recruiter.dashboard",
+        icon: MdiHome,
+        slug: "dashboard",
+    },
+    {
+        title: "Summarizer",
+        route: "recruiter.evaluation.create",
+        icon: MdiBriefcase,
+        slug: "cv-evaluation",
+    },
+    {
+        title: "Profile",
+        route: "recruiter.profile.edit",
+        slug: "profile",
+        icon: MdiUserMultiple,
+    },
+];
 </script>
 <template>
     <div class="md:h-screen md:flex md:flex-col">
@@ -54,7 +78,7 @@ const [menuOpen, toggle] = useToggle();
 
                         <template v-slot:content>
                             <div>
-                                <RecruiterMenuMobile />
+                                <RecruiterMenuMobile :routes="routes" />
                             </div>
                         </template>
                     </Dropdown>
@@ -114,7 +138,7 @@ const [menuOpen, toggle] = useToggle();
                     />
                     <MdiMenuOpen class="bg-gray-500 rounded-md" v-else />
                 </button>
-                <RecruiterMenu :menu-open="menuOpen" />
+                <RecruiterMenu :routes="routes" :menu-open="menuOpen" />
             </nav>
             <main
                 class="px-4 py-8 overflow-x-hidden md:flex-1 md:p-12 md:overflow-y-auto bg-neutral-900"

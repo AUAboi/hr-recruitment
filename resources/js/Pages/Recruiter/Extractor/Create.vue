@@ -1,8 +1,9 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import { useDropZone } from "@vueuse/core";
 import { ref } from "vue";
 import { useFileDialog } from "@vueuse/core";
+import Loader from "@/Components/ui/Loader.vue";
 
 const props = defineProps({
     evaluations: {
@@ -11,6 +12,7 @@ const props = defineProps({
 });
 
 const dropZoneRef = ref(null);
+const loading = ref(false);
 
 function onFileChange(files) {
     form.file = files[0];
@@ -27,13 +29,24 @@ const { isOverDropZone } = useDropZone(dropZoneRef, onFileChange);
 onChange(onFileChange);
 
 const upload = () => {
-    form.post(route("recruiter.evaluation.store"));
+    form.post(route("recruiter.evaluation.store"), {
+        preserveState: false,
+        hideProgress: true,
+    });
 };
+
+router.on("progress", (event) => {
+    loading.value = true;
+});
+
+router.on("finish", (e) => {
+    loading.value = false;
+});
 </script>
 <template>
     <Head title="Upload CV" />
     <h2 class="font-semibold text-xl text-white leading- pb-6">Upload CV</h2>
-
+    <Loader v-if="loading" />
     <div class="max-w-7xl space-y-6">
         <div class="p-4 sm:p-8 bg-primaryGray shadow sm:rounded-lg text-white">
             <div

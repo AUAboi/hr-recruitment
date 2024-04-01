@@ -45,7 +45,7 @@ const copyText = (text) => {
     <div
         class="text-white text-center border-b border-stone-700 py-8 px-4 relative"
     >
-        <UserAvatar size="lg" :user="user" />
+        <UserAvatar size="lg" :user="user" :name="data.name" />
         <h4 class="font-semibold mt-6">
             {{ data.name }}
         </h4>

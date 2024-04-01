@@ -18,7 +18,7 @@ class Evaluation extends Model
     ];
 
     protected $casts = [
-        'data' => 'json',
+        'data' => 'array',
     ];
 
     public function user()

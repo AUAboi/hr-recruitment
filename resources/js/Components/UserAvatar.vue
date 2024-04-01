@@ -7,10 +7,23 @@ const props = defineProps({
         required: true,
         type: Object,
     },
+
+    // temporary, use user name once you have applicant users
+    name: {
+        required: false,
+    },
 });
 
 const initials = computed(() => {
-    return props.user.first_name[0] + props.user.last_name[0];
+    //use with user once applicant is setup
+    // return props.user.first_name[0] + props.user.last_name[0];
+
+    return props.name
+        .match(/(^\S\S?|\b\S)?/g)
+        .join("")
+        .match(/(^\S|\S$)?/g)
+        .join("")
+        .toUpperCase();
 });
 </script>
 <template>

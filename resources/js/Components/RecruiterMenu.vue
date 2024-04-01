@@ -9,6 +9,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    routes: {
+        type: Array,
+        required: true,
+    },
 });
 
 const page = usePage();
@@ -24,34 +28,14 @@ const isUrl = (...urls) => {
 </script>
 <template>
     <div class="flex flex-col text-white">
-        <div class="nav-item">
+        <div v-for="item in routes" class="nav-item">
             <Link
-                :class="{ 'text-orange-400': isUrl('dashboard') }"
+                :class="{ 'text-orange-400': isUrl(item.slug) }"
                 class="m-2 flex justify-between gap-4"
-                :href="route('recruiter.dashboard')"
+                :href="route(item.route)"
             >
-                <span v-if="menuOpen">Dashboard</span>
-                <MdiHome class="text-xl" />
-            </Link>
-        </div>
-        <div class="nav-item">
-            <Link
-                :class="{ 'text-orange-400': isUrl('cv-evaluation') }"
-                class="m-2 flex justify-between gap-4"
-                :href="route('recruiter.evaluation.create')"
-            >
-                <span v-if="menuOpen">Summarizer</span>
-                <MdiBriefcase class="text-xl" />
-            </Link>
-        </div>
-        <div class="nav-item">
-            <Link
-                :class="{ 'text-orange-400': isUrl('profile') }"
-                class="m-2 flex justify-between gap-4"
-                :href="route('recruiter.profile.edit')"
-            >
-                <span v-if="menuOpen"> Profile </span>
-                <MdiUserMultiple class="text-xl" />
+                <span v-if="menuOpen">{{ item.title }}</span>
+                <component class="text-xl" :is="item.icon"></component>
             </Link>
         </div>
     </div>

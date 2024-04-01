@@ -25,6 +25,10 @@ class EvaluationController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'file' => 'required|mimes:pdf|max:10000'
+        ]);
+
         try {
             $response = Http::asMultipart()->attach(
                 'file',

@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\CVExtractorController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\JobListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Models\JobListing;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,6 +46,8 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
 
     Route::get('/cv-evaluation/create', [EvaluationController::class, 'create'])->name('recruiter.evaluation.create');
     Route::post('/cv-evaluation/store', [EvaluationController::class, 'store'])->name('recruiter.evaluation.store');
+
+    Route::get('/job/create', [JobListingController::class, 'create'])->name('recruiter.job.create');
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);
