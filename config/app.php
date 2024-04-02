@@ -185,4 +185,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'api_url' => env('APP_API_URL', 'http://127.0.0.1:5431')
+
 ];

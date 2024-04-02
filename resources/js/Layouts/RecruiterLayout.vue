@@ -14,6 +14,7 @@ import { useToggle } from "@vueuse/core";
 import MdiUserMultiple from "~icons/mdi/user-multiple";
 import MdiHome from "~icons/mdi/home";
 import MdiBriefcase from "~icons/mdi/briefcase";
+import MdiAlphaJCircle from "~icons/mdi/alpha-j-circle";
 
 const user = computed(() => {
     return usePage().props.auth.user;
@@ -37,6 +38,12 @@ const routes = [
         route: "recruiter.evaluation.create",
         icon: MdiBriefcase,
         slug: "cv-evaluation",
+    },
+    {
+        title: "Jobs",
+        route: "recruiter.job.create",
+        icon: MdiAlphaJCircle,
+        slug: "job",
     },
     {
         title: "Profile",

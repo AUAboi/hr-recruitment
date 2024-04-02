@@ -38,7 +38,7 @@ class EvaluationController extends Controller
                 ->withQueryParameters([
                     'query' => 'Extract the useful info from the CV'
                 ])
-                ->post('http://127.0.0.1:5431/extract-cv-info');
+                ->post(config('app.api_url') . '/extract-cv-info');
         } catch (ConnectionException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
