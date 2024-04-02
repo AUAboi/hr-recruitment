@@ -14,6 +14,8 @@ class GenerateJobDescription extends Controller
      */
     public function __invoke(Request $request)
     {
+        $request->validate(['job_prompt' => 'required|string']);
+
         try {
             $response = Http::withQueryParameters([
                 'inputs' => $request->job_prompt

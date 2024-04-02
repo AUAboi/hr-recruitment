@@ -30,12 +30,18 @@ class JobListingController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
 
-        dd($response->json());
-        // $job_listing = JobListing::create([
-        //     'user_id' => $request->user()->id,
-        //     'job_details' => $response->json()
-        // ]);
+        $job_listing = JobListing::create([
+            'user_id' => $request->user()->id,
+            'job_details' => $response->json()
+        ]);
 
-        return redirect()->back()->with('sucess', 'Uploaded successfully');
+        return redirect()->route('recruiter.job.edit', $job_listing->id)->with('sucess', 'Generated sucessfully!');
+    }
+
+    public function edit(JobListing $job_listing)
+    {
+        return Inertia::render('Recruiter/Jobs/Edit', [
+            'job_listing' => $job_listing
+        ]);
     }
 }
