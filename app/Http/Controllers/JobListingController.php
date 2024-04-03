@@ -26,7 +26,6 @@ class JobListingController extends Controller
                 'inputs' => $request->job_prompt
             ])->post(config('app.api_url') . '/generate_job_description');
         } catch (ConnectionException $e) {
-            dd($e);
             return redirect()->back()->with('error', $e->getMessage());
         }
 
@@ -41,7 +40,27 @@ class JobListingController extends Controller
     public function edit(JobListing $job_listing)
     {
         return Inertia::render('Recruiter/Jobs/Edit', [
-            'job_listing' => $job_listing
+            'job_details' => $job_listing->job_details
+        ]);
+    }
+
+    public function update(Request $request, JobListing $job_listing)
+    {
+        $request->validate([
+            'job_details' => 'required',
+            'job_details.job_title' => 'required|string',
+            'job_details.company_profile' => 'required|string',
+            'job_details.requirements' => 'required|array',
+            'job_details.requirements.*' => 'distinct|string|required',
+            'job_details.what_will_you_do' => 'required|array',
+            'job_details.what_will_you_do.*' => 'distinct|string|required',
+            'job_details.benefits' => 'required|array',
+            'job_details.benefits.*' => 'distinct|string|required',
+        ]);
+
+
+        $job_listing->update([
+            'job_details' => $request->job_details
         ]);
     }
 }
