@@ -5,6 +5,7 @@ import FormInputTextArea from "@/Components/FormInputTextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import MdiCancelBold from "~icons/mdi/cancel-bold";
 import MdiMagic from "~icons/mdi/magic";
+import Loader from "@/Components/ui/Loader.vue";
 import {
     Tooltip,
     TooltipContent,
@@ -18,9 +19,11 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { ref } from "vue";
+import { useAxios } from "@vueuse/integrations/useAxios";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import useSweetAlert from "@/Composables/useSweetAlert.js";
 
 const props = defineProps({
     job_details: {
@@ -30,17 +33,53 @@ const props = defineProps({
 
 const form = useForm({
     job_details: props.job_details,
+    job_prompt: "",
 });
+
+const { alertConfirm } = useSweetAlert();
 
 const showDialog = ref(false);
 
+const { isLoading, isFinished, execute } = useAxios(
+    "/generate_job_description",
+    {
+        method: "POST",
+    },
+    {
+        immediate: false,
+    }
+);
+
+const fetchAIData = async () => {
+    showDialog.value = false;
+    alertConfirm(
+        async (result) => {
+            if (result.isConfirmed) {
+                let result = await execute({
+                    params: {
+                        job_prompt: form.job_prompt,
+                    },
+                });
+
+                form.job_details = result.data;
+            } else {
+                showDialog.value = true;
+            }
+        },
+        {
+            title: `This will reset current form data. Proceed?`,
+        }
+    );
+};
+
 const submit = () => {
-    form.put(route("recruiter.job.update"));
+    form.patch(route("recruiter.job.update"));
 };
 </script>
 <template>
     <Head title="Edit Job" />
-    <h2 class="font-semibold text-xl text-white leading- pb-6">Edit Job</h2>
+    <h2 class="font-semibold text-xl text-white pb-6">Edit Job</h2>
+    <Loader v-if="isLoading" />
     <div class="max-w-7xl space-y-6">
         <div class="relative">
             <TooltipProvider>
@@ -48,6 +87,7 @@ const submit = () => {
                     <TooltipTrigger as-child>
                         <MdiMagic
                             @click="showDialog = true"
+                            :class="showDialog ? 'text-violet-500' : ''"
                             class="mb-6 text-2xl ml-auto cursor-pointer hover:text-purple-400 transition-all duration-150 text-white"
                         />
                     </TooltipTrigger>
@@ -160,11 +200,19 @@ const submit = () => {
             <DialogHeader>
                 <DialogTitle>Type Prompt</DialogTitle>
                 <DialogDescription>
-                    <FormInputText class="pt-4" type="text" />
+                    <FormInputText
+                        v-model="form.job_prompt"
+                        class="pt-4"
+                        type="text"
+                    />
                 </DialogDescription>
             </DialogHeader>
 
-            <DialogFooter> Save changes </DialogFooter>
+            <DialogFooter>
+                <SecondaryButton @click.prevent="fetchAIData" class="mr-6">
+                    Generate
+                </SecondaryButton>
+            </DialogFooter>
         </DialogContent>
     </Dialog>
 </template>

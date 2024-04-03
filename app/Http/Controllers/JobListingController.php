@@ -40,7 +40,8 @@ class JobListingController extends Controller
     public function edit(JobListing $job_listing)
     {
         return Inertia::render('Recruiter/Jobs/Edit', [
-            'job_details' => $job_listing->job_details
+            'job_details' => $job_listing->job_details,
+
         ]);
     }
 
@@ -57,7 +58,6 @@ class JobListingController extends Controller
             'job_details.benefits' => 'required|array',
             'job_details.benefits.*' => 'distinct|string|required',
         ]);
-
 
         $job_listing->update([
             'job_details' => $request->job_details

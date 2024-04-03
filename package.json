@@ -21,10 +21,12 @@
     },
     "dependencies": {
         "@vueuse/core": "^10.7.2",
+        "@vueuse/integrations": "^10.9.0",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.0",
         "lucide-vue-next": "^0.330.0",
         "radix-vue": "^1.4.3",
+        "sweetalert2": "^11.10.7",
         "tailwind-merge": "^2.2.1",
         "tailwindcss-animate": "^1.0.7"
     }

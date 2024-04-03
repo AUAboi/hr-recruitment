@@ -51,6 +51,8 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
     Route::get('/job/{job_listing}/edit', [JobListingController::class, 'edit'])->name('recruiter.job.edit');
 
     Route::post('/job/store', [JobListingController::class, 'store'])->name('recruiter.job.store');
+
+    Route::patch('/job/{job_listing}/update', [JobListingController::class, 'update'])->name('recruiter.job.update');
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);
