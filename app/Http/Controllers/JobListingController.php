@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Redirect;
 
 class JobListingController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $filters = $request->all('search');
+        $job_listings =  JobListing::orderBy('updated_at')
+            ->where('user_id', $request->user()->id)
+            ->filter($filters)
+            ->paginate(10)
+            ->withQueryString();
+
+        return Inertia::render('Recruiter/Jobs/Index', [
+            'job_listings' => $job_listings,
+            'filters' => $filters
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('Recruiter/Jobs/Create');

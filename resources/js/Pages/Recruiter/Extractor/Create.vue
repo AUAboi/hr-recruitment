@@ -3,7 +3,7 @@ import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import { useDropZone } from "@vueuse/core";
 import { ref } from "vue";
 import { useFileDialog } from "@vueuse/core";
-import Loader from "@/Components/ui/Loader.vue";
+import Loader from "@/Components/Loader.vue";
 
 const props = defineProps({
     evaluations: {

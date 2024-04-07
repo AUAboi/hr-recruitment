@@ -13,7 +13,9 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("recruiter.job.store"));
+    form.post(route("recruiter.job.store"), {
+        preserveScroll: false,
+    });
 };
 </script>
 <template>

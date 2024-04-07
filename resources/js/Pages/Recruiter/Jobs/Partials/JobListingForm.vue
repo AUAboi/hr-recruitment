@@ -4,7 +4,7 @@ import FormInputTextArea from "@/Components/FormInputTextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import MdiCancelBold from "~icons/mdi/cancel-bold";
 import MdiMagic from "~icons/mdi/magic";
-import Loader from "@/Components/ui/Loader.vue";
+import Loader from "@/Components/Loader.vue";
 import {
     Tooltip,
     TooltipContent,

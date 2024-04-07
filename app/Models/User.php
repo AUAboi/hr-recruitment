@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->hasOne(UserMedia::class);
     }
 
+    public function jobListings()
+    {
+        return $this->hasMany(JobListing::class);
+    }
+
     public function getFullNameAttribute()
     {
         return "$this->first_name $this->last_name";

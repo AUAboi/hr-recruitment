@@ -47,11 +47,12 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
     Route::get('/cv-evaluation/create', [EvaluationController::class, 'create'])->name('recruiter.evaluation.create');
     Route::post('/cv-evaluation/store', [EvaluationController::class, 'store'])->name('recruiter.evaluation.store');
 
-    Route::get('/job/create', [JobListingController::class, 'create'])->name('recruiter.job.create');
-    Route::get('/job/{job_listing}/edit', [JobListingController::class, 'edit'])->name('recruiter.job.edit');
+    Route::get('/job/all', [JobListingController::class, 'index'])->name('recruiter.job.index');
 
+    Route::get('/job/create', [JobListingController::class, 'create'])->name('recruiter.job.create');
     Route::post('/job/store', [JobListingController::class, 'store'])->name('recruiter.job.store');
 
+    Route::get('/job/{job_listing}/edit', [JobListingController::class, 'edit'])->name('recruiter.job.edit');
     Route::patch('/job/{job_listing}/update', [JobListingController::class, 'update'])->name('recruiter.job.update');
 });
 
