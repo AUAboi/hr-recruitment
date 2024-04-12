@@ -47,7 +47,7 @@ router.on("finish", (e) => {
     <Head title="Upload CV" />
     <h2 class="font-semibold text-xl text-white leading- pb-6">Upload CV</h2>
     <Loader v-if="loading" />
-    <div class="max-w-7xl space-y-6">
+    <div class="max-w-7xl space-y-6 px-8">
         <div class="p-4 sm:p-8 bg-primaryGray shadow sm:rounded-lg text-white">
             <div
                 @click="open"

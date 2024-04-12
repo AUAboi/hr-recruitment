@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobListingRequest;
 use App\Models\JobListing;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -32,25 +33,12 @@ class JobListingController extends Controller
         return Inertia::render('Recruiter/Jobs/Create');
     }
 
-    public function store(Request $request)
+    public function store(JobListingRequest $request)
     {
-
-        $request->validate([
-            'job_details' => 'required',
-            'job_details.job_title' => 'required|string',
-            'job_details.company_profile' => 'required|string',
-            'job_details.requirements' => 'required|array',
-            'job_details.requirements.*' => 'distinct|string|required',
-            'job_details.what_will_you_do' => 'required|array',
-            'job_details.what_will_you_do.*' => 'distinct|string|required',
-            'job_details.benefits' => 'required|array',
-            'job_details.benefits.*' => 'distinct|string|required',
-        ]);
-
-
         $job_listing = JobListing::create([
             'user_id' => $request->user()->id,
-            'job_details' => $request->job_details
+            'job_details' => $request->job_details,
+            'job_title' => $request->job_title
         ]);
 
         return redirect()->route('recruiter.job.edit', $job_listing->id)->with('success', 'Generated sucessfully!');
@@ -61,26 +49,16 @@ class JobListingController extends Controller
         return Inertia::render('Recruiter/Jobs/Edit', [
             'id' => $job_listing->id,
             'job_details' => $job_listing->job_details,
+            'job_title' => $job_listing->job_title
 
         ]);
     }
 
-    public function update(Request $request, JobListing $job_listing)
+    public function update(JobListingRequest $request, JobListing $job_listing)
     {
-        $request->validate([
-            'job_details' => 'required',
-            'job_details.job_title' => 'required|string',
-            'job_details.company_profile' => 'required|string',
-            'job_details.requirements' => 'required|array',
-            'job_details.requirements.*' => 'distinct|string|required',
-            'job_details.what_will_you_do' => 'required|array',
-            'job_details.what_will_you_do.*' => 'distinct|string|required',
-            'job_details.benefits' => 'required|array',
-            'job_details.benefits.*' => 'distinct|string|required',
-        ]);
-
         $job_listing->update([
-            'job_details' => $request->job_details
+            'job_details' => $request->job_details,
+            'job_title' => $request->job_title
         ]);
 
         return Redirect::back()->with('success', 'Saved sucessfully!');

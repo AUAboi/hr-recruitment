@@ -23,8 +23,8 @@ const labels = [
         value: "ID",
     },
     {
-        key: "job_details.job_title",
-        value: "Author",
+        key: "job_title",
+        value: "Job Title",
     },
 ];
 
@@ -39,7 +39,7 @@ const reset = () => {
 watchThrottled(
     form,
     () => {
-        router.get(route("recruiter.job.index"), form, {
+        router.get(route("recruiter.job.index"), reactivePick(form), {
             preserveState: true,
             preserveScroll: true,
         });
@@ -49,9 +49,9 @@ watchThrottled(
 </script>
 <template>
     <Head title="Posts" />
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <h2 class="font-semibold text-xl text-white leading- pb-6">Job Listings</h2>
+    <div class="pb-12">
+        <div class="max-w-7xl sm:px-6 lg:px-8">
             <div class="flex items-center gap-4 md:gap-0 justify-between">
                 <SearchBox
                     class="w-full max-w-md my-4 mx-2 md:mx-0"
@@ -61,8 +61,10 @@ watchThrottled(
                 <Link
                     :href="route('recruiter.job.create')"
                     as="button"
-                    class="btn--primary"
-                    >Publish <span class="hidden md:inline"> Blog</span></Link
+                    class="button-action"
+                    >Create&nbsp;<span class="hidden md:inline"
+                        >Listing</span
+                    ></Link
                 >
             </div>
 

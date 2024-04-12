@@ -12,6 +12,7 @@ class JobListing extends Model
 
     protected $fillable = [
         'user_id',
+        'job_title',
         'job_details',
         'status'
     ];
@@ -29,7 +30,7 @@ class JobListing extends Model
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query
-                ->where('job_details', 'like', '%' . $search . '%');
+                ->where('job_title', 'like', '%' . $search . '%');
         });
     }
 }

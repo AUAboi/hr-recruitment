@@ -3,8 +3,8 @@ import { Head, useForm } from "@inertiajs/vue3";
 import JobListingForm from "./Partials/JobListingForm.vue";
 
 const form = useForm({
+    job_title: "",
     job_details: {
-        job_title: "",
         company_profile: "",
         requirements: [""],
         what_will_you_do: [""],

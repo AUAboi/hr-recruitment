@@ -41,7 +41,7 @@ const routes = [
     },
     {
         title: "Jobs",
-        route: "recruiter.job.create",
+        route: "recruiter.job.index",
         icon: MdiAlphaJCircle,
         slug: "job",
     },

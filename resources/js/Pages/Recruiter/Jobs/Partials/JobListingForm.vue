@@ -56,6 +56,7 @@ const fetchAIData = async () => {
                 });
 
                 props.form.job_details = result.data;
+                props.form.job_title = props.form.job_details.job_title;
             } else {
                 showDialog.value = true;
             }
@@ -121,7 +122,7 @@ watch(
                 <FormInputText
                     label="Job Title"
                     class="w-1/2"
-                    v-model="form.job_details.job_title"
+                    v-model="form.job_title"
                 />
                 <FormInputTextArea
                     label="Company Profile"

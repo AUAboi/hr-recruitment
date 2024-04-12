@@ -10,11 +10,16 @@ const props = defineProps({
     job_details: {
         required: true,
     },
+    job_title: {
+        required: true,
+        type: String,
+    },
 });
 
 const form = useForm({
     job_details: props.job_details,
     job_prompt: "",
+    job_title: props.job_title,
 });
 
 const submit = () => {
