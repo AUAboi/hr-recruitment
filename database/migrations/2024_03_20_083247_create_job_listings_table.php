@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('job_listings', function (Blueprint $table) {
             $table->id();
             $table->json('job_details');
-            $table->enum('status', ['DRAFT', 'PUBLISHED', 'FULLFILLED']);
+            $table->enum('status', ['DRAFT', 'PUBLISHED', 'FULLFILLED', 'DEACTIVATED']);
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

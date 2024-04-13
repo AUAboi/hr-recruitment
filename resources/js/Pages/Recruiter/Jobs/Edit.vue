@@ -14,12 +14,16 @@ const props = defineProps({
         required: true,
         type: String,
     },
+    status: {
+        required: true,
+    },
 });
 
 const form = useForm({
     job_details: props.job_details,
     job_prompt: "",
     job_title: props.job_title,
+    status: props.status,
 });
 
 const submit = () => {

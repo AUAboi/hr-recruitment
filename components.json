@@ -6,7 +6,7 @@
     "config": "tailwind.config.js",
     "css": "resources/css/app.css",
     "baseColor": "stone",
-    "cssVariables": true
+    "cssVariables": false
   },
   "framework": "laravel",
   "aliases": {

@@ -23,6 +23,15 @@ import { ref, watch } from "vue";
 import { useAxios } from "@vueuse/integrations/useAxios";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import useSweetAlert from "@/Composables/useSweetAlert.js";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const props = defineProps({
     form: {
@@ -90,7 +99,7 @@ watch(
             <MdiMagic class="loading-stick" />
         </template>
     </Loader>
-    <div class="max-w-7xl space-y-6">
+    <div class="max-w-7xl space-y-6 flex-grow">
         <div class="relative">
             <TooltipProvider>
                 <Tooltip>
@@ -130,6 +139,22 @@ watch(
                     v-model="form.job_details.company_profile"
                 />
             </div>
+            <Select v-model="form.status">
+                <SelectTrigger>
+                    <SelectValue placeholder="Set Job Status" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectLabel>Status</SelectLabel>
+                        <SelectItem value="DRAFT"> Draft </SelectItem>
+                        <SelectItem value="PUBLISHED"> Published </SelectItem>
+                        <SelectItem value="FULLFILLED"> Fullfilled </SelectItem>
+                        <SelectItem value="DEACTIVATED">
+                            Deactivated
+                        </SelectItem>
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
         </div>
         <div class="p-4 sm:p-8 bg-primaryGray shadow sm:rounded-lg text-white">
             <div class="flex flex-col lg:flex-row gap-0 lg:gap-20">
@@ -215,10 +240,12 @@ watch(
                 </button>
             </div>
         </div>
+
         <PrimaryButton class="h-fit" @click.prevent="$emit('send')"
             >Save</PrimaryButton
         >
     </div>
+
     <Dialog v-model:open="showDialog">
         <DialogContent>
             <DialogHeader>

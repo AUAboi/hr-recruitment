@@ -49,8 +49,8 @@ class JobListingController extends Controller
         return Inertia::render('Recruiter/Jobs/Edit', [
             'id' => $job_listing->id,
             'job_details' => $job_listing->job_details,
-            'job_title' => $job_listing->job_title
-
+            'job_title' => $job_listing->job_title,
+            'status' => $job_listing->status
         ]);
     }
 
@@ -58,7 +58,8 @@ class JobListingController extends Controller
     {
         $job_listing->update([
             'job_details' => $request->job_details,
-            'job_title' => $request->job_title
+            'job_title' => $request->job_title,
+            'status' => $request->status
         ]);
 
         return Redirect::back()->with('success', 'Saved sucessfully!');

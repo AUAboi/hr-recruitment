@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CVExtractorController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\JobBoardController;
 use App\Http\Controllers\JobListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -33,6 +34,9 @@ Route::get('/', function () {
 Route::get('/recruiter/dashboard', function () {
     return Inertia::render('Recruiter/Dashboard');
 })->middleware(['auth', 'verified'])->name('recruiter.dashboard');
+
+
+Route::get('/jobs', [JobBoardController::class, 'index'])->name('public.jobs');
 
 Route::middleware('auth')->prefix('/recruiter')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('recruiter.profile.edit');
