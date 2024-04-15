@@ -100,3 +100,20 @@
 .button-action {
     @apply inline-flex items-center px-4 py-2 bg-orange-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-800 focus:bg-orange-800 active:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition ease-in-out duration-150;
 }
+
+.title-text {
+    color: #121212;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-inter);
+    font-weight: 600;
+    line-height: 146.02%;
+    text-transform: none;
+    font-family: var(--font-rubik);
+    text-transform: uppercase;
+    color: #ff8d4e;
+    text-shadow: 0 0 7px #a34d21, 0 0 10px #a34d21, 0 0 21px #ff8d4e,
+        0 0 42px #ff8d4e;
+    text-align: center;
+}

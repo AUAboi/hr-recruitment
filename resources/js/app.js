@@ -10,6 +10,7 @@ import axios from "axios";
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 import RecruiterLayout from "@/Layouts/RecruiterLayout.vue"
+import PublicLayout from "@/Layouts/PublicLayout.vue"
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL + '/api'
 
@@ -20,6 +21,8 @@ createInertiaApp({
         if (page.default.layout === undefined) {
             if (name.startsWith("Recruiter")) {
                 page.default.layout = RecruiterLayout;
+            } else if (name.startsWith("Public")) {
+                page.default.layout = PublicLayout
             }
         }
         return page;

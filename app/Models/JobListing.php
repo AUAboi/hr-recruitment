@@ -26,6 +26,11 @@ class JobListing extends Model
         $this->belongsTo(User::class);
     }
 
+    public function getShortDescriptionAttribute()
+    {
+        return  \Illuminate\Support\Str::words($this->job_details['company_profile'], 20);
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
