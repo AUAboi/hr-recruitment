@@ -4,6 +4,7 @@ import { useDropZone } from "@vueuse/core";
 import { ref } from "vue";
 import { useFileDialog } from "@vueuse/core";
 import Loader from "@/Components/Loader.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
     evaluations: {
@@ -15,11 +16,11 @@ const dropZoneRef = ref(null);
 const loading = ref(false);
 
 function onFileChange(files) {
-    form.file = files[0];
+    form.files = files;
 }
 
 const form = useForm({
-    file: null,
+    files: [],
 });
 
 const { files, open, reset, onChange } = useFileDialog();
@@ -52,14 +53,18 @@ router.on("finish", (e) => {
             <div
                 @click="open"
                 :class="
-                    isOverDropZone || form.file
+                    isOverDropZone || form.files.length
                         ? 'text-white border-white'
                         : 'text-stone-300'
                 "
-                class="bg-stone-700 cursor-pointer border-dotted border-primaryGray border-4 mt-10 h-52 flex justify-center items-center"
+                class="bg-stone-700 cursor-pointer border-dotted border-primaryGray border-4 mt-10 min-h-52 flex justify-center items-center"
                 ref="dropZoneRef"
             >
-                <p v-if="form.file">{{ form.file.name }}</p>
+                <div class="flex flex-wrap gap-4" v-if="form.files.length">
+                    <div v-for="file in form.files">
+                        {{ file.name }}
+                    </div>
+                </div>
                 <p v-else>Drop files here</p>
             </div>
             <button
@@ -78,5 +83,8 @@ router.on("finish", (e) => {
                 {{ evalu.data.name }}
             </Link>
         </div>
+        <PrimaryButton>
+            <a :href="route('recruiter.evaluation.export')">Export to CSV</a>
+        </PrimaryButton>
     </div>
 </template>

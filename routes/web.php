@@ -51,6 +51,8 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
     Route::get('/cv-evaluation/create', [EvaluationController::class, 'create'])->name('recruiter.evaluation.create');
     Route::post('/cv-evaluation/store', [EvaluationController::class, 'store'])->name('recruiter.evaluation.store');
 
+    Route::get('/cv-export', [EvaluationController::class, 'export'])->name('recruiter.evaluation.export');
+
     Route::get('/job/all', [JobListingController::class, 'index'])->name('recruiter.job.index');
 
     Route::get('/job/create', [JobListingController::class, 'create'])->name('recruiter.job.create');
