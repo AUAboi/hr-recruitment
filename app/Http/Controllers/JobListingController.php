@@ -38,6 +38,7 @@ class JobListingController extends Controller
         $job_listing = JobListing::create([
             'user_id' => $request->user()->id,
             'job_details' => $request->job_details,
+            'status' => $request->status,
             'job_title' => $request->job_title
         ]);
 

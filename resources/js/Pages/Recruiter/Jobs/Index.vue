@@ -39,7 +39,7 @@ const reset = () => {
 watchThrottled(
     form,
     () => {
-        router.get(route("recruiter.job.index"), reactivePick(form), {
+        router.get(route("recruiter.job.index"), form, {
             preserveState: true,
             preserveScroll: true,
         });
