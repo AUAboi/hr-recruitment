@@ -4,6 +4,7 @@ import MdiTick from "~icons/mdi/tick";
 import MdiClose from "~icons/mdi/close";
 import MdiHistory from "~icons/mdi/history";
 import MdiPhone from "~icons/mdi/phone";
+import MdiDownload from "~icons/mdi/download";
 import { useClipboard } from "@vueuse/core";
 import {
     Tooltip,
@@ -24,6 +25,9 @@ const { toast } = useToast();
 
 const props = defineProps({
     user: {
+        required: true,
+    },
+    downloadLink: {
         required: true,
     },
     data: {
@@ -54,7 +58,9 @@ const copyText = (text) => {
         </p>
         <Popover>
             <PopoverTrigger class="absolute text-2xl top-5 left-4">
-                <MdiPhone class="text-primaryOrange/80" />
+                <MdiPhone
+                    class="text-primaryOrange/80 hover:text-primaryOrange"
+                />
             </PopoverTrigger>
             <PopoverContent side="top" class="dark">
                 <p class="text-sm pb-4">Click number to copy to clipboard</p>
@@ -68,6 +74,24 @@ const copyText = (text) => {
                         class="text-blue-600 underline hover:text-blue-700"
                         :href="`tel:${data.phone_no}`"
                         >Call Now?
+                    </a>
+                </div>
+            </PopoverContent>
+        </Popover>
+        <Popover>
+            <PopoverTrigger class="absolute text-2xl top-5 right-4">
+                <MdiDownload
+                    class="text-primaryOrange/60 hover:text-primaryOrange"
+                />
+            </PopoverTrigger>
+            <PopoverContent side="top" class="dark">
+                <p class="text-sm pb-4">Download PDF CV?</p>
+                <div class="flex gap-4 text-sm">
+                    <a
+                        class="text-blue-600 underline hover:text-blue-700"
+                        :href="downloadLink"
+                        download
+                        >Download
                     </a>
                 </div>
             </PopoverContent>

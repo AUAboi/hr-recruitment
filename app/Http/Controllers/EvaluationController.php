@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\CVExport;
+use App\Http\Resources\EvaluationResource;
 use Inertia\Inertia;
 use App\Models\Evaluation;
 use Illuminate\Http\Client\ConnectionException;
@@ -15,7 +16,7 @@ class EvaluationController extends Controller
     public function show(Evaluation $evaluation)
     {
         return Inertia::render('Recruiter/Extractor/Show', [
-            'evaluation' => $evaluation->load('user')
+            'evaluation' => new EvaluationResource($evaluation->load('user', 'media', 'user.media'))
         ]);
     }
 
@@ -68,5 +69,16 @@ class EvaluationController extends Controller
     public function export()
     {
         return Excel::download(new CVExport, 'cv.xlsx');
+    }
+
+    public function downloadPDF(Evaluation $evaluation)
+    {
+        $file = $evaluation->media->baseMedia;
+
+        if (!$file) {
+            return response('Not Found', 404);
+        }
+
+        return $file;
     }
 }

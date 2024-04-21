@@ -53,6 +53,8 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
 
     Route::get('/cv-export', [EvaluationController::class, 'export'])->name('recruiter.evaluation.export');
 
+    Route::get('/cv-pdf/{evaluation}', [EvaluationController::class, 'downloadPDF'])->name('recruiter.evaluation.downloadPDF');
+
     Route::get('/job/all', [JobListingController::class, 'index'])->name('recruiter.job.index');
 
     Route::get('/job/create', [JobListingController::class, 'create'])->name('recruiter.job.create');

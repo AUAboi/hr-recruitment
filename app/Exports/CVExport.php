@@ -3,19 +3,29 @@
 namespace App\Exports;
 
 use App\Models\Evaluation;
+use Maatwebsite\Excel\Sheet;
+use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use Propaganistas\LaravelPhone\PhoneNumber;
+use Propaganistas\LaravelPhone\Rules\Phone;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
+use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use Propaganistas\LaravelPhone\PhoneNumber;
-use Propaganistas\LaravelPhone\Rules\Phone;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
-class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadings, WithStyles, WithColumnFormatting
+Sheet::macro('setURL', function (Sheet $sheet, string $cell, string $url) {
+    $sheet->getCell($cell)->getHyperlink()->setUrl($url);
+});
+class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadings, WithStyles, WithColumnFormatting, WithEvents
 {
     private $rowNumber = 0;
 
@@ -46,6 +56,7 @@ class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadi
             'Email',
             'Father Name',
             'Phone No.',
+            'CV URL',
             'Address',
             'Skills',
             // 'Projects',
@@ -64,19 +75,21 @@ class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadi
      */
     public function map($evaluation): array
     {
+        // $sheet->getCell('E20')->getHyperlink()->setUrl('http://www.google.com');
         $this->rowNumber++;
 
-        $phone = 0;
-        if (isset($evaluation->data['phone_no'])) {
-            $phone = (string) new PhoneNumber($evaluation->data['phone_no'], 'PK');
-        }
+        $phone = isset($evaluation->data['phone_no']) ? (string) new PhoneNumber($evaluation->data['phone_no'], 'PK') : "";
 
+        $name = isset($evaluation->data['name']) ? ucwords(strtolower($evaluation->data['name'])) : "";
+
+        $father_name = $evaluation->data['father_name'] ? ucwords(strtolower($evaluation->data['father_name'])) : "";
         return [
             $this->rowNumber,
-            $evaluation->data['name'] ?? null,
+            $name,
             $evaluation->data['email'] ?? null,
-            $evaluation->data['father_name'] ?? null,
+            $father_name,
             $phone,
+            route('recruiter.evaluation.downloadPDF', $evaluation->id),
             $evaluation->data['address'] ?? null,
             implode(', ', $evaluation->data['skills']) ?? null,
             // implode(', ', $evaluation->data['projects']) ?? null,
@@ -87,6 +100,30 @@ class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadi
             implode(', ', $evaluation->data['masters_education']) ?? null,
             implode(', ', $evaluation->data['phd_education']) ?? null,
             $evaluation->data['summary'] ?? null,
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class    => function (AfterSheet $event) {
+                /** @var Worksheet $sheet */
+                foreach ($event->sheet->getColumnIterator('F') as $row) {
+                    foreach ($row->getCellIterator() as $cell) {
+                        if (str_contains($cell->getValue(), '://')) {
+                            $cell->setHyperlink(new Hyperlink($cell->getValue(), 'Read'));
+
+                            // Upd: Link styling added
+                            $event->sheet->getStyle($cell->getCoordinate())->applyFromArray([
+                                'font' => [
+                                    'color' => ['rgb' => '0000FF'],
+                                    'underline' => 'single'
+                                ]
+                            ]);
+                        }
+                    }
+                }
+            },
         ];
     }
 }

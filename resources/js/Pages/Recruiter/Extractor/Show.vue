@@ -19,7 +19,6 @@ const props = defineProps({
 });
 
 const MAX_SHOWN_PROJECTS = 3;
-console.log(props.evaluation);
 </script>
 
 <template>
@@ -30,6 +29,7 @@ console.log(props.evaluation);
                 <ProfileSection
                     :data="evaluation.data"
                     :user="evaluation.user"
+                    :download-link="evaluation.download_link"
                 />
             </div>
 
