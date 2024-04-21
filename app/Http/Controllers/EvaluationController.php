@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CVExport;
 use Inertia\Inertia;
 use App\Models\Evaluation;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EvaluationController extends Controller
 {
@@ -26,33 +28,45 @@ class EvaluationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:pdf|max:10000'
+            'files' => 'required|array',
+            'files.*' => 'required|mimes:pdf|max:10000'
         ]);
 
-        try {
-            $response = Http::asMultipart()->attach(
-                'file',
-                file_get_contents($request->file('file')),
-                'cv.pdf'
-            )
-                ->withQueryParameters([
-                    'query' => 'Extract the useful info from the CV'
-                ])
-                ->post(config('app.api_url') . '/extract-cv-info');
-        } catch (ConnectionException $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                try {
+                    $response = Http::asMultipart()->attach(
+                        'file',
+                        file_get_contents($file->path()),
+                        'cv.pdf'
+                    )
+                        ->withQueryParameters([
+                            'query' => 'Extract the useful info from the CV'
+                        ])
+                        ->post(config('app.api_url') . '/extract-cv-info');
+                } catch (ConnectionException $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+
+                $evaluation = Evaluation::create([
+                    'user_id' => 2,
+                    'data' => $response->json()
+                ]);
+
+                $evaluationtMedia = $evaluation->media()->create([]);
+                $evaluationtMedia->baseMedia()->associate(
+                    $evaluationtMedia->addMedia($file)->toMediaCollection()
+                )->save();
+            }
         }
 
-        $evaluation = Evaluation::create([
-            'user_id' => 2,
-            'data' => $response->json()
-        ]);
 
-        $evaluationtMedia = $evaluation->media()->create([]);
-        $evaluationtMedia->baseMedia()->associate(
-            $evaluationtMedia->addMedia($request->file('file'))->toMediaCollection()
-        )->save();
 
         return redirect()->back()->with('success', 'Uploaded successfully');
+    }
+
+    public function export()
+    {
+        return Excel::download(new CVExport, 'cv.xlsx');
     }
 }
