@@ -6,7 +6,7 @@ import { Link } from "@inertiajs/vue3";
 <template>
     <div class="page-container bg-black">
         <header>
-            <div>
+            <div class="p-4">
                 <Link href="/">
                     <ApplicationLogo
                         class="w-20 h-20 fill-current text-gray-500"

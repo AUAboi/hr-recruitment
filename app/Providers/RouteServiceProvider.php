@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/';
     public const RECHOME = '/recruiter/dashboard';
-    public const APPHOME = '/applicant/dashboard';
+    public const APPHOME = '/jobs';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
