@@ -24,13 +24,45 @@ class JobApplication extends Model
         'data' => 'array',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id'
+    ];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function jobListing()
+    {
+        return $this->belongsTo(JobListing::class);
+    }
+
     public function media()
     {
         return $this->hasOne(JobApplicationMedia::class);
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query
+                ->where('user.first_name', 'like', '%' . $search . '%');
+        });
     }
 }

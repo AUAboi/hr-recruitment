@@ -6,25 +6,26 @@ import { Head, Link } from "@inertiajs/vue3";
 import { reactive } from "@vue/reactivity";
 import { watchThrottled } from "@vueuse/core";
 import { router } from "@inertiajs/vue3";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
-const props = defineProps({
-    job_listings: {
-        required: true,
-        type: Object,
-    },
-    filters: {
-        type: Object,
-    },
-});
+const props = defineProps(["job_applications", "filters", "job_listing"]);
 
 const labels = [
     {
-        key: "id",
-        value: "ID",
+        key: "user.username",
+        value: "Username",
     },
     {
-        key: "job_title",
-        value: "Job Title",
+        key: "user.first_name",
+        value: "First Name",
+    },
+    {
+        key: "user.last_name",
+        value: "Last Name",
+    },
+    {
+        key: "application_status",
+        value: "Status",
     },
 ];
 
@@ -47,9 +48,11 @@ watchThrottled(
     { throttle: 500, deep: true }
 );
 </script>
+
 <template>
     <Head title="Jobs" />
     <h2 class="font-semibold text-xl text-white leading- pb-6">Job Listings</h2>
+
     <div class="pb-12">
         <div class="max-w-7xl sm:px-6 lg:px-8">
             <div class="flex items-center gap-4 md:gap-0 justify-between">
@@ -73,13 +76,21 @@ watchThrottled(
             >
                 <div class="text-white">
                     <DataTable
-                        resource-route="recruiter.job.edit"
-                        :table-data="job_listings.data"
+                        resource-route="recruiter.job.applications.show"
+                        :table-data="job_applications.data"
                         :labels="labels"
                     />
                 </div>
-                <Paginator :links="job_listings.links" />
+                <Paginator :links="job_applications.links" />
             </div>
         </div>
+        <PrimaryButton class="mt-4 mx-8">
+            <a
+                :href="
+                    route('recruiter.job.applications.export', job_listing.id)
+                "
+                >Export to CSV</a
+            >
+        </PrimaryButton>
     </div>
 </template>
