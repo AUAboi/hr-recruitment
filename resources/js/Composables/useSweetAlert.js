@@ -14,14 +14,14 @@ const useSweetAlert = () => {
     })
   }
 
-  const alertError = ({ title = 'Error!', text = 'Oops...Something went wrong' } = {}) => {
+  const alertError = (callback, { title = 'Error!', text = 'Oops...Something went wrong' } = {}) => {
     alert.value = Swal.fire({
       title: title,
       text: text,
       type: 'error',
       icon: 'error',
       confirmButtonColor: '#ea7473'
-    })
+    }).then(callback)
   }
 
   const alertConfirm = (callback, options) => {

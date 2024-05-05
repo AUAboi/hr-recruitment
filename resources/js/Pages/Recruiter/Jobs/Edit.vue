@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import JobListingForm from "./Partials/JobListingForm.vue";
 
 const props = defineProps({
@@ -33,5 +33,11 @@ const submit = () => {
 <template>
     <Head title="Edit Job" />
     <h2 class="font-semibold text-xl text-white pb-6">Edit Job</h2>
+    <Link
+        class="text-blue-600 underline"
+        :href="route('recruiter.job.applications.index', props.id)"
+    >
+        View Applications
+    </Link>
     <JobListingForm :form="form" @send="submit" />
 </template>

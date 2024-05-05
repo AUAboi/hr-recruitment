@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\CVExtractorController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobBoardController;
 use App\Http\Controllers\JobListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Models\JobApplication;
 use App\Models\JobListing;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -38,7 +40,13 @@ Route::get('/recruiter/dashboard', function () {
 
 Route::get('/jobs', [JobBoardController::class, 'index'])->name('public.jobs');
 
-Route::middleware('auth')->prefix('/recruiter')->group(function () {
+Route::middleware(['auth', 'role:applicant'])->prefix('/jobs/application')->group(function () {
+    Route::get('/{job_listing}/create', [JobBoardController::class, 'apply'])->name('public.jobs.application.create');
+
+    Route::post('/{job_listing}/store', [JobBoardController::class, 'storeApplication'])->name('public.jobs.application.store');
+});
+
+Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('recruiter.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('recruiter.profile.update');
     Route::put('/profile/image', [ProfileController::class, 'updateImage'])->name('recruiter.profile.updateImage');
@@ -62,6 +70,8 @@ Route::middleware('auth')->prefix('/recruiter')->group(function () {
 
     Route::get('/job/{job_listing}/edit', [JobListingController::class, 'edit'])->name('recruiter.job.edit');
     Route::patch('/job/{job_listing}/update', [JobListingController::class, 'update'])->name('recruiter.job.update');
+
+    Route::get('/job/{job_listing}/applications', [JobApplicationController::class, 'index'])->name('recruiter.job.applications.index');
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);

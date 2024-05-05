@@ -15,6 +15,7 @@ import MdiUserMultiple from "~icons/mdi/user-multiple";
 import MdiHome from "~icons/mdi/home";
 import MdiBriefcase from "~icons/mdi/briefcase";
 import MdiAlphaJCircle from "~icons/mdi/alpha-j-circle";
+import MdiAccountCreditCard from "~icons/mdi/account-credit-card";
 
 const user = computed(() => {
     return usePage().props.auth.user;

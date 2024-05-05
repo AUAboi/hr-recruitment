@@ -23,7 +23,12 @@ class JobListing extends Model
 
     public function recruiter()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class);
     }
 
     public function getShortDescriptionAttribute()
@@ -37,5 +42,11 @@ class JobListing extends Model
             $query
                 ->where('job_title', 'like', '%' . $search . '%');
         });
+    }
+
+    // Method to check if a JobListing has an application with a given user
+    public function hasApplicationWithUser($userId)
+    {
+        return $this->jobApplications()->where('user_id', $userId)->exists();
     }
 }

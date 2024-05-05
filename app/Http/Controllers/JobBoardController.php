@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\JobListingResource;
-use App\Models\JobListing;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Evaluation;
+use App\Models\JobListing;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\JobApplication;
+use Illuminate\Support\Facades\Http;
+use App\Http\Resources\JobListingResource;
+use Illuminate\Http\Client\ConnectionException;
 
 class JobBoardController extends Controller
 {
@@ -16,8 +21,53 @@ class JobBoardController extends Controller
             'Public/Jobs',
             [
 
-                'job_listings' => $job_listings
+                'job_listings' => $job_listings,
             ]
         );
+    }
+
+    public function storeApplication(Request $request, JobListing $job_listing)
+    {
+        $request->validate([
+            'file' => 'required|mimes:pdf|max:10000',
+        ]);
+
+        try {
+            $file = $request->file('file');
+
+            $response = Http::asMultipart()->attach(
+                'file',
+                file_get_contents($file->path()),
+                'cv.pdf'
+            )
+                ->withQueryParameters([
+                    'query' => 'Extract the useful info from the CV'
+                ])
+                ->post(config('app.api_url') . '/extract-cv-info');
+        } catch (ConnectionException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        $job_application = $job_listing->jobApplications()->create([
+            'user_id' => auth()->id(),
+            'data' => $response->json(),
+            'uuid' => Str::uuid()
+        ]);
+
+
+        $jobListingMedia = $job_application->media()->create([]);
+        $jobListingMedia->baseMedia()->associate(
+            $jobListingMedia->addMedia($file)->toMediaCollection()
+        )->save();
+
+        return redirect()->back()->with('success', 'Uploaded successfully');
+    }
+
+    public function apply(JobListing $job_listing)
+    {
+        return Inertia::render('Public/Job', [
+            'job_listing' => new JobListingResource($job_listing),
+            'has_applied' => $job_listing->hasApplicationWithUser(auth()->id()),
+        ]);
     }
 }

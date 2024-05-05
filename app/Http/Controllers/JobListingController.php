@@ -28,6 +28,8 @@ class JobListingController extends Controller
         ]);
     }
 
+
+
     public function create()
     {
         return Inertia::render('Recruiter/Jobs/Create');

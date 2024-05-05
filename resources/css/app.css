@@ -115,5 +115,20 @@
     color: #ff8d4e;
     text-shadow: 0 0 7px #a34d21, 0 0 10px #a34d21, 0 0 21px #ff8d4e,
         0 0 42px #ff8d4e;
-    text-align: center;
+}
+
+.title-button {
+    @apply px-4 py-2 rounded-sm font-medium;
+    color: white;
+    background-color: #ff7a32;
+}
+
+.title-button:hover {
+    box-shadow: 0 0 7px #a34d21, 0 0 10px #a34d21, 0 0 21px #ff8d4e,
+        0 0 42px #ff8d4e;
+}
+
+.glowing-shadow {
+    box-shadow: 0 0 7px #a34d21, 0 0 10px #a34d21, 0 0 21px #ff8d4e,
+        0 0 42px #ff8d4e;
 }

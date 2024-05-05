@@ -65,7 +65,7 @@ const fetchAIData = async () => {
                 });
 
                 props.form.job_details = result.data;
-                props.form.job_title = props.form.job_details.job_title;
+                props.form.job_title = result.data.job_title;
             } else {
                 showDialog.value = true;
             }
