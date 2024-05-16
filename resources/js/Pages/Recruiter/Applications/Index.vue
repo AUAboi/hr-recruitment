@@ -36,17 +36,6 @@ const form = reactive({
 const reset = () => {
     form.search = null;
 };
-
-watchThrottled(
-    form,
-    () => {
-        router.get(route("recruiter.job.index"), form, {
-            preserveState: true,
-            preserveScroll: true,
-        });
-    },
-    { throttle: 500, deep: true }
-);
 </script>
 
 <template>
@@ -55,22 +44,6 @@ watchThrottled(
 
     <div class="pb-12">
         <div class="max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex items-center gap-4 md:gap-0 justify-between">
-                <SearchBox
-                    class="w-full max-w-md my-4 mx-2 md:mx-0"
-                    v-model="form.search"
-                    @reset="reset"
-                />
-                <Link
-                    :href="route('recruiter.job.create')"
-                    as="button"
-                    class="button-action"
-                    >Create&nbsp;<span class="hidden md:inline"
-                        >Listing</span
-                    ></Link
-                >
-            </div>
-
             <div
                 class="bg-primaryGray overflow-hidden shadow-sm rounded-lg mx-2 md:mx-0"
             >

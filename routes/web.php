@@ -7,6 +7,7 @@ use App\Http\Controllers\JobBoardController;
 use App\Http\Controllers\JobListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ShowDesktopPageController;
 use App\Models\JobApplication;
 use App\Models\JobListing;
 use Illuminate\Foundation\Application;
@@ -33,9 +34,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/recruiter/dashboard', function () {
-    return Inertia::render('Recruiter/Dashboard');
-})->middleware(['auth', 'verified'])->name('recruiter.dashboard');
+Route::get('/recruiter/dashboard', ShowDesktopPageController::class)->middleware(['auth', 'verified'])->name('recruiter.dashboard');
 
 
 Route::get('/jobs', [JobBoardController::class, 'index'])->name('public.jobs');
