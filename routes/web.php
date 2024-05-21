@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicantProfileController;
 use App\Http\Controllers\CVExtractorController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\JobApplicationController;
@@ -34,10 +35,18 @@ Route::get('/recruiter/dashboard', ShowDesktopPageController::class)->middleware
 
 Route::get('/jobs', [JobBoardController::class, 'index'])->name('public.jobs');
 
-Route::middleware(['auth', 'role:applicant'])->prefix('/jobs/application')->group(function () {
-    Route::get('/{job_listing}/create', [JobBoardController::class, 'apply'])->name('public.jobs.application.create');
+Route::middleware(['auth', 'role:applicant'])->group(function () {
+    Route::get('/profile', [ApplicantProfileController::class, 'edit'])->name('applicant.profile.edit');
+    Route::patch('/profile', [ApplicantProfileController::class, 'update'])->name('applicant.profile.update');
+    Route::put('/profile/image', [ApplicantProfileController::class, 'updateImage'])->name('applicant.profile.updateImage');
+    Route::delete('/profile', [ApplicantProfileController::class, 'destroy'])->name('applicant.profile.destroy');
 
-    Route::post('/{job_listing}/store', [JobBoardController::class, 'storeApplication'])->name('public.jobs.application.store');
+
+    Route::prefix('/jobs/application')->group(function () {
+        Route::get('/{job_listing}/create', [JobBoardController::class, 'apply'])->name('public.jobs.application.create');
+
+        Route::post('/{job_listing}/store', [JobBoardController::class, 'storeApplication'])->name('public.jobs.application.store');
+    });
 });
 
 Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(function () {

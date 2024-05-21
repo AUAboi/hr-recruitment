@@ -44,11 +44,7 @@ const copyText = (text) => {
     <div
         class="text-white text-center border-b border-stone-700 py-8 px-4 relative"
     >
-        <UserAvatar
-            size="lg"
-            :user="job_application.user"
-            :name="job_application.data.name"
-        />
+        <UserAvatar size="lg" :user="job_application.user" />
         <h4 class="font-semibold mt-6">
             {{ job_application.data.name }}
         </h4>

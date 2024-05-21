@@ -1,7 +1,13 @@
 <script setup>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
+import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import UserAvatar from "@/Components/UserAvatar.vue";
 import { Link } from "@inertiajs/vue3";
 </script>
 
@@ -14,16 +20,27 @@ import { Link } from "@inertiajs/vue3";
                         class="w-20 h-20 fill-current text-gray-500"
                     />
                 </Link>
-                <SecondaryButton v-if="$page.props.auth.user" class="mr-20">
-                    <Link
-                        class=""
-                        method="post"
-                        as="button"
-                        :href="route('logout')"
-                    >
-                        Logout
-                    </Link>
-                </SecondaryButton>
+                <div class="flex items-center" v-if="$page.props.auth.user">
+                    <ContextMenu>
+                        <ContextMenuTrigger
+                            ><Link :href="route('applicant.profile.edit')">
+                                <UserAvatar
+                                    :user="$page.props.auth.user"
+                                /> </Link
+                        ></ContextMenuTrigger>
+                        <ContextMenuContent>
+                            <ContextMenuItem>
+                                <Link
+                                    as="button"
+                                    method="post"
+                                    :href="route('logout')"
+                                >
+                                    Logout</Link
+                                >
+                            </ContextMenuItem>
+                        </ContextMenuContent>
+                    </ContextMenu>
+                </div>
             </div>
         </header>
 
