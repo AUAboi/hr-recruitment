@@ -32,12 +32,15 @@ const submit = () => {
 </script>
 <template>
     <Head title="Edit Job" />
-    <h2 class="font-semibold text-xl text-white pb-6">Edit Job</h2>
-    <Link
-        class="text-blue-600 underline"
-        :href="route('recruiter.job.applications.index', props.id)"
-    >
-        View Applications
-    </Link>
+    <div class="flex justify-between max-w-7xl">
+        <h2 class="font-semibold text-xl text-white pb-6">Edit Job</h2>
+        <Link
+            class="text-blue-600 underline"
+            :href="route('recruiter.job.applications.index', props.id)"
+        >
+            View Applications
+        </Link>
+    </div>
+
     <JobListingForm :form="form" @send="submit" />
 </template>

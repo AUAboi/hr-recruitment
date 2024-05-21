@@ -148,6 +148,7 @@ const routes = [
                 </button>
                 <RecruiterMenu :routes="routes" :menu-open="menuOpen" />
             </nav>
+
             <main
                 class="px-4 py-8 overflow-x-hidden md:flex-1 md:p-12 md:overflow-y-auto bg-neutral-900"
             >

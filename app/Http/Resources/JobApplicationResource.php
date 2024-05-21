@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,9 +17,10 @@ class JobApplicationResource extends JsonResource
     {
         return [
             'slug' => $this->uuid,
-            'user' => $this->whenLoaded('user'),
+            'user' => new UserResource($this->whenLoaded('user')),
             'job_listing' => $this->whenLoaded('job_listing'),
             'data' => $this->data,
+            'created_at' => $this->created_at->diffForHumans(),
             'download_link' => $this->media ? $this->media->baseMedia->getUrl() : null,
             'application_status' => $this->application_status
         ];

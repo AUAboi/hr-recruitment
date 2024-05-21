@@ -1,62 +1,43 @@
 <script setup>
-import DataTable from "@/Components/DataTable.vue";
-import SearchBox from "@/Components/SearchBox.vue";
-import Paginator from "@/Components/Paginator.vue";
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive } from "@vue/reactivity";
-import { watchThrottled } from "@vueuse/core";
-import { router } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-
+import UserAvatar from "@/Components/UserAvatar.vue";
+import EvaluationCard from "./Partials/EvaluationCard.vue";
 const props = defineProps(["job_applications", "filters", "job_listing"]);
-
-const labels = [
-    {
-        key: "user.username",
-        value: "Username",
-    },
-    {
-        key: "user.first_name",
-        value: "First Name",
-    },
-    {
-        key: "user.last_name",
-        value: "Last Name",
-    },
-    {
-        key: "application_status",
-        value: "Status",
-    },
-];
-
-const form = reactive({
-    search: props.filters.search,
-});
-
-const reset = () => {
-    form.search = null;
-};
 </script>
 
 <template>
     <Head title="Jobs" />
-    <h2 class="font-semibold text-xl text-white leading- pb-6">Job Listings</h2>
+    <h2 class="font-semibold text-xl text-white pb-6">Job Listings</h2>
 
     <div class="pb-12">
-        <div class="max-w-7xl sm:px-6 lg:px-8">
-            <div
-                class="bg-primaryGray overflow-hidden shadow-sm rounded-lg mx-2 md:mx-0"
-            >
-                <div class="text-white">
-                    <DataTable
-                        resource-route="recruiter.job.applications.show"
-                        :table-data="job_applications.data"
-                        :labels="labels"
-                    />
+        <div class="flex gap-10">
+            <div class="flex flex-col flex-grow">
+                <div
+                    v-for="application in job_applications.data"
+                    :key="application.id"
+                    class="bg-primaryGray text-white overflow-hidden shadow-sm mx-2 md:mx-0 max-w-sm"
+                >
+                    <div class="border-l-4 border-primaryOrange px-4 py-4">
+                        <div class="flex">
+                            <UserAvatar :user="application.user" />
+                            <div class="pl-3 pt-1">
+                                <h5 class="font-semibold">
+                                    {{ application.user.full_name }}
+                                </h5>
+                                <p class="text-sm text-gray-200">
+                                    Applied {{ application.created_at }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <Paginator :links="job_applications.links" />
+            </div>
+            <div>
+                <EvaluationCard :job_application="job_applications.data[0]" />
             </div>
         </div>
+
         <PrimaryButton class="mt-4 mx-8">
             <a
                 :href="

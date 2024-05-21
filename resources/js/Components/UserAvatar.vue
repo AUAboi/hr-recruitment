@@ -16,14 +16,7 @@ const props = defineProps({
 
 const initials = computed(() => {
     //use with user once applicant is setup
-    // return props.user.first_name[0] + props.user.last_name[0];
-
-    return props.name
-        .match(/(^\S\S?|\b\S)?/g)
-        .join("")
-        .match(/(^\S|\S$)?/g)
-        .join("")
-        .toUpperCase();
+    return props.user.first_name[0] + props.user.last_name[0];
 });
 </script>
 <template>
