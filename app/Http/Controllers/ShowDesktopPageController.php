@@ -13,7 +13,12 @@ class ShowDesktopPageController extends Controller
     public function __invoke(Request $request)
     {
         $recent_listing = auth()->user()->jobListings()->latest()->first();
-        $recent_applications = $recent_listing->jobApplications()->get();
+        if ($recent_listing) {
+
+            $recent_applications = $recent_listing->jobApplications()->get();
+        } else {
+            $recent_applications = [];
+        }
 
         return Inertia::render('Recruiter/Dashboard', [
             'recent_applications_count' => count($recent_applications),

@@ -5,6 +5,7 @@ import { ref } from "vue";
 import { useFileDialog } from "@vueuse/core";
 import Loader from "@/Components/Loader.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps({
     evaluations: {
@@ -34,6 +35,15 @@ const upload = () => {
         preserveState: false,
         hideProgress: true,
     });
+};
+
+const importUpload = () => {
+    if (form.files.length === 1) {
+        form.post(route("recruiter.evaluation.import"), {
+            preserveState: false,
+            hideProgress: true,
+        });
+    }
 };
 
 router.on("progress", (event) => {
@@ -83,8 +93,15 @@ router.on("finish", (e) => {
                 {{ evalu.data.name }}
             </Link>
         </div>
-        <PrimaryButton>
-            <a :href="route('recruiter.evaluation.export')">Export to CSV</a>
-        </PrimaryButton>
+        <div class="flex space-x-2">
+            <PrimaryButton>
+                <a :href="route('recruiter.evaluation.export')"
+                    >Export to CSV</a
+                >
+            </PrimaryButton>
+            <SecondaryButton @click.prevent="importUpload">
+                Import from CSV
+            </SecondaryButton>
+        </div>
     </div>
 </template>

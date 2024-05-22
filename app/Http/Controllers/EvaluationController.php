@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\CVExport;
-use App\Http\Resources\EvaluationResource;
 use Inertia\Inertia;
+use App\Exports\CVExport;
 use App\Models\Evaluation;
-use Illuminate\Http\Client\ConnectionException;
+use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Resources\EvaluationResource;
+use Illuminate\Http\Client\ConnectionException;
 
 class EvaluationController extends Controller
 {
@@ -69,6 +70,16 @@ class EvaluationController extends Controller
     public function export()
     {
         return Excel::download(new CVExport, 'cv.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'files' => 'required|array|max:1',
+            'files.*' => 'required|mimes:csv,xlsl|max:10000'
+        ]);
+
+        return Excel::import(new UsersImport, $request->file('files')[0]);
     }
 
     public function downloadPDF(Evaluation $evaluation)

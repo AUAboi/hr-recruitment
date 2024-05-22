@@ -20,9 +20,9 @@ class JobApplicationController extends Controller
 
         $job_applications =  $job_listing->jobApplications()
             ->with(['user', 'media', 'user.media'])
-            ->orderBy('updated_at', 'ASC')
+            ->orderBy('updated_at', 'DESC')
             ->filter($filters)
-            ->paginate(10)
+            ->paginate(40)
             ->withQueryString();
 
 

@@ -21,7 +21,7 @@ const props = defineProps({
 const MAX_SHOWN_PROJECTS = 3;
 </script>
 <template>
-    <section class="bg-primaryGray max-w-6xl mx-auto rounded-md">
+    <section class="bg-primaryGray max-w-6xl w-full mx-auto rounded-md">
         <div class="flex flex-col sm:flex-row">
             <div class="sm:w-1/2 sm:border-r border-stone-700">
                 <ProfileSection
@@ -34,7 +34,10 @@ const MAX_SHOWN_PROJECTS = 3;
             </div>
 
             <div class="w-full max-h-[75vh] overflow-y-auto main-scroller">
-                <div v-if="job_application.data.skills.length" class="eval-row">
+                <div
+                    v-if="job_application.data.skills?.length"
+                    class="eval-row"
+                >
                     <div
                         class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
@@ -54,7 +57,7 @@ const MAX_SHOWN_PROJECTS = 3;
                     </div>
                 </div>
                 <div
-                    v-if="job_application.data.projects.length"
+                    v-if="job_application.data.projects?.length"
                     class="eval-row"
                 >
                     <div
@@ -116,7 +119,7 @@ const MAX_SHOWN_PROJECTS = 3;
                     </div>
                 </div>
                 <div
-                    v-if="job_application.data.programming_language.length"
+                    v-if="job_application.data.programming_language?.length"
                     class="eval-row"
                 >
                     <div
@@ -139,7 +142,7 @@ const MAX_SHOWN_PROJECTS = 3;
                     </div>
                 </div>
                 <div
-                    v-if="job_application.data.education_history.length"
+                    v-if="job_application.data.education_history?.length"
                     class="eval-row"
                 >
                     <div
@@ -163,7 +166,7 @@ const MAX_SHOWN_PROJECTS = 3;
                         </div>
                     </div>
                 </div>
-                <div v-if="job_application.data.summary" class="eval-row">
+                <div v-if="job_application.data?.summary" class="eval-row">
                     <div
                         class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >

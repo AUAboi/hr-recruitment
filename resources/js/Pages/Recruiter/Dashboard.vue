@@ -13,10 +13,7 @@ const props = defineProps(["recent_applications_count", "recent_listing"]);
         <div class="mb-14">
             <Link
                 as="div"
-                :href="
-                    route('recruiter.job.applications.index', recent_listing.id)
-                "
-                :class="recent_applications_count ? 'border-2' : ''"
+                :href="route('recruiter.job.create')"
                 class="bg-primaryOrange/85 h-14 bg text-white px-4 max-w-xs flex items-center justify-center rounded-lg cursor-pointer transition-all duration-100 hover:bg-primaryOrange"
             >
                 Create Job
@@ -25,6 +22,7 @@ const props = defineProps(["recent_applications_count", "recent_listing"]);
 
         <Link
             as="div"
+            v-if="recent_listing?.id"
             :href="route('recruiter.job.applications.index', recent_listing.id)"
             :class="recent_applications_count ? 'border-2' : ''"
             class="bg-primaryGray/85 h-60 text-white max-w-sm flex items-center justify-center hover:rounded-lg hover:border-2 cursor-pointer border-primaryOrange transition-all duration-100"

@@ -1,19 +1,16 @@
 <?php
 
-use App\Http\Controllers\ApplicantProfileController;
-use App\Http\Controllers\CVExtractorController;
-use App\Http\Controllers\EvaluationController;
-use App\Http\Controllers\JobApplicationController;
-use App\Http\Controllers\JobBoardController;
-use App\Http\Controllers\JobListingController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ShowDesktopPageController;
-use App\Models\JobApplication;
-use App\Models\JobListing;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JobBoardController;
+use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\JobListingController;
+use App\Http\Controllers\CVExtractorController;
+use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\ShowDesktopPageController;
+use App\Http\Controllers\ApplicantProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +60,7 @@ Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(funct
     Route::post('/cv-evaluation/store', [EvaluationController::class, 'store'])->name('recruiter.evaluation.store');
 
     Route::get('/cv-export', [EvaluationController::class, 'export'])->name('recruiter.evaluation.export');
+    Route::post('/cv-import', [EvaluationController::class, 'import'])->name('recruiter.evaluation.import');
 
     Route::get('/cv-pdf/{evaluation}', [EvaluationController::class, 'downloadPDF'])->name('recruiter.evaluation.downloadPDF');
 
