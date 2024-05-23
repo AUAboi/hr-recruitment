@@ -23,7 +23,13 @@ import { Link } from "@inertiajs/vue3";
                 <div class="flex items-center" v-if="$page.props.auth.user">
                     <ContextMenu>
                         <ContextMenuTrigger
-                            ><Link :href="route('applicant.profile.edit')">
+                            ><Link
+                                :href="
+                                    route(
+                                        `${$page.props.auth.user.roles[0].name}.profile.edit`
+                                    )
+                                "
+                            >
                                 <UserAvatar
                                     :user="$page.props.auth.user"
                                 /> </Link

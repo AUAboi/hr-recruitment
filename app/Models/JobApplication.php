@@ -63,6 +63,8 @@ class JobApplication extends Model
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query
                 ->where('user.first_name', 'like', '%' . $search . '%');
+        })->when($filters['status'] ?? null, function ($query, $status) {
+            $query->where('application_status', 'like', '%' . $status . '%');
         });
     }
 }

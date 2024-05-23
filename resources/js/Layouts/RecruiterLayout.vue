@@ -1,6 +1,5 @@
 <script setup>
 import IconChevronDown from "~icons/mdi/chevron-down";
-import MdiUser from "~icons/mdi/user";
 import RecruiterMenu from "@/Components/RecruiterMenu.vue";
 import RecruiterMenuMobile from "@/Components/RecruiterMenuMobile.vue";
 import Dropdown from "@/Components/Dropdown.vue";

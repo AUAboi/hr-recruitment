@@ -15,7 +15,7 @@ const initials = computed(() => {
 </script>
 <template>
     <Avatar>
-        <AvatarImage :src="user.media" />
+        <AvatarImage :src="user.media ?? 'null'" />
         <AvatarFallback>{{ initials }}</AvatarFallback>
     </Avatar>
 </template>

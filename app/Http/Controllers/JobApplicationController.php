@@ -16,18 +16,18 @@ class JobApplicationController extends Controller
 {
     public function index(Request $request, JobListing $job_listing)
     {
-        $filters = $request->all('search');
+        $filters = $request->all('search', 'status');
 
         $job_applications =  $job_listing->jobApplications()
-            ->with(['user', 'media', 'user.media'])
-            ->orderBy('updated_at', 'DESC')
+            ->with(['user', 'media', 'user.media', 'user.roles'])
+            ->orderBy('created_at', 'DESC')
             ->filter($filters)
-            ->paginate(40)
+            ->paginate(30)
             ->withQueryString();
-
 
         return Inertia::render('Recruiter/Applications/Index', [
             'job_listing' => new JobListingResource($job_listing),
+
             'job_applications' => JobApplicationResource::collection($job_applications),
             'filters' => $filters
         ]);

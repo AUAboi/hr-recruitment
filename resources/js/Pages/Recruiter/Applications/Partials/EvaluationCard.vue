@@ -24,13 +24,7 @@ const MAX_SHOWN_PROJECTS = 3;
     <section class="bg-primaryGray max-w-6xl w-full mx-auto rounded-md">
         <div class="flex flex-col sm:flex-row">
             <div class="sm:w-1/2 sm:border-r border-stone-700">
-                <ProfileSection
-                    :data="job_application.data"
-                    :slug="job_application.slug"
-                    :job_application="job_application"
-                    :user="job_application.user"
-                    :download-link="job_application.download_link"
-                />
+                <ProfileSection :job_application="job_application" />
             </div>
 
             <div class="w-full max-h-[75vh] overflow-y-auto main-scroller">

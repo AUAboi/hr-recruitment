@@ -73,7 +73,7 @@ watchThrottled(
             >
                 <div class="text-white">
                     <DataTable
-                        resource-route="recruiter.job.edit"
+                        resource-route="recruiter.job.applications.index"
                         :table-data="job_listings.data"
                         :labels="labels"
                     />
