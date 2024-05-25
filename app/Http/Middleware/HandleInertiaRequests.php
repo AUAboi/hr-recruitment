@@ -31,6 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user()->load('roles');
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [
@@ -41,7 +42,7 @@ class HandleInertiaRequests extends Middleware
             'appName' => config('app.name'),
 
             'auth.user' => fn () => $request->user()
-                ? new UserResource($request->user())
+                ? new UserResource($request->user()->load('roles'))
                 : null,
         ]);
     }

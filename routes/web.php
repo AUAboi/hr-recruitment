@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobBoardController;
 use App\Http\Controllers\EvaluationController;
@@ -78,6 +79,11 @@ Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(funct
     Route::patch('/job/application/{job_application}/updateStatus', [JobApplicationController::class, 'updateStatus'])->name('recruiter.job.applications.updateStatus');
 
     Route::get('/job/{job_listing}/applications-export', [JobApplicationController::class, 'export'])->name('recruiter.job.applications.export');
+
+    Route::get('/users', [UserController::class, 'index'])->name('recruiter.users.index');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('recruiter.users.show');
+
+    Route::delete('/users/{user}/delete', [UserController::class, 'destroy'])->name('recruiter.users.destroy');
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);

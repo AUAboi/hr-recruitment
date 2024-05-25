@@ -21,7 +21,9 @@ class UserResource extends JsonResource
             'full_name' => $this->full_name,
             'username' => $this->username,
             'email' => $this->email,
-            'roles' => $this->roles,
+            'roles' => $this->whenLoaded('roles', function () {
+                return $this->roles->pluck('name');
+            }),
             'media' => $this->media ? $this->media->baseMedia->getUrl() : null,
         ];
     }

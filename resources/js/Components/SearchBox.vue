@@ -20,20 +20,19 @@ const props = defineProps({
     <div class="flex items-center">
         <div class="flex items-center w-full shadow rounded">
             <Dropdown
+                :closeOnClick="false"
+                contentClasses="bg-white"
                 v-if="filterable"
-                class="rounded-l border-r hover:bg-gray-100 focus:border-white focus:ring focus:z-10"
+                class="rounded-l border-r hover:bg-gray-100 hover:text-primaryGray fill-white hover:fill-black focus:border-white focus:ring focus:z-10 bg-primaryGray text-white"
                 align="bottom-start"
             >
                 <template #trigger>
                     <div
                         class="flex items-center px-4 py-2 md:px-6 cursor-pointer"
                     >
-                        <span
-                            class="text-gray-700 dark:text-white hidden md:inline"
-                            >Filter</span
-                        >
+                        <span class="hidden md:inline">Filter</span>
                         <svg
-                            class="w-2 h-2 dark:fill-white fill-gray-700 md:ml-2"
+                            class="w-2 h-2 fill-inherit md:ml-2"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 961.243 599.998"
                         >

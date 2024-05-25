@@ -26,7 +26,7 @@ import { Link } from "@inertiajs/vue3";
                             ><Link
                                 :href="
                                     route(
-                                        `${$page.props.auth.user.roles[0].name}.profile.edit`
+                                        `${$page.props.auth.user.roles[0]}.profile.edit`
                                     )
                                 "
                             >

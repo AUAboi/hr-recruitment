@@ -7,14 +7,13 @@ import Dropdown from "@/Components/Dropdown.vue";
 import EvaluationCard from "./Partials/EvaluationCard.vue";
 import { computed, reactive, ref } from "vue";
 import IconChevronDown from "~icons/mdi/chevron-down";
-import { watchThrottled } from "@vueuse/core";
+import { reactivePick, watchThrottled } from "@vueuse/core";
 import MdiClose from "~icons/mdi/close";
 
 const props = defineProps(["job_applications", "filters", "job_listing"]);
 
 const form = reactive({
     status: props.filters.status,
-    search: props.filters.search,
 });
 
 const activeApplicationIndex = ref(0);
@@ -34,7 +33,6 @@ const statusColorClass = (status) => {
 };
 
 const reset = () => {
-    form.search = null;
     form.status = null;
 };
 
@@ -43,7 +41,7 @@ watchThrottled(
     () => {
         router.get(
             route("recruiter.job.applications.index", props.job_listing.id),
-            form,
+            reactivePick(form, (x) => x),
             {
                 preserveState: true,
                 preserveScroll: true,

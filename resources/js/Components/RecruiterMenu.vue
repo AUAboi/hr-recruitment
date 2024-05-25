@@ -1,8 +1,5 @@
 <script setup>
 import { Link, usePage } from "@inertiajs/vue3";
-import MdiUserMultiple from "~icons/mdi/user-multiple";
-import MdiHome from "~icons/mdi/home";
-import MdiBriefcase from "~icons/mdi/briefcase";
 
 const props = defineProps({
     menuOpen: {

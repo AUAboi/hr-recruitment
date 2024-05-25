@@ -60,15 +60,29 @@ class User extends Authenticatable
         return $this->hasMany(JobListing::class);
     }
 
-
     public function jobApplications()
     {
         return $this->hasMany(JobApplication::class);
     }
 
-
     public function getFullNameAttribute()
     {
         return "$this->first_name $this->last_name";
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('username', 'like', '%' . $search . '%')
+                    ->orWhere('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        })->when($filters['role'] ?? null, function ($query, $role) {
+            $query->whereHas('roles', function ($query) use ($role) {
+                $query->where('name', $role);
+            });
+        });
     }
 }

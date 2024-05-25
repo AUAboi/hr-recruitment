@@ -36,6 +36,8 @@ class UsersImport implements PersistRelations, WithHeadingRow, OnEachRow
             'password' => Hash::make('password'),
         ]);
 
+        $user->assignRole('applicant');
+
         $user->jobApplications()->create(
             [
                 'user_id' =>  $user->id,

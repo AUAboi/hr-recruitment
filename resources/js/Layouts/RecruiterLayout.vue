@@ -46,9 +46,9 @@ const routes = [
         slug: "job",
     },
     {
-        title: "Profile",
-        route: "recruiter.profile.edit",
-        slug: "profile",
+        title: "Users",
+        route: "recruiter.users.index",
+        slug: "user",
         icon: MdiUserMultiple,
     },
 ];

@@ -16,7 +16,7 @@ class JobApplicationController extends Controller
 {
     public function index(Request $request, JobListing $job_listing)
     {
-        $filters = $request->all('search', 'status');
+        $filters = $request->all('status');
 
         $job_applications =  $job_listing->jobApplications()
             ->with(['user', 'media', 'user.media', 'user.roles'])
