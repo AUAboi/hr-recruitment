@@ -127,15 +127,17 @@ const modifiedUsers = computed(() => {
                 <MdiClose
                     v-if="form.role"
                     @click.prevent="reset"
-                    class="w-5 h-5 flex align-middle text-orange-500"
+                    class="w-5 h-5 flex align-middle text-orange-500 cursor-pointer"
                 />
             </div>
 
             <Link
-                :href="route('recruiter.job.create')"
+                :href="route('recruiter.users.create')"
                 as="button"
                 class="button-action"
-                >Create&nbsp;<span class="hidden md:inline">User</span></Link
+                >Create&nbsp;<span class="hidden md:inline"
+                    >Recruiter</span
+                ></Link
             >
         </div>
         <div

@@ -58,7 +58,6 @@ class RegisteredUserController extends Controller
             case 'recruiter':
                 return redirect(RouteServiceProvider::RECHOME);
                 break;
-
             case 'applicant':
                 return redirect(RouteServiceProvider::APPHOME);
                 break;

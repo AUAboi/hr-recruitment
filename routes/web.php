@@ -81,7 +81,9 @@ Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(funct
     Route::get('/job/{job_listing}/applications-export', [JobApplicationController::class, 'export'])->name('recruiter.job.applications.export');
 
     Route::get('/users', [UserController::class, 'index'])->name('recruiter.users.index');
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('recruiter.users.show');
+
+    Route::get('/users/create', [UserController::class, 'create'])->name('recruiter.users.create');
+    Route::post('/users/store', [UserController::class, 'store'])->name('recruiter.users.store');
 
     Route::delete('/users/{user}/delete', [UserController::class, 'destroy'])->name('recruiter.users.destroy');
 });
