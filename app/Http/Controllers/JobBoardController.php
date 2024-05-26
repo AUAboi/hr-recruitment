@@ -61,6 +61,16 @@ class JobBoardController extends Controller
             $jobListingMedia->addMedia($file)->toMediaCollection()
         )->save();
 
+        $responseScore = Http::withQueryParameters([
+            'profile' => $response->json(),
+            'jd' => json_encode($job_listing->job_details),
+        ])->post(config('app.api_url') . '/scoring');
+
+        if (isset($response->json()['score'])) {
+            $job_application->score = $responseScore->json()['score'];
+
+            $job_application->save();
+        }
         return redirect()->route('public.jobs')->with('success', 'Uploaded successfully');
     }
 

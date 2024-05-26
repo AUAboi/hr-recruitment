@@ -19,11 +19,10 @@ import {
 } from "@/Components/ui/popover";
 import { ref } from "vue";
 import { useToast } from "@/Components/ui/toast/use-toast";
-import { Progress } from "@/Components/ui/progress";
 import { Link } from "@inertiajs/vue3";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
-
+import MdiReload from "~icons/mdi/reload";
 const { toast } = useToast();
 
 const props = defineProps({
@@ -95,7 +94,7 @@ const copyText = (text) => {
         </Popover>
     </div>
 
-    <div class="flex gap-4 justify-evenly px-6 py-6 border-b border-stone-700">
+    <div class="flex gap-4 justify-evenly px-6 py-3 border-b border-stone-700">
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger as-child>
@@ -187,15 +186,44 @@ const copyText = (text) => {
     >
         <h4 class="text-center font-semibold">Skill Evaluation</h4>
         <div
-            class="text-3xl h-full w-full flex justify-center items-center mt-10"
+            class="text-3xl h-full w-full flex justify-center items-center mt-10 text-center"
         >
-            <CircleProgress
+            <div
+                class="text-center flex flex-col items-center gap-4"
                 v-if="job_application.score != null"
-                fill-color="#ff8d4e"
-                show-percent
-                :percent="job_application.score"
-            />
-            <p v-else>Could not calculate</p>
+            >
+                <CircleProgress
+                    :size="140"
+                    fill-color="#ff8d4e"
+                    show-percent
+                    :percent="job_application.score"
+                />
+                {{
+                    job_application.score > 70
+                        ? "Outstanding"
+                        : job_application.score > 50
+                        ? "Average"
+                        : "Underwhelming"
+                }}
+            </div>
+
+            <div class="text-center flex flex-col items-center gap-4" v-else>
+                <p>Could not calculate</p>
+                <Link
+                    :href="
+                        route(
+                            'recruiter.job.applications.revaluate',
+                            job_application.slug
+                        )
+                    "
+                    preserve-state
+                    preserve-scroll
+                >
+                    <MdiReload
+                        class="text-2xl text-primaryOrange cursor-pointer"
+                    />
+                </Link>
+            </div>
         </div>
     </div>
 </template>

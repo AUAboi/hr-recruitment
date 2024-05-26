@@ -78,7 +78,10 @@ Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(funct
 
     Route::patch('/job/application/{job_application}/updateStatus', [JobApplicationController::class, 'updateStatus'])->name('recruiter.job.applications.updateStatus');
 
+    Route::get('/job/application/{job_application}/revaluateScore', [JobApplicationController::class, 'revaluateScore'])->name('recruiter.job.applications.revaluate');
+
     Route::get('/job/{job_listing}/applications-export', [JobApplicationController::class, 'export'])->name('recruiter.job.applications.export');
+
 
     Route::get('/users', [UserController::class, 'index'])->name('recruiter.users.index');
 

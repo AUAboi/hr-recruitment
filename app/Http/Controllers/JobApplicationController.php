@@ -4,23 +4,24 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Exports\CVExport;
-use App\Exports\JobApplicationsExport;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
+use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\JobApplicationsExport;
 use App\Http\Resources\JobListingResource;
 use App\Http\Resources\JobApplicationResource;
+use Illuminate\Http\Client\ConnectionException;
 
 class JobApplicationController extends Controller
 {
     public function index(Request $request, JobListing $job_listing)
     {
-        $filters = $request->all('status');
+        $filters = $request->all('status', 'sort');
 
         $job_applications =  $job_listing->jobApplications()
             ->with(['user', 'media', 'user.media', 'user.roles'])
-            ->orderBy('created_at', 'DESC')
             ->filter($filters)
             ->paginate(30)
             ->withQueryString();
@@ -69,5 +70,26 @@ class JobApplicationController extends Controller
         }
 
         return $file;
+    }
+
+    public function revaluateScore(JobApplication $job_application)
+    {
+        try {
+            $response = Http::withQueryParameters([
+                'profile' => is_array($job_application->data) ? json_encode($job_application->data) : $job_application->data,
+                'jd' => json_encode($job_application->jobListing->job_details)
+            ])->post(config('app.api_url') . '/scoring');
+
+
+            if (isset($response->json()['score']) && is_integer((int)$response->json()['score'])) {
+                $job_application->score = (int) $response->json()['score'];
+
+                $job_application->save();
+            }
+        } catch (ConnectionException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Score evaluated');
     }
 }

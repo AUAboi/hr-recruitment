@@ -66,6 +66,12 @@ class JobApplication extends Model
                 ->where('user.first_name', 'like', '%' . $search . '%');
         })->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('application_status', 'like', '%' . $status . '%');
+        })->when($filters['sort'] ?? null, function ($query, $sort) {
+            $query->orderBy('score', 'desc');
         });
+
+        if (!isset($filters['sort'])) {
+            $query->orderBy('created_at', 'asc');
+        }
     }
 }

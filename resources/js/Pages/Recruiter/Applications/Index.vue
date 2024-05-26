@@ -9,11 +9,13 @@ import { computed, reactive, ref } from "vue";
 import IconChevronDown from "~icons/mdi/chevron-down";
 import { reactivePick, watchThrottled } from "@vueuse/core";
 import MdiClose from "~icons/mdi/close";
+import MdiSortDescending from "~icons/mdi/sort-descending";
 
 const props = defineProps(["job_applications", "filters", "job_listing"]);
 
 const form = reactive({
     status: props.filters.status,
+    sort: props.filters.sort,
 });
 
 const activeApplicationIndex = ref(0);
@@ -34,6 +36,7 @@ const statusColorClass = (status) => {
 
 const reset = () => {
     form.status = null;
+    form.sort = null;
 };
 
 watchThrottled(
@@ -92,10 +95,19 @@ watchThrottled(
                 </div>
             </template>
         </Dropdown>
+        <MdiSortDescending
+            @click="
+                form.sort === 'score'
+                    ? (form.sort = null)
+                    : (form.sort = 'score')
+            "
+            :class="form.sort === 'score' ? 'text-primaryOrange' : ''"
+            class="text-2xl cursor-pointer"
+        />
         <MdiClose
             v-if="form.status"
             @click.prevent="reset"
-            class="w-5 h-5 flex align-middle"
+            class="w-5 h-5 flex align-middle cursor-pointer"
         />
     </div>
     <div class="pb-12">
@@ -145,6 +157,22 @@ watchThrottled(
                                     <p class="text-sm text-gray-200">
                                         Applied {{ application.created_at }}
                                     </p>
+                                </div>
+                                <div class="pt-2 w-fit">
+                                    <p
+                                        :class="
+                                            application.score > 70
+                                                ? 'text-green-600'
+                                                : application.score < 40
+                                                ? 'text-red-500'
+                                                : 'text-yellow-400'
+                                        "
+                                        class="font-semibold"
+                                        v-if="application.score != null"
+                                    >
+                                        {{ application.score }}
+                                    </p>
+                                    <p v-else>Unscored</p>
                                 </div>
                             </div>
                         </div>
