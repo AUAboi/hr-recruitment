@@ -19,7 +19,8 @@ class JobApplicationResource extends JsonResource
             'slug' => $this->uuid,
             'user' => new UserResource($this->whenLoaded('user')),
             'job_listing' => $this->whenLoaded('job_listing'),
-            'data' => json_decode($this->data),
+            'score' => $this->score,
+            'data' => is_array($this->data) ? $this->data : json_decode($this->data),
             'created_at' => $this->created_at->diffForHumans(),
             'download_link' => $this->media ? $this->media->baseMedia->getUrl() : null,
             'application_status' => $this->application_status

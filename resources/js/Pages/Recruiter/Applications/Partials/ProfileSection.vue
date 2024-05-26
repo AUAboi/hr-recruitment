@@ -21,6 +21,8 @@ import { ref } from "vue";
 import { useToast } from "@/Components/ui/toast/use-toast";
 import { Progress } from "@/Components/ui/progress";
 import { Link } from "@inertiajs/vue3";
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
 
 const { toast } = useToast();
 
@@ -181,17 +183,19 @@ const copyText = (text) => {
     </div>
     <div
         v-if="job_application.data.skills.length"
-        class="px-6 py-6 text-gray-200 space-y-4 sm:max-h-[280px] overflow-y-auto main-scroller main-scroller"
+        class="px-6 py-6 text-gray-200 sm:max-h-[280px] overflow-y-hidden"
     >
-        <h4 class="text-center font-semibold pb-4">Skill Evaluation</h4>
+        <h4 class="text-center font-semibold">Skill Evaluation</h4>
         <div
-            v-for="skill in job_application.data.skills"
-            class="grid grid-cols-2 gap-4 items-center"
+            class="text-3xl h-full w-full flex justify-center items-center mt-10"
         >
-            <p class="text-sm">{{ skill }}</p>
-            <div class="flex-grow">
-                <Progress class="h-1" :model-value="Math.random() * 100" />
-            </div>
+            <CircleProgress
+                v-if="job_application.score != null"
+                fill-color="#ff8d4e"
+                show-percent
+                :percent="job_application.score"
+            />
+            <p v-else>Could not calculate</p>
         </div>
     </div>
 </template>

@@ -99,8 +99,10 @@ watchThrottled(
         />
     </div>
     <div class="pb-12">
-        <div class="flex gap-10">
-            <div class="flex flex-col max-w-sm">
+        <div class="flex flex-col md:flex-row gap-10">
+            <div
+                class="flex flex-col md:max-w-sm max-h-[400px] md:max-h-[unset] overflow-y-scroll md:overflow-auto"
+            >
                 <div
                     v-for="(application, index) in job_applications.data"
                     :key="application.id"
@@ -109,7 +111,7 @@ watchThrottled(
                             ? 'bg-stone-700'
                             : 'bg-primaryGray'
                     "
-                    class="text-white overflow-hidden shadow-sm mx-2 md:mx-0 hover:cursor-pointer border border-neutral-600"
+                    class="text-white md:overflow-hidden shadow-sm md:mx-0 hover:cursor-pointer border border-neutral-600"
                     @click="activeApplicationIndex = index"
                 >
                     <div

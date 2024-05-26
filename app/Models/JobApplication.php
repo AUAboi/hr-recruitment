@@ -16,6 +16,7 @@ class JobApplication extends Model
         'user_id',
         'job_listing_id',
         'uuid',
+        'score',
         'application_status',
         'data',
     ];

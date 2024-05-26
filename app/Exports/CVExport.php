@@ -71,11 +71,13 @@ class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadi
     }
 
     /**
-     * @param Evaluation $invoice
+     * @param Evaluation  $invoice
      */
     public function map($evaluation): array
     {
         // $sheet->getCell('E20')->getHyperlink()->setUrl('http://www.google.com');
+
+        dd($evaluation);
         $this->rowNumber++;
 
         $phone = isset($evaluation->data['phone_no']) ? (string) new PhoneNumber($evaluation->data['phone_no'], 'PK') : "";

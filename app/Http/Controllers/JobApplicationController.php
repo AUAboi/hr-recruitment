@@ -25,6 +25,7 @@ class JobApplicationController extends Controller
             ->paginate(30)
             ->withQueryString();
 
+
         return Inertia::render('Recruiter/Applications/Index', [
             'job_listing' => new JobListingResource($job_listing),
 
@@ -57,5 +58,16 @@ class JobApplicationController extends Controller
     public function export(JobListing $job_listing)
     {
         return Excel::download(new JobApplicationsExport($job_listing), 'cv.xlsx');
+    }
+
+    public function downloadPDF(JobApplication $job_application)
+    {
+        $file = $job_application->media->baseMedia;
+
+        if (!$file) {
+            return response('Not Found', 404);
+        }
+
+        return $file;
     }
 }

@@ -42,6 +42,7 @@ class UsersImport implements PersistRelations, WithHeadingRow, OnEachRow
             [
                 'user_id' =>  $user->id,
                 'data' => json_encode($json_decode),
+                'score' => $json_decode['score'] ?? null,
                 'uuid' => Str::uuid(),
                 'job_listing_id' => 1,
             ]

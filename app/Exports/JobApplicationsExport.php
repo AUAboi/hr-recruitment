@@ -61,8 +61,9 @@ class JobApplicationsExport implements FromCollection, WithMapping, ShouldAutoSi
             'CV URL',
             'Address',
             'Skills',
-            // 'Projects',
+            'Projects',
             'Programming Language',
+            'Education History',
             'Matric Education',
             'Intermediate Education',
             'Bachelors Education',
@@ -73,18 +74,37 @@ class JobApplicationsExport implements FromCollection, WithMapping, ShouldAutoSi
     }
 
     /**
-     * @param Evaluation $invoice
+     * @param JobApplication $evaluation
      */
     public function map($evaluation): array
     {
         // $sheet->getCell('E20')->getHyperlink()->setUrl('http://www.google.com');
+
+
+        $evaluation->data =  is_array($evaluation->data) ? $evaluation->data : json_decode($evaluation->data);
+
         $this->rowNumber++;
 
         $phone = isset($evaluation->data['phone_no']) ? (string) new PhoneNumber($evaluation->data['phone_no'], 'PK') : "";
 
         $name = isset($evaluation->data['name']) ? ucwords(strtolower($evaluation->data['name'])) : "";
 
-        $father_name = $evaluation->data['father_name'] ? ucwords(strtolower($evaluation->data['father_name'])) : "";
+        $father_name = isset($evaluation->data['father_name']) ? ucwords(strtolower($evaluation->data['father_name'])) : "";
+
+        $skills = isset($evaluation->data['skills']) ? implode(', ', $evaluation->data['skills']) : null;
+
+        $project = isset($evaluation->data['project']) ? implode(', ', $evaluation->data['project']) : null;
+
+        $programming_language = isset($evaluation->data['programming_language']) ? implode(', ', $evaluation->data['programming_language']) : null;
+
+        $education_history = isset($evaluation->data['education_history']) ? implode(', ', $evaluation->data['education_history']) : null;
+
+        $matric_education = isset($evaluation->data['matric_education']) ? implode(', ', $evaluation->data['matric_education']) : null;
+        $intermediate_education = isset($evaluation->data['intermediate_education']) ? implode(', ', $evaluation->data['intermediate_education']) : null;
+        $bachelors_education = isset($evaluation->data['bachelors_education']) ? implode(', ', $evaluation->data['bachelors_education']) : null;
+        $masters_education = isset($evaluation->data['masters_education']) ? implode(', ', $evaluation->data['masters_education']) : null;
+        $phd_education = isset($evaluation->data['phd_education']) ? implode(', ', $evaluation->data['phd_education']) : null;
+
         return [
             $this->rowNumber,
             $name,
@@ -93,14 +113,15 @@ class JobApplicationsExport implements FromCollection, WithMapping, ShouldAutoSi
             $phone,
             route('recruiter.evaluation.downloadPDF', $evaluation->id),
             $evaluation->data['address'] ?? null,
-            implode(', ', $evaluation->data['skills']) ?? null,
-            // implode(', ', $evaluation->data['projects']) ?? null,
-            implode(', ', $evaluation->data['programming_language']) ?? null,
-            implode(', ', $evaluation->data['matric_education'])  ?? null,
-            implode(', ', $evaluation->data['intermediate_education']) ?? null,
-            implode(', ', $evaluation->data['bachelors_education']) ?? null,
-            implode(', ', $evaluation->data['masters_education']) ?? null,
-            implode(', ', $evaluation->data['phd_education']) ?? null,
+            $skills,
+            $project,
+            $programming_language,
+            $education_history,
+            $matric_education,
+            $intermediate_education,
+            $bachelors_education,
+            $masters_education,
+            $phd_education,
             $evaluation->data['summary'] ?? null,
         ];
     }

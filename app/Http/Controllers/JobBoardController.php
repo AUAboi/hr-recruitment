@@ -51,6 +51,7 @@ class JobBoardController extends Controller
         $job_application = $job_listing->jobApplications()->create([
             'user_id' => auth()->id(),
             'data' => $response->json(),
+            'score' => null,
             'uuid' => Str::uuid()
         ]);
 
@@ -60,7 +61,7 @@ class JobBoardController extends Controller
             $jobListingMedia->addMedia($file)->toMediaCollection()
         )->save();
 
-        return redirect()->back()->with('success', 'Uploaded successfully');
+        return redirect()->route('public.jobs')->with('success', 'Uploaded successfully');
     }
 
     public function apply(JobListing $job_listing)
