@@ -7,7 +7,11 @@ const props = defineProps(["recent_applications_count", "recent_listing"]);
 <template>
     <Head title="Dashboard" />
 
-    <h2 class="font-semibold text-xl text-white leading-tight">Dashboard</h2>
+    <h2
+        class="font-semibold text-xl text-darkBlue-600 dark:text-white leading-tight"
+    >
+        Dashboard
+    </h2>
 
     <div class="py-12">
         <div class="mb-14">
