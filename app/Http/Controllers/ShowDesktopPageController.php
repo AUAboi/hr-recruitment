@@ -14,7 +14,6 @@ class ShowDesktopPageController extends Controller
     {
         $recent_listing = auth()->user()->jobListings()->latest()->first();
         if ($recent_listing) {
-
             $recent_applications = $recent_listing->jobApplications()->get();
         } else {
             $recent_applications = [];

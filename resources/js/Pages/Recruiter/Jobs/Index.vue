@@ -49,7 +49,11 @@ watchThrottled(
 </script>
 <template>
     <Head title="Jobs" />
-    <h2 class="font-semibold text-xl text-white leading- pb-6">Job Listings</h2>
+    <h2
+        class="font-semibold text-xl text-darkBlue-600 dark:text-white leading- pb-6"
+    >
+        Job Listings
+    </h2>
     <div class="pb-12">
         <div class="max-w-7xl sm:px-6 lg:px-8">
             <div class="flex items-center gap-4 md:gap-0 justify-between">
@@ -69,9 +73,9 @@ watchThrottled(
             </div>
 
             <div
-                class="bg-primaryGray overflow-hidden shadow-sm rounded-lg mx-2 md:mx-0"
+                class="dark:bg-primaryGray bg-white overflow-hidden shadow rounded-lg mx-2 md:mx-0"
             >
-                <div class="text-white">
+                <div class="dark:text-white">
                     <DataTable
                         resource-route="recruiter.job.applications.index"
                         :table-data="job_listings.data"

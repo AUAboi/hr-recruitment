@@ -43,7 +43,7 @@ const getValue = (obj, prop) => {
             <tr
                 v-for="(data, index) in tableData"
                 :key="index"
-                class="hover:bg-stone-700 focus-within:bg-stone-700 capitalize"
+                class="hover:bg-gray-100 focus-within:bg-gray-100 dark:hover:bg-stone-700 dark:focus-within:bg-stone-700 capitalize"
             >
                 <td
                     v-for="(label, index) in labels"
@@ -52,7 +52,7 @@ const getValue = (obj, prop) => {
                 >
                     <Link
                         v-if="resourceRoute"
-                        class="px-6 py-4 flex items-center"
+                        class="px-6 py-4 flex items-center focus:text-darkBlue-500 dark:focus:text-primaryOrange"
                         :href="
                             route(
                                 resourceRoute,
@@ -63,7 +63,10 @@ const getValue = (obj, prop) => {
                         {{ getValue(data, label.key) }}
                     </Link>
 
-                    <span v-else class="px-6 py-4 flex items-center">
+                    <span
+                        v-else
+                        class="px-6 py-4 flex items-center focus:text-darkBlue-500 dark:focus:text-primaryOrange"
+                    >
                         {{ getValue(data, label.key) }}
                     </span>
                 </td>
@@ -79,7 +82,9 @@ const getValue = (obj, prop) => {
                         "
                         tabindex="-1"
                     >
-                        <IconChevronRight class="text-primaryOrange text-3xl" />
+                        <IconChevronRight
+                            class="text-darkBlue-400 dark:text-primaryOrange text-3xl"
+                        />
                     </Link>
                 </td>
             </tr>

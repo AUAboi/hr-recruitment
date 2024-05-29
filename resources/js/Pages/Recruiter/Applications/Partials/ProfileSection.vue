@@ -43,19 +43,19 @@ const copyText = (text) => {
 </script>
 <template>
     <div
-        class="text-white text-center border-b border-stone-700 py-8 px-4 relative"
+        class="dark:text-white text-black text-center border-b border-stone-700 py-8 px-4 relative"
     >
         <UserAvatar size="lg" :user="job_application.user" />
         <h4 class="font-semibold mt-6">
             {{ job_application.data.name }}
         </h4>
-        <p class="text-gray-300 text-sm">
+        <p class="dark:text-gray-300 text-sm">
             {{ job_application.data.address }}
         </p>
         <Popover>
             <PopoverTrigger class="absolute text-2xl top-5 left-4">
                 <MdiPhone
-                    class="text-primaryOrange/80 hover:text-primaryOrange"
+                    class="text-darkBlue-600 dark:text-primaryOrange/80 hover:text-darkBlue-800 dark:hover:text-primaryOrange"
                 />
             </PopoverTrigger>
             <PopoverContent side="top" class="dark">
@@ -63,7 +63,7 @@ const copyText = (text) => {
                 <div class="flex gap-4 text-sm">
                     <span
                         @click="copyText(job_application.data.phone_no)"
-                        class="cursor-pointer hover:text-yellow-600"
+                        class="cursor-pointer hover:text-darkBlue-400 dark:hover:text-yellow-600"
                         >{{ job_application.data.phone_no }}</span
                     >
                     <a
@@ -77,7 +77,7 @@ const copyText = (text) => {
         <Popover>
             <PopoverTrigger class="absolute text-2xl top-5 right-4">
                 <MdiDownload
-                    class="text-primaryOrange/60 hover:text-primaryOrange"
+                    class="text-darkBlue-400 dark:text-primaryOrange/60 hover:text-darkBlue-600 dark:hover:text-primaryOrange"
                 />
             </PopoverTrigger>
             <PopoverContent side="top" class="dark">
@@ -181,8 +181,7 @@ const copyText = (text) => {
         </TooltipProvider>
     </div>
     <div
-        v-if="job_application.data.skills.length"
-        class="px-6 py-6 text-gray-200 sm:max-h-[280px] overflow-y-hidden"
+        class="px-6 py-6 text-black dark:text-gray-200 sm:max-h-[280px] overflow-y-hidden"
     >
         <h4 class="text-center font-semibold">Skill Evaluation</h4>
         <div
@@ -220,7 +219,7 @@ const copyText = (text) => {
                     preserve-scroll
                 >
                     <MdiReload
-                        class="text-2xl text-primaryOrange cursor-pointer"
+                        class="text-2xl text-darkBlue-600 dark:text-primaryOrange cursor-pointer"
                     />
                 </Link>
             </div>

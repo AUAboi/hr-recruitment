@@ -78,7 +78,11 @@ const modifiedUsers = computed(() => {
 <template>
     <div>
         <Head title="Users" />
-        <h2 class="font-semibold text-xl text-white pb-6">Users</h2>
+        <h2
+            class="font-semibold text-xl text-darkBlue-600 dark:text-white pb-6"
+        >
+            Users
+        </h2>
         <div class="mb-6 flex justify-between items-center">
             <div class="flex gap-4 items-center">
                 <Dropdown align="top" :contentClasses="['mt-1']">
@@ -86,10 +90,10 @@ const modifiedUsers = computed(() => {
                         <div
                             :class="
                                 form.role
-                                    ? 'bg-orange-500 text-white'
-                                    : 'text-orange-500'
+                                    ? 'bg-darkBlue-800 dark:bg-orange-500 text-white'
+                                    : 'text-darkBlue-500 dark:text-orange-500'
                             "
-                            class="flex items-center cursor-pointer select-none group py-1 px-4 rounded-xl text-center font-semibold border-orange-500 border-2"
+                            class="flex items-center cursor-pointer select-none group py-1 px-4 rounded-xl text-center font-semibold dark:border-orange-500 border-darkBlue-800 border-2"
                         >
                             <div class="-500 mr-1 whitespace-nowrap">
                                 <span v-if="!form.role">Role</span>
@@ -105,7 +109,7 @@ const modifiedUsers = computed(() => {
                     </template>
                     <template v-slot:content>
                         <div
-                            class="mt-2 py-2 shadow-xl bg-primaryGray rounded text-sm text-white"
+                            class="mt-2 py-2 shadow-xl bg-white dark:bg-primaryGray rounded text-sm dark:text-white"
                         >
                             <div>
                                 <p
@@ -113,10 +117,10 @@ const modifiedUsers = computed(() => {
                                     v-for="role in roles"
                                     :key="role.id"
                                     :class="{
-                                        'text-orange-500':
+                                        'text-darkBlue-600 dark:text-orange-500':
                                             form.role === role.name,
                                     }"
-                                    class="block capitalize px-6 py-2 hover:text-orange-500 transition-colors duration-150 cursor-pointer"
+                                    class="block capitalize px-6 py-2 hover:text-darkBlue-600 dark:hover:text-orange-500 transition-colors duration-150 cursor-pointer"
                                 >
                                     {{ role.name.toLowerCase() }}
                                 </p>
@@ -127,7 +131,7 @@ const modifiedUsers = computed(() => {
                 <MdiClose
                     v-if="form.role"
                     @click.prevent="reset"
-                    class="w-5 h-5 flex align-middle text-orange-500 cursor-pointer"
+                    class="w-5 h-5 flex align-middle text-darkBlue-600 dark:text-orange-500 cursor-pointer"
                 />
             </div>
 
@@ -141,7 +145,7 @@ const modifiedUsers = computed(() => {
             >
         </div>
         <div
-            class="bg-primaryGray overflow-hidden shadow-sm rounded-lg mx-2 text-white md:mx-0"
+            class="dark:bg-primaryGray bg-white overflow-hidden shadow rounded-lg mx-2 md:mx-0 dark:text-white"
         >
             <DataTable :tableData="modifiedUsers" :labels="labels" />
         </div>

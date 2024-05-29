@@ -14,7 +14,7 @@ const props = defineProps(["recent_applications_count", "recent_listing"]);
             <Link
                 as="div"
                 :href="route('recruiter.job.create')"
-                class="bg-primaryOrange/85 h-14 bg text-white px-4 max-w-xs flex items-center justify-center rounded-lg cursor-pointer transition-all duration-100 hover:bg-primaryOrange"
+                class="bg-darkBlue-500 dark:bg-primaryOrange/85 h-14 bg text-white px-4 max-w-xs flex items-center justify-center rounded-lg cursor-pointer transition-all duration-100 hover:bg-darkBlue-600 dark:hover:bg-primaryOrange"
             >
                 Create Job
             </Link>
