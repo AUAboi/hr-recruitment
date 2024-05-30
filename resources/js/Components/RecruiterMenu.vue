@@ -24,10 +24,10 @@ const isUrl = (...urls) => {
 };
 </script>
 <template>
-    <div class="flex flex-col text-white">
+    <div class="flex flex-col text-darkBlue-300 dark:text-white">
         <div v-for="item in routes" class="nav-item">
             <Link
-                :class="{ 'text-orange-400': isUrl(item.slug) }"
+                :class="{ 'text-white dark:text-orange-400': isUrl(item.slug) }"
                 class="m-2 flex justify-between gap-4"
                 :href="route(item.route)"
             >

@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('job_applications', function (Blueprint $table) {
-            $table->unsignedTinyInteger('score')->nullable();
+            $table->json('score')->nullable();
+            $table->unsignedInteger('relavancy_score')->nullable();
+            $table->unsignedInteger('experience_score')->nullable();
+            $table->unsignedInteger('skill_score')->nullable();
         });
     }
 
@@ -21,8 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('job_application', function (Blueprint $table) {
+        Schema::table('job_applications', function (Blueprint $table) {
             $table->dropColumn('score');
+            $table->dropColumn('relavancy_score');
+            $table->dropColumn('experience_score');
+            $table->dropColumn('skill_score');
         });
     }
 };

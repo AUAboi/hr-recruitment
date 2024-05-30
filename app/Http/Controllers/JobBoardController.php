@@ -66,8 +66,12 @@ class JobBoardController extends Controller
             'jd' => json_encode($job_listing->job_details),
         ])->post(config('app.api_url') . '/scoring');
 
-        if (isset($response->json()['score'])) {
-            $job_application->score = $responseScore->json()['score'];
+        if (isset($responseScore->json()['relavancy_score'])) {
+            $job_application->score = $responseScore->json();
+
+            $job_application->relavancy_score = $responseScore->json()['relavancy_score'];
+            $job_application->skill_score = $responseScore->json()['skill_score'];
+            $job_application->experience_score = $responseScore->json()['exprience_score'];
 
             $job_application->save();
         }

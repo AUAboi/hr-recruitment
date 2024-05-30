@@ -7,14 +7,18 @@ const props = defineProps(["recent_applications_count", "recent_listing"]);
 <template>
     <Head title="Dashboard" />
 
-    <h2 class="font-semibold text-xl text-white leading-tight">Dashboard</h2>
+    <h2
+        class="font-semibold text-xl text-darkBlue-600 dark:text-white leading-tight"
+    >
+        Dashboard
+    </h2>
 
     <div class="py-12">
         <div class="mb-14">
             <Link
                 as="div"
                 :href="route('recruiter.job.create')"
-                class="bg-primaryOrange/85 h-14 bg text-white px-4 max-w-xs flex items-center justify-center rounded-lg cursor-pointer transition-all duration-100 hover:bg-primaryOrange"
+                class="bg-darkBlue-500 dark:bg-primaryOrange/85 h-14 bg text-white px-4 max-w-xs flex items-center justify-center rounded-lg cursor-pointer transition-all duration-100 hover:bg-darkBlue-600 dark:hover:bg-primaryOrange"
             >
                 Create Job
             </Link>

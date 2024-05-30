@@ -23,6 +23,7 @@ import { Link } from "@inertiajs/vue3";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import MdiReload from "~icons/mdi/reload";
+import Progress from "@/Components/ui/progress/Progress.vue";
 const { toast } = useToast();
 
 const props = defineProps({
@@ -43,19 +44,19 @@ const copyText = (text) => {
 </script>
 <template>
     <div
-        class="text-white text-center border-b border-stone-700 py-8 px-4 relative"
+        class="dark:text-white text-black text-center border-b border-stone-700 py-8 px-4 relative"
     >
         <UserAvatar size="lg" :user="job_application.user" />
         <h4 class="font-semibold mt-6">
             {{ job_application.data.name }}
         </h4>
-        <p class="text-gray-300 text-sm">
+        <p class="dark:text-gray-300 text-sm">
             {{ job_application.data.address }}
         </p>
         <Popover>
             <PopoverTrigger class="absolute text-2xl top-5 left-4">
                 <MdiPhone
-                    class="text-primaryOrange/80 hover:text-primaryOrange"
+                    class="text-darkBlue-600 dark:text-primaryOrange/80 hover:text-darkBlue-800 dark:hover:text-primaryOrange"
                 />
             </PopoverTrigger>
             <PopoverContent side="top" class="dark">
@@ -63,7 +64,7 @@ const copyText = (text) => {
                 <div class="flex gap-4 text-sm">
                     <span
                         @click="copyText(job_application.data.phone_no)"
-                        class="cursor-pointer hover:text-yellow-600"
+                        class="cursor-pointer hover:text-darkBlue-400 dark:hover:text-yellow-600"
                         >{{ job_application.data.phone_no }}</span
                     >
                     <a
@@ -77,7 +78,7 @@ const copyText = (text) => {
         <Popover>
             <PopoverTrigger class="absolute text-2xl top-5 right-4">
                 <MdiDownload
-                    class="text-primaryOrange/60 hover:text-primaryOrange"
+                    class="text-darkBlue-400 dark:text-primaryOrange/60 hover:text-darkBlue-600 dark:hover:text-primaryOrange"
                 />
             </PopoverTrigger>
             <PopoverContent side="top" class="dark">
@@ -181,49 +182,52 @@ const copyText = (text) => {
         </TooltipProvider>
     </div>
     <div
-        v-if="job_application.data.skills.length"
-        class="px-6 py-6 text-gray-200 sm:max-h-[280px] overflow-y-hidden"
+        class="px-6 py-6 text-black dark:text-gray-200 sm:max-h-[280px] overflow-y-hidden"
     >
-        <h4 class="text-center font-semibold">Skill Evaluation</h4>
+        <h4 class="text-center font-semibold pb-4">Skill Evaluation</h4>
         <div
-            class="text-3xl h-full w-full flex justify-center items-center mt-10 text-center"
+            v-if="job_application.score"
+            class="grid grid-rows-2 gap-4 items-center"
         >
-            <div
-                class="text-center flex flex-col items-center gap-4"
-                v-if="job_application.score != null"
-            >
-                <CircleProgress
-                    :size="140"
-                    fill-color="#ff8d4e"
-                    show-percent
-                    :percent="job_application.score"
+            <div class="w-full">
+                <p class="mb-2">Relevancy:</p>
+                <Progress
+                    class="h-2"
+                    :model-value="job_application.score.relavancy_score * 10"
                 />
-                {{
-                    job_application.score > 70
-                        ? "Outstanding"
-                        : job_application.score > 50
-                        ? "Average"
-                        : "Underwhelming"
-                }}
             </div>
+            <div class="w-full">
+                <p class="my-2">Skill:</p>
+                <Progress
+                    class="h-2"
+                    :model-value="job_application.score.skill_score * 10"
+                />
+            </div>
+            <div class="w-full">
+                <p class="my-2">Experience:</p>
 
-            <div class="text-center flex flex-col items-center gap-4" v-else>
-                <p>Could not calculate</p>
-                <Link
-                    :href="
-                        route(
-                            'recruiter.job.applications.revaluate',
-                            job_application.slug
-                        )
-                    "
-                    preserve-state
-                    preserve-scroll
-                >
-                    <MdiReload
-                        class="text-2xl text-primaryOrange cursor-pointer"
-                    />
-                </Link>
+                <Progress
+                    class="h-2"
+                    :model-value="job_application.score.exprience_score * 10"
+                />
             </div>
+        </div>
+        <div class="text-center flex flex-col items-center gap-4" v-else>
+            <p>Could not calculate</p>
+            <Link
+                :href="
+                    route(
+                        'recruiter.job.applications.revaluate',
+                        job_application.slug
+                    )
+                "
+                preserve-state
+                preserve-scroll
+            >
+                <MdiReload
+                    class="text-2xl text-darkBlue-600 dark:text-primaryOrange cursor-pointer"
+                />
+            </Link>
         </div>
     </div>
 </template>

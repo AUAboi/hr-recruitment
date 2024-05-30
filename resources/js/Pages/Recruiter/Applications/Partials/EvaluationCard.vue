@@ -21,9 +21,11 @@ const props = defineProps({
 const MAX_SHOWN_PROJECTS = 3;
 </script>
 <template>
-    <section class="bg-primaryGray max-w-6xl w-full mx-auto rounded-md">
+    <section
+        class="dark:bg-primaryGray bg-white shadow max-w-6xl w-full mx-auto rounded-md"
+    >
         <div class="flex flex-col sm:flex-row">
-            <div class="sm:w-1/2 sm:border-r border-stone-700">
+            <div class="sm:w-1/2 sm:border-r dark:border-stone-700">
                 <ProfileSection :job_application="job_application" />
             </div>
 
@@ -33,12 +35,12 @@ const MAX_SHOWN_PROJECTS = 3;
                     class="eval-row"
                 >
                     <div
-                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
+                        class="text-stone-600 font-semibold dark:font-normal dark:text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Skills</h5>
                     </div>
                     <div
-                        class="flex-grow border-b border-stone-700 pb-10 pr-4 pl-4 sm:pl-0"
+                        class="flex-grow border-b dark:border-stone-700 pb-10 pr-4 pl-4 sm:pl-0"
                     >
                         <div class="max-w-lg flex flex-wrap gap-x-4 gap-y-2">
                             <Badge
@@ -55,7 +57,7 @@ const MAX_SHOWN_PROJECTS = 3;
                     class="eval-row"
                 >
                     <div
-                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
+                        class="text-stone-600 font-semibold dark:font-normal dark:text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Projects</h5>
                     </div>
@@ -117,7 +119,7 @@ const MAX_SHOWN_PROJECTS = 3;
                     class="eval-row"
                 >
                     <div
-                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
+                        class="text-stone-600 font-semibold dark:font-normal dark:text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Programming Language</h5>
                     </div>
@@ -140,7 +142,7 @@ const MAX_SHOWN_PROJECTS = 3;
                     class="eval-row"
                 >
                     <div
-                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
+                        class="text-stone-600 font-semibold dark:font-normal dark:text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Education</h5>
                     </div>
@@ -151,7 +153,7 @@ const MAX_SHOWN_PROJECTS = 3;
                             <div
                                 v-for="education in job_application.data
                                     .education_history"
-                                class="text-gray-200"
+                                class="text-black dark:text-gray-200"
                             >
                                 <p>
                                     {{ education }}
@@ -162,13 +164,13 @@ const MAX_SHOWN_PROJECTS = 3;
                 </div>
                 <div v-if="job_application.data?.summary" class="eval-row">
                     <div
-                        class="text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
+                        class="text-stone-600 font-semibold dark:font-normal dark:text-stone-400 uppercase pl-4 max-w-28 w-28 sm:pl-0"
                     >
                         <h5>Summary</h5>
                     </div>
                     <div class="flex-grow pb-10 pr-4 pl-4 sm:pl-0">
                         <div class="max-w-lg flex flex-wrap gap-x-4 gap-y-2">
-                            <p class="text-gray-200 leading-7">
+                            <p class="text-black dark:text-gray-200 leading-7">
                                 {{ job_application.data.summary }}
                             </p>
                         </div>

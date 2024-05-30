@@ -49,7 +49,7 @@ const props = defineProps({
                 </template>
             </Dropdown>
             <input
-                class="relative w-full bg-primaryGray px-6 py-3 rounded-l focus:ring border-none text-white placeholder-slate-200"
+                class="relative w-full dark:bg-primaryGray px-6 py-3 rounded-l focus:ring border-none dark:text-white dark:placeholder-slate-200"
                 autocomplete="off"
                 type="text"
                 name="search"
