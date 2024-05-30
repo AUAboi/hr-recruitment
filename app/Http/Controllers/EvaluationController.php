@@ -79,7 +79,9 @@ class EvaluationController extends Controller
             'files.*' => 'required|mimes:csv,xlsl|max:10000'
         ]);
 
-        return Excel::import(new UsersImport, $request->file('files')[0]);
+        Excel::import(new UsersImport, $request->file('files')[0]);
+
+        return redirect()->back()->with('success', 'Imported!');
     }
 
     public function downloadPDF(Evaluation $evaluation)
