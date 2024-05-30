@@ -23,8 +23,9 @@ class JobApplicationController extends Controller
         $job_applications =  $job_listing->jobApplications()
             ->with(['user', 'media', 'user.media', 'user.roles'])
             ->filter($filters)
-            ->paginate(30)
+            ->paginate(300)
             ->withQueryString();
+
 
 
         return Inertia::render('Recruiter/Applications/Index', [

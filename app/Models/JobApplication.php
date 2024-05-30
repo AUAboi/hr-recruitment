@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\JobApplicationAttachmentsMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JobApplication extends Model
 {
@@ -61,6 +62,11 @@ class JobApplication extends Model
     public function media()
     {
         return $this->hasOne(JobApplicationMedia::class);
+    }
+
+    public function attachmentsMedia()
+    {
+        return $this->hasMany(JobApplicationAttachmentsMedia::class);
     }
 
     public function getAverageScoreAttribute()

@@ -29,11 +29,14 @@ class JobBoardController extends Controller
     public function storeApplication(Request $request, JobListing $job_listing)
     {
         $request->validate([
-            'file' => 'required|mimes:pdf|max:10000',
+            'pdf' => 'required|mimes:pdf|max:10000',
+            'attachments' => 'nullable|array',
+            'attachments.*' => 'required|mimes:pdf,webp,png,jpeg,jpg,doc,docx|max:10000'
         ]);
 
+
         try {
-            $file = $request->file('file');
+            $file = $request->file('pdf');
 
             $response = Http::asMultipart()->attach(
                 'file',
@@ -58,8 +61,18 @@ class JobBoardController extends Controller
 
         $jobListingMedia = $job_application->media()->create([]);
         $jobListingMedia->baseMedia()->associate(
-            $jobListingMedia->addMedia($file)->toMediaCollection()
+            $jobListingMedia->addMedia($file)->toMediaCollection('pdf')
         )->save();
+
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $attachment) {
+                $jobListingAtMedia = $job_application->attachmentsMedia()->create([]);
+                $jobListingAtMedia->baseMedia()->associate(
+                    $jobListingAtMedia->addMedia($attachment)->toMediaCollection('attachments')
+                )->save();
+            }
+        }
 
         $responseScore = Http::withQueryParameters([
             'profile' => $response->json(),

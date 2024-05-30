@@ -12,7 +12,7 @@ import { Link } from "@inertiajs/vue3";
 </script>
 
 <template>
-    <div class="page-container bg-black">
+    <div class="page-container dark bg-black">
         <header>
             <div class="p-4 flex items-center justify-between">
                 <Link class="block w-fit" href="/">

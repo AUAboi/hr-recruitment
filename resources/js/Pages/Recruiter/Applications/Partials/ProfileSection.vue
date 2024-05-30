@@ -21,9 +21,9 @@ import { ref } from "vue";
 import { useToast } from "@/Components/ui/toast/use-toast";
 import { Link } from "@inertiajs/vue3";
 import "vue3-circle-progress/dist/circle-progress.css";
-import CircleProgress from "vue3-circle-progress";
 import MdiReload from "~icons/mdi/reload";
 import Progress from "@/Components/ui/progress/Progress.vue";
+import MdiAttachFile from "~icons/mdi/attach-file";
 const { toast } = useToast();
 
 const props = defineProps({
@@ -93,6 +93,9 @@ const copyText = (text) => {
                 </div>
             </PopoverContent>
         </Popover>
+        <MdiAttachFile
+            class="absolute text-2xl bottom-5 right-4 rotate-12 text-darkBlue-400 dark:text-primaryOrange/60 hover:text-darkBlue-600 dark:hover:text-primaryOrange"
+        />
     </div>
 
     <div class="flex gap-4 justify-evenly px-6 py-3 border-b border-stone-700">
