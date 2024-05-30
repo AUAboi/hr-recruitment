@@ -25,6 +25,7 @@ const activeApplication = computed(() => {
 });
 
 const statuses = ["APPROVED", "PENDING", "REJECTED"];
+const sorts = ["average", "relavancy", "skill", "experience"];
 
 const statusColorClass = (status) => {
     return {
@@ -100,21 +101,48 @@ watchThrottled(
                 </div>
             </template>
         </Dropdown>
-        <MdiSortDescending
-            @click="
-                form.sort === 'score'
-                    ? (form.sort = null)
-                    : (form.sort = 'score')
-            "
-            :class="
-                form.sort === 'score'
-                    ? 'dark:text-primaryOrange text-darkBlue-600'
-                    : ''
-            "
-            class="text-2xl cursor-pointer"
-        />
+        <Dropdown align="top" :contentClasses="['mt-1']">
+            <template v-slot:trigger>
+                <div
+                    :class="
+                        form.sort
+                            ? 'bg-darkBlue-800 dark:bg-orange-500 text-white'
+                            : 'text-darkBlue-500 dark:text-orange-500'
+                    "
+                    class="flex items-center cursor-pointer select-none group py-1 px-4 rounded-xl text-center font-semibold dark:border-orange-500 border-darkBlue-800 border-2"
+                >
+                    <div class="-500 mr-1 whitespace-nowrap">
+                        <span v-if="!form.sort">Sort By</span>
+                        <span class="uppercase" v-else>{{ form.sort }}</span>
+                    </div>
+
+                    <IconChevronDown class="w-5 h-5 flex align-middle" />
+                </div>
+            </template>
+            <template v-slot:content>
+                <div
+                    class="mt-2 py-2 shadow-xl bg-white dark:bg-primaryGray rounded text-sm dark:text-white"
+                >
+                    <div>
+                        <p
+                            @click="form.sort = sort"
+                            v-for="(sort, index) in sorts"
+                            :key="index"
+                            :class="{
+                                'text-darkBlue-600 dark:text-orange-500':
+                                    form.sort === sort,
+                            }"
+                            class="block capitalize px-6 py-2 hover:text-darkBlue-600 dark:hover:text-orange-500 transition-colors duration-150 cursor-pointer"
+                        >
+                            {{ sort.toLowerCase() }}
+                        </p>
+                    </div>
+                </div>
+            </template>
+        </Dropdown>
+
         <MdiClose
-            v-if="form.status"
+            v-if="form.status || form.sort"
             @click.prevent="reset"
             class="w-5 h-5 flex align-middle cursor-pointer"
         />
@@ -170,16 +198,16 @@ watchThrottled(
                                 <div class="pt-2 w-fit">
                                     <p
                                         :class="
-                                            application.score > 70
+                                            application.average_score > 70
                                                 ? 'text-green-600'
-                                                : application.score < 40
+                                                : application.average_score < 40
                                                 ? 'text-red-500'
                                                 : 'text-yellow-400'
                                         "
                                         class="font-semibold"
-                                        v-if="application.score != null"
+                                        v-if="application.average_score != null"
                                     >
-                                        {{ application.score }}
+                                        {{ application.average_score }}
                                     </p>
                                     <p v-else>Unscored</p>
                                 </div>

@@ -23,6 +23,7 @@ import { Link } from "@inertiajs/vue3";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import MdiReload from "~icons/mdi/reload";
+import Progress from "@/Components/ui/progress/Progress.vue";
 const { toast } = useToast();
 
 const props = defineProps({
@@ -183,46 +184,50 @@ const copyText = (text) => {
     <div
         class="px-6 py-6 text-black dark:text-gray-200 sm:max-h-[280px] overflow-y-hidden"
     >
-        <h4 class="text-center font-semibold">Skill Evaluation</h4>
+        <h4 class="text-center font-semibold pb-4">Skill Evaluation</h4>
         <div
-            class="text-3xl h-full w-full flex justify-center items-center mt-10 text-center"
+            v-if="job_application.score"
+            class="grid grid-rows-2 gap-4 items-center"
         >
-            <div
-                class="text-center flex flex-col items-center gap-4"
-                v-if="job_application.score != null"
-            >
-                <CircleProgress
-                    :size="140"
-                    fill-color="#ff8d4e"
-                    show-percent
-                    :percent="job_application.score"
+            <div class="w-full">
+                <p class="mb-2">Relevancy:</p>
+                <Progress
+                    class="h-2"
+                    :model-value="job_application.score.relavancy_score * 10"
                 />
-                {{
-                    job_application.score > 70
-                        ? "Outstanding"
-                        : job_application.score > 50
-                        ? "Average"
-                        : "Underwhelming"
-                }}
             </div>
+            <div class="w-full">
+                <p class="my-2">Skill:</p>
+                <Progress
+                    class="h-2"
+                    :model-value="job_application.score.skill_score * 10"
+                />
+            </div>
+            <div class="w-full">
+                <p class="my-2">Experience:</p>
 
-            <div class="text-center flex flex-col items-center gap-4" v-else>
-                <p>Could not calculate</p>
-                <Link
-                    :href="
-                        route(
-                            'recruiter.job.applications.revaluate',
-                            job_application.slug
-                        )
-                    "
-                    preserve-state
-                    preserve-scroll
-                >
-                    <MdiReload
-                        class="text-2xl text-darkBlue-600 dark:text-primaryOrange cursor-pointer"
-                    />
-                </Link>
+                <Progress
+                    class="h-2"
+                    :model-value="job_application.score.exprience_score * 10"
+                />
             </div>
+        </div>
+        <div class="text-center flex flex-col items-center gap-4" v-else>
+            <p>Could not calculate</p>
+            <Link
+                :href="
+                    route(
+                        'recruiter.job.applications.revaluate',
+                        job_application.slug
+                    )
+                "
+                preserve-state
+                preserve-scroll
+            >
+                <MdiReload
+                    class="text-2xl text-darkBlue-600 dark:text-primaryOrange cursor-pointer"
+                />
+            </Link>
         </div>
     </div>
 </template>

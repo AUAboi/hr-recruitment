@@ -80,12 +80,13 @@ class JobApplicationController extends Controller
                 'jd' => json_encode($job_application->jobListing->job_details)
             ])->post(config('app.api_url') . '/scoring');
 
+            $job_application->score = $response->json();
 
-            if (isset($response->json()['score']) && is_integer((int)$response->json()['score'])) {
-                $job_application->score = (int) $response->json()['score'];
+            $job_application->relavancy_score = $response->json()['relavancy_score'];
+            $job_application->skill_score = $response->json()['skill_score'];
+            $job_application->experience_score = $response->json()['exprience_score'];
 
-                $job_application->save();
-            }
+            $job_application->save();
         } catch (ConnectionException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

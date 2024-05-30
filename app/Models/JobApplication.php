@@ -19,10 +19,14 @@ class JobApplication extends Model
         'score',
         'application_status',
         'data',
+        'relavancy_score',
+        'experience_score',
+        'skill_score',
     ];
 
     protected $casts = [
         'data' => 'array',
+        'score' => 'array'
     ];
 
     /**
@@ -59,15 +63,41 @@ class JobApplication extends Model
         return $this->hasOne(JobApplicationMedia::class);
     }
 
+    public function getAverageScoreAttribute()
+    {
+        $scores = $this->score;
+
+        if (is_array($scores)) {
+            $total = ($scores['relavancy_score'] ?? 0) + ($scores['skill_score'] ?? 0) + ($scores['exprience_score'] ?? 0);
+            return $total / 3;
+        }
+
+        return null; // Default value if scores are not an array
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query
-                ->where('user.first_name', 'like', '%' . $search . '%');
+            $query->where('user.first_name', 'like', '%' . $search . '%');
         })->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('application_status', 'like', '%' . $status . '%');
         })->when($filters['sort'] ?? null, function ($query, $sort) {
-            $query->orderBy('score', 'desc');
+            switch ($sort) {
+                case 'average':
+                    $query->orderByRaw('(
+                        (relavancy_score + skill_score + experience_score) / 3
+                    ) DESC');
+                    break;
+                case 'relavancy':
+                    $query->orderBy('relavancy_score', 'desc');
+                    break;
+                case 'skill':
+                    $query->orderBy('skill_score', 'desc');
+                    break;
+                case 'experience':
+                    $query->orderBy('experience_score', 'desc');
+                    break;
+            }
         });
 
         if (!isset($filters['sort'])) {
