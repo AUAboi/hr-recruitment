@@ -24,6 +24,7 @@ import "vue3-circle-progress/dist/circle-progress.css";
 import MdiReload from "~icons/mdi/reload";
 import Progress from "@/Components/ui/progress/Progress.vue";
 import MdiAttachFile from "~icons/mdi/attach-file";
+import Modal from "@/Components/Modal.vue";
 const { toast } = useToast();
 
 const props = defineProps({
@@ -41,8 +42,27 @@ const copyText = (text) => {
         title: "Text copied to clipboard!",
     });
 };
+
+const open = ref(false);
+
+const checkURL = (urlString) => {
+    return urlString.match(/\.(jpeg|jpg|gif|png)$/) != null;
+};
 </script>
 <template>
+    <Modal
+        v-if="job_application.attachments.length"
+        :show="open"
+        @close="open = !open"
+    >
+        <div class="grid grid-cols-2">
+            <template v-for="file in job_application.attachments">
+                <div v-if="checkURL(file)">
+                    <img :src="file" alt="" />
+                </div>
+            </template>
+        </div>
+    </Modal>
     <div
         class="dark:text-white text-black text-center border-b border-stone-700 py-8 px-4 relative"
     >
@@ -94,6 +114,7 @@ const copyText = (text) => {
             </PopoverContent>
         </Popover>
         <MdiAttachFile
+            @click="open = true"
             class="absolute text-2xl bottom-5 right-4 rotate-12 text-darkBlue-400 dark:text-primaryOrange/60 hover:text-darkBlue-600 dark:hover:text-primaryOrange"
         />
     </div>
