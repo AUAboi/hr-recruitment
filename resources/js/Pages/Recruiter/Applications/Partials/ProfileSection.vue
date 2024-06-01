@@ -25,6 +25,7 @@ import MdiReload from "~icons/mdi/reload";
 import Progress from "@/Components/ui/progress/Progress.vue";
 import MdiAttachFile from "~icons/mdi/attach-file";
 import Modal from "@/Components/Modal.vue";
+import AttachmentsCarousel from "./AttachmentsCarousel.vue";
 const { toast } = useToast();
 
 const props = defineProps({
@@ -48,20 +49,17 @@ const open = ref(false);
 const checkURL = (urlString) => {
     return urlString.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };
+
+const openPopup = () => {
+    open.value = true;
+};
 </script>
 <template>
-    <Modal
-        v-if="job_application.attachments.length"
-        :show="open"
-        @close="open = !open"
-    >
-        <div class="grid grid-cols-2">
-            <template v-for="file in job_application.attachments">
-                <div v-if="checkURL(file)">
-                    <img :src="file" alt="" />
-                </div>
-            </template>
+    <Modal max-width="full" :show="open" @close="open = !open">
+        <div v-if="job_application.attachments.length">
+            <AttachmentsCarousel :attachments="job_application.attachments" />
         </div>
+        <div class="p-5" v-else>Nothing to show</div>
     </Modal>
     <div
         class="dark:text-white text-black text-center border-b border-stone-700 py-8 px-4 relative"
@@ -114,7 +112,7 @@ const checkURL = (urlString) => {
             </PopoverContent>
         </Popover>
         <MdiAttachFile
-            @click="open = true"
+            @click="openPopup"
             class="absolute text-2xl bottom-5 right-4 rotate-12 text-darkBlue-400 dark:text-primaryOrange/60 hover:text-darkBlue-600 dark:hover:text-primaryOrange"
         />
     </div>

@@ -5,3 +5,7 @@ export const urlToImageFile = async (url) => {
     return new File([blob], 'image.jpg', blob)
   }
 }
+
+export const urlIsImage = (url) => {
+  return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+}
