@@ -23,7 +23,7 @@ class JobApplicationResource extends JsonResource
             'user' => new UserResource($this->whenLoaded('user')),
             'job_listing' => $this->whenLoaded('job_listing'),
             'score' => is_array($this->score) ? $this->score : json_decode($this->score),
-            'average_score' => is_array($this->score) ? (($this->relavancy_score + $this->skill_score + $this->experience_score) / 3) * 10 : null,
+            'average_score' => is_array($this->score) ? (($this->relavancy_score + $this->skill_score + $this->experience_score) / 3) : null,
             'data' => is_array($this->data) ? $this->data : json_decode($this->data),
             'created_at' => $this->created_at->diffForHumans(),
             'media' => $this->media ? $this->media->baseMedia->getUrl() : null,

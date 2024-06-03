@@ -185,6 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    //'api_url' => env('APP_API_URL', 'https://bed1-2400-adc5-420-2700-f893-ad50-c86c-42f5.ngrok-free.app')
     'api_url' => env('APP_API_URL', 'http://127.0.0.1:5431')
 
 ];

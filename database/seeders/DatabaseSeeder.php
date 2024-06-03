@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             RecruiterSeeder::class,
             ApplicantSeeder::class,
+            JobListingSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

@@ -14,11 +14,13 @@ class JobListing extends Model
         'user_id',
         'job_title',
         'job_details',
+        'api_json',
         'status'
     ];
 
     protected $casts = [
-        'job_details' => 'array'
+        'job_details' => 'array',
+        'api_json' => 'array'
     ];
 
     public function recruiter()

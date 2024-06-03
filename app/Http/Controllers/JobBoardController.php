@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\Evaluation;
 use App\Models\JobListing;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\JobApplication;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\JobListingResource;
 use Illuminate\Http\Client\ConnectionException;
@@ -76,7 +74,7 @@ class JobBoardController extends Controller
 
         $responseScore = Http::withQueryParameters([
             'profile' => $response->json(),
-            'jd' => json_encode($job_listing->job_details),
+            'jd' => isset($job_listing->api_json) ? json_encode($job_listing->api_json) : json_encode($job_listing->job_details),
         ])->post(config('app.api_url') . '/scoring');
 
         if (isset($responseScore->json()['relavancy_score'])) {

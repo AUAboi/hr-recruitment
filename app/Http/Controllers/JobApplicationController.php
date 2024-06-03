@@ -23,7 +23,7 @@ class JobApplicationController extends Controller
         $job_applications =  $job_listing->jobApplications()
             ->with(['user', 'media', 'user.media', 'user.roles'])
             ->filter($filters)
-            ->paginate(300)
+            ->paginate(30)
             ->withQueryString();
 
 
@@ -75,13 +75,19 @@ class JobApplicationController extends Controller
 
     public function revaluateScore(JobApplication $job_application)
     {
+
+
         try {
             $response = Http::withQueryParameters([
                 'profile' => is_array($job_application->data) ? json_encode($job_application->data) : $job_application->data,
-                'jd' => json_encode($job_application->jobListing->job_details)
-            ])->post(config('app.api_url') . '/scoring');
+                'jd' => isset($job_application->jobListing->api_json) ? json_encode($job_application->jobListing->api_json) : json_encode($job_application->jobListing->job_details),
+
+            ])->post('http://127.0.0.1:5431' . '/scoring');
+
 
             $job_application->score = $response->json();
+
+
 
             $job_application->relavancy_score = $response->json()['relavancy_score'];
             $job_application->skill_score = $response->json()['skill_score'];
