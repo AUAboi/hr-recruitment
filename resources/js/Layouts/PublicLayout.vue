@@ -6,7 +6,7 @@ import {
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@/Components/ui/context-menu";
 import UserAvatar from "@/Components/UserAvatar.vue";
 import { Link } from "@inertiajs/vue3";
 </script>

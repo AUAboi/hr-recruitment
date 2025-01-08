@@ -64,8 +64,10 @@ const fetchAIData = async () => {
                     },
                 });
 
-                props.form.job_details = result.data;
-                props.form.job_title = props.form.job_details.job_title;
+                console.log(result.data.value);
+
+                props.form.job_details = result.data.value.job_details;
+                props.form.job_title = result.data.value.job_title;
             } else {
                 showDialog.value = true;
             }
@@ -104,11 +106,15 @@ watch(
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger as-child>
-                        <MdiMagic @click="showDialog = true" :class="showDialog || isLoading
-                            ? 'text-violet-500 '
-                            : ''
+                        <MdiMagic
+                            @click="showDialog = true"
+                            :class="
+                                showDialog || isLoading
+                                    ? 'text-violet-500 '
+                                    : ''
                             "
-                            class="mb-6 text-2xl ml-auto cursor-pointer hover:text-purple-400 transition-all duration-150 text-white" />
+                            class="mb-6 text-2xl ml-auto cursor-pointer hover:text-purple-400 transition-all duration-150 text-white"
+                        />
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>Generate via A.I</p>
@@ -124,8 +130,16 @@ watch(
         </div>
         <div class="p-4 sm:p-8 bg-primaryGray shadow sm:rounded-lg text-white">
             <div>
-                <FormInputText label="Job Title" class="w-1/2" v-model="form.job_title" />
-                <FormInputTextArea label="Company Profile" class="pb-0" v-model="form.job_details.company_profile" />
+                <FormInputText
+                    label="Job Title"
+                    class="w-1/2"
+                    v-model="form.job_title"
+                />
+                <FormInputTextArea
+                    label="Company Profile"
+                    class="pb-0"
+                    v-model="form.job_details.company_profile"
+                />
             </div>
             <Select v-model="form.status">
                 <SelectTrigger>
@@ -148,33 +162,59 @@ watch(
             <div class="flex flex-col lg:flex-row gap-0 lg:gap-20">
                 <div class="w-full lg:w-1/2">
                     <p class="mb-2">Requirements</p>
-                    <div class="flex" v-for="(requirement, index) in form.job_details
-                        .requirements" :key="index">
-                        <FormInputText v-model="form.job_details.requirements[index]" />
-                        <MdiCancelBold v-if="form.job_details.requirements.length > 1" @click="
-                            form.job_details.requirements.splice(index, 1)
-                            " class="mt-4 text-red-700 cursor-pointer" />
+                    <div
+                        class="flex"
+                        v-for="(requirement, index) in form.job_details
+                            .requirements"
+                        :key="index"
+                    >
+                        <FormInputText
+                            v-model="form.job_details.requirements[index]"
+                        />
+                        <MdiCancelBold
+                            v-if="form.job_details.requirements.length > 1"
+                            @click="
+                                form.job_details.requirements.splice(index, 1)
+                            "
+                            class="mt-4 text-red-700 cursor-pointer"
+                        />
                     </div>
-                    <button @click.prevent="form.job_details.requirements.push('')"
-                        class="mb-10 text-yellow-500 underline">
+                    <button
+                        @click.prevent="form.job_details.requirements.push('')"
+                        class="mb-10 text-yellow-500 underline"
+                    >
                         Add another
                     </button>
                 </div>
                 <div class="w-full lg:w-1/2">
                     <p class="mb-2">Expected Tasks</p>
-                    <div class="flex" v-for="(task, index) in form.job_details
-                        .what_will_you_do" :key="index">
-                        <FormInputText required v-model="form.job_details.what_will_you_do[index]" />
-                        <MdiCancelBold v-if="form.job_details.what_will_you_do.length > 1" @click="
-                            form.job_details.what_will_you_do.splice(
-                                index,
-                                1
-                            )
-                            " class="mt-4 text-red-700 cursor-pointer" />
+                    <div
+                        class="flex"
+                        v-for="(task, index) in form.job_details
+                            .what_will_you_do"
+                        :key="index"
+                    >
+                        <FormInputText
+                            required
+                            v-model="form.job_details.what_will_you_do[index]"
+                        />
+                        <MdiCancelBold
+                            v-if="form.job_details.what_will_you_do.length > 1"
+                            @click="
+                                form.job_details.what_will_you_do.splice(
+                                    index,
+                                    1
+                                )
+                            "
+                            class="mt-4 text-red-700 cursor-pointer"
+                        />
                     </div>
-                    <button @click.prevent="
-                        form.job_details.what_will_you_do.push('')
-                        " class="mb-10 text-yellow-500 underline">
+                    <button
+                        @click.prevent="
+                            form.job_details.what_will_you_do.push('')
+                        "
+                        class="mb-10 text-yellow-500 underline"
+                    >
                         Add another
                     </button>
                 </div>
@@ -182,18 +222,30 @@ watch(
 
             <div class="w-full lg:w-1/2">
                 <p class="mb-2">Benefits</p>
-                <div class="flex" v-for="(benefit, index) in form.job_details.benefits" :key="index">
+                <div
+                    class="flex"
+                    v-for="(benefit, index) in form.job_details.benefits"
+                    :key="index"
+                >
                     <FormInputText v-model="form.job_details.benefits[index]" />
-                    <MdiCancelBold v-if="form.job_details.benefits.length > 1"
-                        @click="form.job_details.benefits.splice(index, 1)" class="mt-4 text-red-700 cursor-pointer" />
+                    <MdiCancelBold
+                        v-if="form.job_details.benefits.length > 1"
+                        @click="form.job_details.benefits.splice(index, 1)"
+                        class="mt-4 text-red-700 cursor-pointer"
+                    />
                 </div>
-                <button @click.prevent="form.job_details.benefits.push('')" class="mb-10 text-yellow-500 underline">
+                <button
+                    @click.prevent="form.job_details.benefits.push('')"
+                    class="mb-10 text-yellow-500 underline"
+                >
                     Add another
                 </button>
             </div>
         </div>
 
-        <PrimaryButton class="h-fit" @click.prevent="$emit('send')">Save</PrimaryButton>
+        <PrimaryButton class="h-fit" @click.prevent="$emit('send')"
+            >Save</PrimaryButton
+        >
     </div>
 
     <Dialog v-model:open="showDialog">
@@ -201,7 +253,11 @@ watch(
             <DialogHeader>
                 <DialogTitle>Type Prompt</DialogTitle>
                 <DialogDescription>
-                    <FormInputText v-model="form.job_prompt" class="pt-4" type="text" />
+                    <FormInputText
+                        v-model="form.job_prompt"
+                        class="pt-4"
+                        type="text"
+                    />
                 </DialogDescription>
             </DialogHeader>
 
