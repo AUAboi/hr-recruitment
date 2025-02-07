@@ -12,14 +12,21 @@ use Illuminate\Http\Client\ConnectionException;
 
 class JobBoardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $job_listings = JobListingResource::collection(JobListing::all());
+        $filters = $request->all('search');
+
+        $job_listings =  JobListing::orderBy('updated_at')
+            ->filter($filters)
+            ->paginate(40)
+            ->withQueryString();
+
+
         return Inertia::render(
             'Public/Jobs',
             [
-
                 'job_listings' => $job_listings,
+                'filters' => $filters
             ]
         );
     }
