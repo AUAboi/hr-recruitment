@@ -7,7 +7,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
     <div class="flex items-center justify-evenly text-white">
         <div class="max-w-xl">
             <h2 class="text-5xl mb-3">
-                Meet QLU - your recruitment assistant from the future
+                Meet CORE - your recruitment assistant from the future
             </h2>
             <p class="text-gray-200 text-xl pb-10">
                 Completely automate research, sourcing, and all your other
