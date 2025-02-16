@@ -1,0 +1,50 @@
+{
+    "id": 1,
+    "job_details": {
+        "company_profile": "Our company is a leading tech firm specializing in cutting-edge machine learning solutions. We are dedicated to pushing the boundaries of artificial intelligence and creating innovative products that impact millions of lives.",
+        "job_title": "Machine Learning Developer",
+        "requirements": [
+            "Proficiency in Python programming language",
+            "Solid understanding of machine learning algorithms and techniques",
+            "Experience with data preprocessing, model training, and evaluation",
+            "Strong problem-solving skills and analytical thinking"
+        ],
+        "what_will_you_do": [
+            "Develop and implement machine learning models and algorithms",
+            "Collaborate with cross-functional teams to design and deploy ML solutions",
+            "Optimize model performance and scalability",
+            "Stay up-to-date with the latest trends and advancements in the field of machine learning"
+        ],
+        "benefits": [
+            "Competitive salary and bonuses",
+            "Flexible work hours and remote work options",
+            "Professional development opportunities",
+            "Health insurance and wellness programs"
+        ]
+    },
+    "status": "DRAFT",
+    "user_id": 1,
+    "created_at": "2024-12-23T16:14:10.000000Z",
+    "updated_at": "2024-12-23T16:14:10.000000Z",
+    "job_title": "Machine Learning Developer",
+    "api_json": {
+        "skills": [
+            "Python",
+            "TensorFlow",
+            "Keras",
+            "PyTorch",
+            "scikit-learn",
+            "NumPy",
+            "Pandas",
+            "Machine Learning",
+            "Deep Learning",
+            "Data Preprocessing",
+            "Model Deployment"
+        ],
+        "programming_language": ["Python", "R", "Java", "SQL"],
+        "education_history": [
+            "MS or PhD degree in Computer Science, Data Science, or related field"
+        ],
+        "summary": "A machine learning engineer with extensive experience in developing and deploying machine learning models is required. A minimum of 2 years of experience is necessary. The engineer must be proficient in using machine learning frameworks such as TensorFlow, Keras, and PyTorch, and have experience with data preprocessing and model deployment. A degree is not required but preferred for MS or PhD in computer science, data science, or related field."
+    }
+}

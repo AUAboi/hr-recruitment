@@ -117,8 +117,8 @@
     font-family: var(--font-rubik);
     text-transform: uppercase;
     color: #ff8d4e;
-    text-shadow: 0 0 7px #a34d21, 0 0 10px #a34d21, 0 0 21px #ff8d4e,
-        0 0 42px #ff8d4e;
+    /* text-shadow: 0 0 7px #a34d21, 0 0 10px #a34d21, 0 0 21px #ff8d4e,
+        0 0 42px #ff8d4e; */
 }
 
 .title-button {

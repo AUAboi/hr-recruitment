@@ -1,4 +1,4 @@
-const animate = require("tailwindcss-animate")
+const animate = require("tailwindcss-animate");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,7 +11,6 @@ module.exports = {
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.{js,jsx,vue}",
     ],
-
 
     theme: {
         container: {
@@ -26,6 +25,7 @@ module.exports = {
                 primaryGray: "#222222",
                 primaryOrange: "#ff8d4e",
                 primaryWhite: "#ffffff",
+                textGray: "#858585",
 
                 darkBlue: {
                     100: "#e6e8ff",
@@ -34,7 +34,7 @@ module.exports = {
                     500: "#6574cd",
                     600: "#5661b3",
                     800: "#2f365f",
-                    900: "#191e38"
+                    900: "#191e38",
                 },
 
                 border: "hsl(var(--border))",
@@ -88,10 +88,10 @@ module.exports = {
                 },
                 "collapsible-down": {
                     from: { height: 0 },
-                    to: { height: 'var(--radix-collapsible-content-height)' },
+                    to: { height: "var(--radix-collapsible-content-height)" },
                 },
                 "collapsible-up": {
-                    from: { height: 'var(--radix-collapsible-content-height)' },
+                    from: { height: "var(--radix-collapsible-content-height)" },
                     to: { height: 0 },
                 },
             },
@@ -104,4 +104,4 @@ module.exports = {
         },
     },
     plugins: [animate],
-}
+};
