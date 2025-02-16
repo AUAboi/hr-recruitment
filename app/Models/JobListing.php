@@ -20,6 +20,7 @@ class JobListing extends Model
 
     protected $casts = [
         'job_details' => 'array',
+        'tags' => 'array',
         'api_json' => 'array'
     ];
 
