@@ -10,7 +10,8 @@ const form = useForm({
         what_will_you_do: [""],
         benefits: [""],
     },
-    status: "DRAFT"
+    tags: [],
+    status: "DRAFT",
 });
 
 const submit = () => {

@@ -17,6 +17,8 @@ class GenerateJobDescription extends Controller
     {
         $request->validate(['job_prompt' => 'required|string']);
 
+        $available_tags = ['AI', 'Web', 'ML', 'UI/UX', 'IOT', 'Game Developement', '3D Model'];
+
         try {
             $inputs = $request->job_prompt;
 
@@ -29,12 +31,16 @@ class GenerateJobDescription extends Controller
                     "what_will_you_do" => "Array of strings, tasks the person will perform",
                     "benefits" => "Array of strings, benefits the company provides",
                 ],
+                "tags" => "Array of tags that may belong to this job. Use only the available tags given below",
                 "status" => "String, the job description status (e.g., 'DRAFT')"
             ], JSON_PRETTY_PRINT);
 
             $template = <<<EOT
 Answer the user query in the following JSON format:
 {format_instructions}
+
+Available Tags:
+{available_tags}
 
 Query:
 {query}
@@ -43,21 +49,25 @@ Inputs:
 {Inputs}
 EOT;
 
-            $response = OpenAI::completions()->create([
-                'model' => 'gpt-3.5-turbo-instruct',
-                'prompt' => str_replace(
-                    ['{format_instructions}', '{query}', '{Inputs}'],
-                    [$formatInstructions, $query, $inputs],
-                    $template
-                ),
-                'temperature' => 0.7,
-                'max_tokens' => 500,
-            ]);
+
+            $response =
+                OpenAI::chat()->create([
+                    'model' => 'gpt-3.5-turbo',
+                    'messages' => [[
+                        'role' => 'user',
+                        'content' =>
+                        str_replace(
+                            ['{format_instructions}', '{available_tags}', '{query}', '{Inputs}'],
+                            [$formatInstructions, implode(',', $available_tags), $query, $inputs],
+                            $template
+                        ),
+                    ]]
+                ]);
 
             // Uncomment for debugging
             // dd($response);
 
-            return response()->json(json_decode($response['choices'][0]['text'], true));
+            return response()->json(json_decode($response->choices[0]->message->content, true));
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
