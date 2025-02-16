@@ -111,31 +111,31 @@ function timeAgo(dateString) {
                 </div>
 
                 <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray transition-all duration-200"
+                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
                 >
                     <p class="font-semibold text-primaryWhite">Tech</p>
                 </div>
 
                 <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray transition-all duration-200"
+                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
                 >
                     <p class="font-semibold text-primaryWhite">Engineering</p>
                 </div>
 
                 <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray transition-all duration-200"
+                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
                 >
                     <p class="font-semibold text-primaryWhite">Marketing</p>
                 </div>
 
                 <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray transition-all duration-200"
+                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
                 >
                     <p class="font-semibold text-primaryWhite">Finance</p>
                 </div>
 
                 <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray transition-all duration-200"
+                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
                 >
                     <p class="font-semibold text-primaryWhite">Sales</p>
                 </div>
