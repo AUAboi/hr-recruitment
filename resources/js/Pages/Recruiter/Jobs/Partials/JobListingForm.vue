@@ -54,13 +54,14 @@ import {
 } from "radix-vue";
 
 const frameworks = [
-    { value: "next.js", label: "Next.js" },
-    { value: "sveltekit", label: "SvelteKit" },
-    { value: "nuxt", label: "Nuxt" },
-    { value: "remix", label: "Remix" },
-    { value: "astro", label: "Astro" },
+    { value: "AI", label: "AI" },
+    { value: "Web", label: "Web" },
+    { value: "ML", label: "ML" },
+    { value: "UI/UX", label: "UI/UX" },
+    { value: "IOT", label: "IOT" },
+    { value: "Game Developement", label: "Game Developement" },
+    { value: "3D Model", label: "3D Model" },
 ];
-
 const open = ref(false);
 const searchTerm = ref("");
 
@@ -103,6 +104,7 @@ const fetchAIData = async () => {
 
                 props.form.job_details = result.data.value.job_details;
                 props.form.job_title = result.data.value.job_title;
+                props.form.tags = result.data.value.tags;
             } else {
                 showDialog.value = true;
             }
