@@ -171,7 +171,7 @@ const { alertError } = useSweetAlert();
     </UseTemplate>
 
     <div class="container mx-auto">
-        <div class="text-white mt-14 p-8 bg-[#111] rounded-md">
+        <div class="text-white mt-14 p-8 lg:p-16 bg-[#111] rounded-md">
             <div class="space-y-8">
                 <div class="w-full flex justify-between items-center">
                     <div class="flex gap-2 items-center">

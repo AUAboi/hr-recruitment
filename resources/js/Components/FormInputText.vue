@@ -26,7 +26,9 @@ onMounted(() => {
 </script>
 <template>
     <div class="pr-6 pb-8 w-full" :class="$attrs.class">
-        <label v-if="label" class="form-label mb-2 block">{{ label }}:</label>
+        <label v-if="label" class="form-label mb-2 block text-white"
+            >{{ label }}:</label
+        >
         <input
             v-bind="{ ...$attrs, class: null }"
             class="leading-normal block w-full border-gray-300 focus:border-orange-500 p-2 focus:ring-orange-500 rounded-md shadow-sm bg-neutral-700 border-0 text-white"

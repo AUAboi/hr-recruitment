@@ -53,12 +53,12 @@ const previewClick = () => {
                 v-model="form.image"
             />
             <div
-                class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
+                class="p-4 sm:p-8 bg-white dark:bg-primaryGray shadow sm:rounded-lg"
             >
                 <UpdateProfileInformationForm />
             </div>
             <div
-                class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
+                class="p-4 sm:p-8 bg-white dark:bg-primaryGray shadow sm:rounded-lg"
             >
                 <UpdatePasswordForm />
             </div>
@@ -66,7 +66,7 @@ const previewClick = () => {
             <Link
                 as="button"
                 method="post"
-                class="text-xl hover:text-red-600 text-red-500 underline px-4 py-1"
+                class="text-white text-lg font-semibold rounded-md bg-red-600 hover:bg-red-700 px-4 py-1"
                 :href="route('logout')"
             >
                 Logout</Link
