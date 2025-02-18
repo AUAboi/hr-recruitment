@@ -50,7 +50,7 @@ import { Link } from "@inertiajs/vue3";
             </div>
         </header>
 
-        <main class="w-full">
+        <main class="w-full py-8">
             <FlashMessage
                 v-if="
                     $page.props.flash.success ||
