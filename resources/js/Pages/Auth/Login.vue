@@ -83,5 +83,18 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
+
+        <div class="text-white text-center mt-8">
+            <span class="text-sm font-semibold"
+                >Or
+                <Link
+                    as="span"
+                    :href="route('register')"
+                    class="text-blue-600 underline cursor-pointer"
+                    >sign up</Link
+                >
+                for a new account</span
+            >
+        </div>
     </GuestLayout>
 </template>
