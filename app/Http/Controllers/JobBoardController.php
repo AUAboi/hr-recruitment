@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\JobListingResource;
 use Illuminate\Http\Client\ConnectionException;
+use OpenAI\Laravel\Facades\OpenAI;
+use Spatie\PdfToText\Pdf;
 
 class JobBoardController extends Controller
 {
@@ -40,60 +42,82 @@ class JobBoardController extends Controller
         ]);
 
 
-        try {
-            $file = $request->file('pdf');
 
-            $response = Http::asMultipart()->attach(
-                'file',
-                file_get_contents($file->path()),
-                'cv.pdf'
-            )
-                ->withQueryParameters([
-                    'query' => 'Extract the useful info from the CV'
-                ])
-                ->post(config('app.api_url') . '/extract-cv-info');
-        } catch (ConnectionException $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+        if ($request->hasFile('pdf')) {
 
-        $job_application = $job_listing->jobApplications()->create([
-            'user_id' => auth()->id(),
-            'data' => $response->json(),
-            'score' => null,
-            'uuid' => Str::uuid()
-        ]);
+            $text = (new Pdf('E:/project/hr-recruitment/pdftotext.exe'))->setPdf($request->file('pdf')->path())->text();
+            dd($text);
+            foreach ($request->file('pdf') as $file) {
+                // Extract text from PDF
+                $text = Pdf::getText($file->path());
+                dd($text);
+
+                // Define the prompt for structured extraction
+                $prompt = "Extract the following structured data from the CV:
+            Name, Father Name, Phone Number, Address, Skills, Projects, Programming Languages, 
+            Education History, and Summary. Return the response as a valid JSON object.
+            
+            CV Text:
+            ```$text```
+            ";
+
+                // Send extracted text to ChatGPT API
+                $client = OpenAI::client(env('OPENAI_API_KEY'));
+                $response = $client->chat()->create([
+                    'model' => 'gpt-3.5-turbo',
+                    'messages' => [[
+                        'role' => 'user',
+                        'content' => $prompt
+                    ]]
+                ]);
 
 
-        $jobListingMedia = $job_application->media()->create([]);
-        $jobListingMedia->baseMedia()->associate(
-            $jobListingMedia->addMedia($file)->toMediaCollection('pdf')
-        )->save();
+                $parsedData = json_decode($response['choices'][0]['message']['content'], true);
 
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $attachment) {
-                $jobListingAtMedia = $job_application->attachmentsMedia()->create([]);
-                $jobListingAtMedia->baseMedia()->associate(
-                    $jobListingAtMedia->addMedia($attachment)->toMediaCollection('attachments')
-                )->save();
+                dd($parsedData);
             }
         }
 
-        $responseScore = Http::withQueryParameters([
-            'profile' => $response->json(),
-            'jd' => isset($job_listing->api_json) ? json_encode($job_listing->api_json) : json_encode($job_listing->job_details),
-        ])->post(config('app.api_url') . '/scoring');
 
-        if (isset($responseScore->json()['relavancy_score'])) {
-            $job_application->score = $responseScore->json();
 
-            $job_application->relavancy_score = $responseScore->json()['relavancy_score'];
-            $job_application->skill_score = $responseScore->json()['skill_score'];
-            $job_application->experience_score = $responseScore->json()['exprience_score'];
+        // $job_application = $job_listing->jobApplications()->create([
+        //     'user_id' => auth()->id(),
+        //     'data' => $response->json(),
+        //     'score' => null,
+        //     'uuid' => Str::uuid()
+        // ]);
 
-            $job_application->save();
-        }
-        return redirect()->route('public.jobs')->with('success', 'Uploaded successfully');
+
+        // $jobListingMedia = $job_application->media()->create([]);
+        // $jobListingMedia->baseMedia()->associate(
+        //     $jobListingMedia->addMedia($file)->toMediaCollection('pdf')
+        // )->save();
+
+
+        // if ($request->hasFile('attachments')) {
+        //     foreach ($request->file('attachments') as $attachment) {
+        //         $jobListingAtMedia = $job_application->attachmentsMedia()->create([]);
+        //         $jobListingAtMedia->baseMedia()->associate(
+        //             $jobListingAtMedia->addMedia($attachment)->toMediaCollection('attachments')
+        //         )->save();
+        //     }
+        // }
+
+        // $responseScore = Http::withQueryParameters([
+        //     'profile' => $response->json(),
+        //     'jd' => isset($job_listing->api_json) ? json_encode($job_listing->api_json) : json_encode($job_listing->job_details),
+        // ])->post(config('app.api_url') . '/scoring');
+
+        // if (isset($responseScore->json()['relavancy_score'])) {
+        //     $job_application->score = $responseScore->json();
+
+        //     $job_application->relavancy_score = $responseScore->json()['relavancy_score'];
+        //     $job_application->skill_score = $responseScore->json()['skill_score'];
+        //     $job_application->experience_score = $responseScore->json()['exprience_score'];
+
+        //     $job_application->save();
+        // }
+        // return redirect()->route('public.jobs')->with('success', 'Uploaded successfully');
     }
 
     public function apply(JobListing $job_listing)

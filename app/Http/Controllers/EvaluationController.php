@@ -7,10 +7,12 @@ use App\Exports\CVExport;
 use App\Models\Evaluation;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
+use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\EvaluationResource;
 use Illuminate\Http\Client\ConnectionException;
+use Spatie\PdfToText\Pdf;
 
 class EvaluationController extends Controller
 {
@@ -29,6 +31,9 @@ class EvaluationController extends Controller
 
     public function store(Request $request)
     {
+
+        dd($request->all());
+
         $request->validate([
             'files' => 'required|array',
             'files.*' => 'required|mimes:pdf|max:10000'
@@ -36,23 +41,37 @@ class EvaluationController extends Controller
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                try {
-                    $response = Http::asMultipart()->attach(
-                        'file',
-                        file_get_contents($file->path()),
-                        'cv.pdf'
-                    )
-                        ->withQueryParameters([
-                            'query' => 'Extract the useful info from the CV'
-                        ])
-                        ->post(config('app.api_url') . '/extract-cv-info');
-                } catch (ConnectionException $e) {
-                    return redirect()->back()->with('error', $e->getMessage());
-                }
+                // Extract text from PDF
+                $text = Pdf::getText($file->path());
 
+                // Define the prompt for structured extraction
+                $prompt = "Extract the following structured data from the CV:
+            Name, Father Name, Phone Number, Address, Skills, Projects, Programming Languages, 
+            Education History, and Summary. Return the response as a valid JSON object.
+            
+            CV Text:
+            ```$text```
+            ";
+
+                // Send extracted text to ChatGPT API
+                $client = OpenAI::client(env('OPENAI_API_KEY'));
+                $response = $client->chat()->create([
+                    'model' => 'gpt-3.5-turbo',
+                    'messages' => [[
+                        'role' => 'user',
+                        'content' => $prompt
+                    ]]
+                ]);
+
+
+                $parsedData = json_decode($response['choices'][0]['message']['content'], true);
+
+                dd($parsedData);
+
+                // Save structured data to database
                 $evaluation = Evaluation::create([
                     'user_id' => 2,
-                    'data' => $response->json()
+                    'data' => $parsedData
                 ]);
 
                 $evaluationtMedia = $evaluation->media()->create([]);
@@ -61,8 +80,6 @@ class EvaluationController extends Controller
                 )->save();
             }
         }
-
-
 
         return redirect()->back()->with('success', 'Uploaded successfully');
     }
