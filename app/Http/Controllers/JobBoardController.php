@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\JobListingResource;
 use Illuminate\Http\Client\ConnectionException;
-use OpenAI\Laravel\Facades\OpenAI;
+use OpenAI;
 use Spatie\PdfToText\Pdf;
 
 class JobBoardController extends Controller
@@ -42,40 +42,50 @@ class JobBoardController extends Controller
         ]);
 
 
-
         if ($request->hasFile('pdf')) {
+            // E:/project/hr-recruitment
+            $text = (new Pdf('D:/web_projects/hr-recruitment/pdftotext.exe'))->setPdf($request->file('pdf')->path())->text();
+            $text = utf8_encode($text);
 
-            $text = (new Pdf('E:/project/hr-recruitment/pdftotext.exe'))->setPdf($request->file('pdf')->path())->text();
-            dd($text);
-            foreach ($request->file('pdf') as $file) {
-                // Extract text from PDF
-                $text = Pdf::getText($file->path());
-                dd($text);
+            // Ensure it's a plain string
+            $text = (string) $text;
+            // dd($text);
 
-                // Define the prompt for structured extraction
-                $prompt = "Extract the following structured data from the CV:
-            Name, Father Name, Phone Number, Address, Skills, Projects, Programming Languages, 
-            Education History, and Summary. Return the response as a valid JSON object.
-            
-            CV Text:
-            ```$text```
-            ";
-
-                // Send extracted text to ChatGPT API
-                $client = OpenAI::client(env('OPENAI_API_KEY'));
-                $response = $client->chat()->create([
-                    'model' => 'gpt-3.5-turbo',
-                    'messages' => [[
-                        'role' => 'user',
-                        'content' => $prompt
-                    ]]
-                ]);
+            // foreach ($request->file('pdf') as $file) {
+            //     // Extract text from PDF
+            //     $text = Pdf::getText($file->path());
 
 
-                $parsedData = json_decode($response['choices'][0]['message']['content'], true);
 
-                dd($parsedData);
-            }
+            // Define the prompt for structured extraction
+            $prompt = "Extract the following structured data from the CV: Name, Father Name, Phone Number, Address, Skills, Projects, Programming Languages, Education History, and Summary. Return the response strictly as a well-formed JSON object with keys in lowercase. Ensure the response is valid UTF-8 and does not contain any extra formatting.";
+
+
+            // dd($prompt);
+            // Send extracted text to ChatGPT API
+            $apiKey = env('OPENAI_API_KEY');
+
+            // dd(['role' => 'user', 'content' => $text]);
+
+            $response = Http::withHeaders([
+                'Authorization' => "Bearer $apiKey",
+                'Content-Type' => 'application/json'
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o-mini',
+                'messages' => [
+                    ['role' => 'system', 'content' => $prompt],
+                    ['role' => 'user', 'content' => $text]
+                ],
+                'temperature' => 0.7
+            ]);
+
+            dd($response->json('choices.0.message.content'));
+
+            $parsedData = $response->json('choices.0.message.content');
+            // $parsedData = json_decode($response['choices'][0]['message']['content'], true);
+
+            // dd($parsedData);
+            // }
         }
 
 
