@@ -14,6 +14,7 @@ class JobListing extends Model
         'user_id',
         'job_title',
         'job_details',
+        'tags',
         'api_json',
         'status'
     ];
@@ -42,8 +43,11 @@ class JobListing extends Model
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query
-                ->where('job_title', 'like', '%' . $search . '%');
+            $query->where('job_title', 'like', '%' . $search . '%');
+        });
+
+        $query->when($filters['tags'] ?? null, function ($query, $tags) {
+            $query->whereJsonContains('tags', $tags);
         });
     }
 

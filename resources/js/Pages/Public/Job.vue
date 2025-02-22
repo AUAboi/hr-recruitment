@@ -278,21 +278,15 @@ const { alertError } = useSweetAlert();
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-2 mt-6">
+                    <div
+                        v-for="(tag, index) in job_listing.tags"
+                        :key="index"
+                        class="flex items-start gap-2 mt-6"
+                    >
                         <div
                             class="py-2 px-3 font-semibold text-xs text-white bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
                         >
-                            <span>Tech</span>
-                        </div>
-                        <div
-                            class="py-2 px-3 font-semibold text-xs text-white bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
-                        >
-                            <span>Programming</span>
-                        </div>
-                        <div
-                            class="py-2 px-3 font-semibold text-xs text-white bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
-                        >
-                            <span>Engineering</span>
+                            <span>{{ tag }}</span>
                         </div>
                     </div>
                 </div>

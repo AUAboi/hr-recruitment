@@ -14,6 +14,9 @@ const props = defineProps({
         required: true,
         type: String,
     },
+    tags: {
+        required: true,
+    },
     status: {
         required: true,
     },
@@ -22,6 +25,7 @@ const props = defineProps({
 const form = useForm({
     job_details: props.job_details,
     job_prompt: "",
+    tags: props.tags,
     job_title: props.job_title,
     status: props.status,
 });

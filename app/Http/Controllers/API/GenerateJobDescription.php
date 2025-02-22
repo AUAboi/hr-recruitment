@@ -17,7 +17,7 @@ class GenerateJobDescription extends Controller
     {
         $request->validate(['job_prompt' => 'required|string']);
 
-        $available_tags = ['AI', 'Web', 'ML', 'UI/UX', 'IOT', 'Game Developement', '3D Model'];
+        $available_tags = ['AI', 'Web', 'ML', 'UI/UX', 'IOT', 'Game Development', '3D Model'];
 
         try {
             $inputs = $request->job_prompt;

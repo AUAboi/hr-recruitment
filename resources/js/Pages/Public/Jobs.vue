@@ -15,10 +15,12 @@ const props = defineProps({
 
 const form = reactive({
     search: props.filters.search,
+    tags: props.filters.tags ?? [],
 });
 
 const reset = () => {
     form.search = null;
+    form.tags = [];
 };
 
 watchThrottled(
@@ -31,6 +33,25 @@ watchThrottled(
     },
     { throttle: 500, deep: true }
 );
+
+const handleTagClick = (tag) => {
+    const index = form.tags.indexOf(tag);
+    if (index === -1) {
+        form.tags.push(tag);
+    } else {
+        form.tags.splice(index, 1);
+    }
+};
+
+const tags = [
+    { value: "AI", label: "AI" },
+    { value: "Web", label: "Web" },
+    { value: "ML", label: "ML" },
+    { value: "UI/UX", label: "UI/UX" },
+    { value: "IOT", label: "IOT" },
+    { value: "Game Development", label: "Game Development" },
+    { value: "3D Model", label: "3D Model" },
+];
 
 function timeAgo(dateString) {
     const createdAt = new Date(dateString);
@@ -111,33 +132,19 @@ function timeAgo(dateString) {
                 </div>
 
                 <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
+                    v-for="(tag, index) in tags"
+                    :key="index"
+                    @click="handleTagClick(tag.value)"
+                    :class="
+                        form.tags.includes(tag.value)
+                            ? 'bg-orange-600 hover:bg-orange-500'
+                            : 'bg-stone-900 hover:bg-primaryGray'
+                    "
+                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer transition-all duration-200"
                 >
-                    <p class="font-semibold text-primaryWhite">Tech</p>
-                </div>
-
-                <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
-                >
-                    <p class="font-semibold text-primaryWhite">Engineering</p>
-                </div>
-
-                <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
-                >
-                    <p class="font-semibold text-primaryWhite">Marketing</p>
-                </div>
-
-                <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
-                >
-                    <p class="font-semibold text-primaryWhite">Finance</p>
-                </div>
-
-                <div
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer hover:bg-primaryGray bg-stone-900 transition-all duration-200"
-                >
-                    <p class="font-semibold text-primaryWhite">Sales</p>
+                    <p class="font-semibold text-primaryWhite">
+                        {{ tag.value }}
+                    </p>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -168,18 +175,10 @@ function timeAgo(dateString) {
                         <div class="flex items-start gap-2 mt-4">
                             <div
                                 class="px-6 py-2 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
+                                v-for="(tag, index) in job.tags"
+                                :key="index"
                             >
-                                <span>Tech</span>
-                            </div>
-                            <div
-                                class="px-6 py-2 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
-                            >
-                                <span>Programming</span>
-                            </div>
-                            <div
-                                class="px-6 py-2 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
-                            >
-                                <span>Engineering</span>
+                                <span>{{ tag }}</span>
                             </div>
                         </div>
                         <p class="text-slate-300 line-clamp-2 my-4">

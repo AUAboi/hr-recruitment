@@ -16,7 +16,7 @@ class JobBoardController extends Controller
 {
     public function index(Request $request)
     {
-        $filters = $request->all('search');
+        $filters = $request->all('search', 'tags');
 
         $job_listings =  JobListing::orderBy('updated_at')
             ->filter($filters)
