@@ -84,12 +84,12 @@ class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadi
 
         $name = isset($evaluation->data['name']) ? ucwords(strtolower($evaluation->data['name'])) : "";
 
-        $father_name = $evaluation->data['father_name'] ? ucwords(strtolower($evaluation->data['father_name'])) : "";
+        $last_name = $evaluation->data['last_name'] ? ucwords(strtolower($evaluation->data['last_name'])) : "";
         return [
             $this->rowNumber,
             $name,
             $evaluation->data['email'] ?? null,
-            $father_name,
+            $last_name,
             $phone,
             route('recruiter.evaluation.downloadPDF', $evaluation->id),
             $evaluation->data['address'] ?? null,

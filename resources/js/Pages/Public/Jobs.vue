@@ -35,12 +35,9 @@ watchThrottled(
 );
 
 const handleTagClick = (tag) => {
-    const index = form.tags.indexOf(tag);
-    if (index === -1) {
-        form.tags.push(tag);
-    } else {
-        form.tags.splice(index, 1);
-    }
+    form.tags = form.tags.includes(tag)
+        ? form.tags.filter((t) => t !== tag) // Remove if already in the array
+        : [...form.tags, tag]; // Add if not in the array
 };
 
 const tags = [
@@ -113,7 +110,7 @@ function timeAgo(dateString) {
             @reset="reset"
         />
         <div>
-            <div class="flex items-start justify-start gap-4 mb-8">
+            <div class="flex items-start justify-start gap-4 mb-4">
                 <div
                     class="flex items-center justify-between gap-4 bg-primaryWhite px-6 py-2 rounded-full cursor-pointer"
                 >
@@ -135,23 +132,42 @@ function timeAgo(dateString) {
                     v-for="(tag, index) in tags"
                     :key="index"
                     @click="handleTagClick(tag.value)"
-                    :class="
-                        form.tags.includes(tag.value)
-                            ? 'bg-orange-600 hover:bg-orange-500'
-                            : 'bg-stone-900 hover:bg-primaryGray'
-                    "
-                    class="flex items-center justify-between gap-4 px-6 py-2 rounded-full cursor-pointer transition-all duration-200"
+                    class="flex items-center justify-between bg-stone-900 hover:bg-primaryGray gap-4 px-6 py-2 rounded-full cursor-pointer transition-all duration-200"
                 >
                     <p class="font-semibold text-primaryWhite">
                         {{ tag.value }}
                     </p>
                 </div>
             </div>
+            <div class="flex items-start justify-start gap-4 mb-8">
+                <div
+                    v-for="(tag, index) in form.tags"
+                    :key="index"
+                    @click="handleTagClick(tag)"
+                    :class="
+                        form.tags.includes(tag)
+                            ? 'bg-primaryWhite'
+                            : 'bg-stone-900 hover:bg-primaryGray'
+                    "
+                    class="flex items-center w-fit justify-between gap-4 px-6 py-2 rounded-full cursor-pointer transition-all duration-200"
+                >
+                    <span class="font-semibold">{{ tag }}</span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#e00b32"
+                        viewBox="0 0 256 256"
+                    >
+                        <path
+                            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+                        ></path>
+                    </svg>
+                </div>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Link
-                    as="div"
+                <div
                     v-for="(job, index) in job_listings.data"
-                    :href="route('public.jobs.application.create', job.id)"
                     class="shadow bg-[#111] relative group overflow-hidden flex flex-col items-start rounded-lg p-6 cursor-pointer"
                 >
                     <div class="text-white">
@@ -176,6 +192,7 @@ function timeAgo(dateString) {
                             <div
                                 class="px-6 py-2 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
                                 v-for="(tag, index) in job.tags"
+                                @click="handleTagClick(tag)"
                                 :key="index"
                             >
                                 <span>{{ tag }}</span>
@@ -186,8 +203,9 @@ function timeAgo(dateString) {
                         </p>
                     </div>
                     <div class="absolute right-4 top-4">
-                        <span class="font-semibold text-sm text-primaryOrange"
-                            >Full time</span
+                        <span
+                            class="font-semibold text-sm text-primaryOrange"
+                            >{{ job.type }}</span
                         >
                     </div>
 
@@ -197,13 +215,17 @@ function timeAgo(dateString) {
                         >
                             {{ timeAgo(job.created_at) }}</span
                         >
-                        <button
+                        <Link
+                            as="button"
+                            :href="
+                                route('public.jobs.application.create', job.id)
+                            "
                             class="bg-primaryOrange px-8 py-2 rounded-lg text-sm hover:scale-105 transition-all duration-200 active:scale-95"
                         >
                             Apply Now
-                        </button>
+                        </Link>
                     </div>
-                </Link>
+                </div>
             </div>
         </div>
     </div>

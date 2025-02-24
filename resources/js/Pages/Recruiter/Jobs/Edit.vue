@@ -20,6 +20,9 @@ const props = defineProps({
     status: {
         required: true,
     },
+    type: {
+        required: true,
+    },
 });
 
 const form = useForm({
@@ -28,6 +31,7 @@ const form = useForm({
     tags: props.tags,
     job_title: props.job_title,
     status: props.status,
+    type: props.type,
 });
 
 const submit = () => {

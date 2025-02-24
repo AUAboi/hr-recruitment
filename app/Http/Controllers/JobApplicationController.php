@@ -91,7 +91,7 @@ class JobApplicationController extends Controller
 
             $job_application->relavancy_score = $response->json()['relavancy_score'];
             $job_application->skill_score = $response->json()['skill_score'];
-            $job_application->experience_score = $response->json()['exprience_score'];
+            $job_application->experience_score = $response->json()['experience_score'];
 
             $job_application->save();
         } catch (ConnectionException $e) {

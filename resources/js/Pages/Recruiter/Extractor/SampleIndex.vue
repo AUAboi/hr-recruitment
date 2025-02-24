@@ -13,7 +13,7 @@ import Toaster from "@/Components/ui/toast/Toaster.vue";
 const isOpen = ref(false);
 const rawJSON = {
     name: "Basim Bashir",
-    father_name: "Haseeb Bashir",
+    last_name: "Haseeb Bashir",
     phone_no: "+92 30171 444 99",
     address: "P37, New Haseeb Shaheed Colony, Faislabad, Pakistan",
     skills: "Machine Learning, Deep Learning, Computer Vision, Natural Language Processing, Database Management, Data Analysis",
@@ -28,7 +28,7 @@ const rawJSON = {
 
 const data = {
     name: "Basim Bashir",
-    father_name: "Haseeb Bashir",
+    last_name: "Haseeb Bashir",
     phone_no: "+92 30171 444 99",
     address: "P37, New Haseeb Shaheed Colony, Faislabad, Pakistan",
     skills: [

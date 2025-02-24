@@ -74,7 +74,7 @@ class JobApplication extends Model
         $scores = $this->score;
 
         if (is_array($scores)) {
-            $total = ($scores['relavancy_score'] ?? 0) + ($scores['skill_score'] ?? 0) + ($scores['exprience_score'] ?? 0);
+            $total = ($scores['relavancy_score'] ?? 0) + ($scores['skill_score'] ?? 0) + ($scores['experience_score'] ?? 0);
             return $total / 3;
         }
 

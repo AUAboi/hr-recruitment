@@ -16,7 +16,8 @@ class JobListing extends Model
         'job_details',
         'tags',
         'api_json',
-        'status'
+        'status',
+        'type'
     ];
 
     protected $casts = [

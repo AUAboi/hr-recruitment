@@ -89,7 +89,7 @@ class JobApplicationsExport implements FromCollection, WithMapping, ShouldAutoSi
 
         $name = isset($evaluation->data['name']) ? ucwords(strtolower($evaluation->data['name'])) : "";
 
-        $father_name = isset($evaluation->data['father_name']) ? ucwords(strtolower($evaluation->data['father_name'])) : "";
+        $last_name = isset($evaluation->data['last_name']) ? ucwords(strtolower($evaluation->data['last_name'])) : "";
 
         $skills = isset($evaluation->data['skills']) ? implode(', ', $evaluation->data['skills']) : null;
 
@@ -109,7 +109,7 @@ class JobApplicationsExport implements FromCollection, WithMapping, ShouldAutoSi
             $this->rowNumber,
             $name,
             $evaluation->data['email'] ?? null,
-            $father_name,
+            $last_name,
             $phone,
             route('recruiter.evaluation.downloadPDF', $evaluation->id),
             $evaluation->data['address'] ?? null,

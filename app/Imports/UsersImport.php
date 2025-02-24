@@ -31,7 +31,7 @@ class UsersImport implements PersistRelations, WithHeadingRow, OnEachRow
         $user = User::create([
             'first_name'     => $json_decode['name'],
             'username' => Str::slug($json_decode['name']) . Str::random(5),
-            'last_name'    => $json_decode['father_name'] ?? Str::random(10),
+            'last_name'    => $json_decode['last_name'] ?? Str::random(10),
             'email' => Str::slug($json_decode['name']) . Str::random(5) . "@gmail.com",
             'password' => Hash::make('password'),
         ]);
@@ -69,7 +69,7 @@ class UsersImport implements PersistRelations, WithHeadingRow, OnEachRow
         $user = new User([
             'first_name'     => $json_decode['name'],
             'username' => Str::slug($json_decode['name']) . Str::random(5),
-            'last_name'    => $json_decode['father_name'] ?? Str::random(10),
+            'last_name'    => $json_decode['last_name'] ?? Str::random(10),
             'email' => Str::slug($json_decode['name']) . Str::random(5) . "@gmail.com",
             'password' => Hash::make('password'),
         ]);

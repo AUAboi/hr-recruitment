@@ -40,7 +40,8 @@ class JobListingController extends Controller
             'job_details' => $request->job_details,
             'tags' => $request->tags,
             'status' => $request->status,
-            'job_title' => $request->job_title
+            'job_title' => $request->job_title,
+            'type' => $request->type
         ]);
 
         return redirect()->route('recruiter.job.edit', $job_listing->id)->with('success', 'Generated sucessfully!');
@@ -53,7 +54,8 @@ class JobListingController extends Controller
             'job_details' => $job_listing->job_details,
             'tags' => $job_listing->tags,
             'job_title' => $job_listing->job_title,
-            'status' => $job_listing->status
+            'status' => $job_listing->status,
+            'type' => $job_listing->type
         ]);
     }
 

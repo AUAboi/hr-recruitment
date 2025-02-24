@@ -20,6 +20,7 @@ class JobListingResource extends JsonResource
             'tags' => $this->tags,
             'job_details' => $this->job_details,
             'short_description' => $this->short_description,
+            'type' => $this->type
         ];
     }
 }

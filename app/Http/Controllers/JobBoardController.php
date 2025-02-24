@@ -18,7 +18,7 @@ class JobBoardController extends Controller
     {
         $filters = $request->all('search', 'tags');
 
-        $job_listings =  JobListing::orderBy('updated_at')
+        $job_listings =  JobListing::orderBy('updated_at')->where('status', 'PUBLISHED')
             ->filter($filters)
             ->paginate(40)
             ->withQueryString();
@@ -55,7 +55,7 @@ class JobBoardController extends Controller
         
         ### Fields:
         - **name** (str): Name of the applicant.
-        - **father_name** (str): Father's name of the applicant.
+        - **last_name** (str): Father's name of the applicant.
         - **phone_no** (str): Phone number of the applicant.
         - **address** (str): Address of the applicant.
         - **skills** (List[str]): List of skills of the applicant.
@@ -121,7 +121,8 @@ You are an expert CV scorer acting as an HR manager. Your task is to evaluate a 
 - If the CV is **highly relevant**, assign high scores.
 - If the CV **partially matches**, assign moderate scores.
 - If the CV is **not relevant**, assign very low scores (e.g., below 20).
-- Stricly return only a **valid JSON object** with `relavancy_score`, `skill_score`, and `exprience_score and no extra comments.
+- Stricly return only a **valid JSON object** with `relavancy_score`, `skill_score`, and `experience_score` and no extra comments.
+- The json attributes should be strictly as provided: `relavancy_score`, `skill_score`, and `experience_score`, do not change even a single letter in the attribute names.
 `.
 
 **Profile:**  
@@ -144,7 +145,7 @@ $parsedDataString
 
             $job_application->relavancy_score = $parsedScoreData['relavancy_score'];
             $job_application->skill_score = $parsedScoreData['skill_score'];
-            $job_application->experience_score = $parsedScoreData['exprience_score'];
+            $job_application->experience_score = $parsedScoreData['experience_score'];
 
             $job_application->save();
         }

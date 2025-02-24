@@ -177,7 +177,7 @@ const { alertError } = useSweetAlert();
                     <div class="flex gap-2 items-center">
                         <div class="w-2 h-2 bg-darkOrange rounded-full"></div>
                         <span class="font-semibold text-darkOrange"
-                            >Currently Hiring</span
+                            >Currently Hiring - {{ job_listing.type }}</span
                         >
                     </div>
 
@@ -238,9 +238,9 @@ const { alertError } = useSweetAlert();
                         </p>
                     </div>
 
-                    <div class="flex items-start gap-2 mt-4">
+                    <div class="flex items-center gap-2 mt-4">
                         <div
-                            class="flex items-center gap-2 py-2 px-4 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
+                            class="flex items-center gap-2 py-2 px-4 text-xs text-textGray rounded-full hover:brightness-150 transition-all duration-200"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -257,36 +257,19 @@ const { alertError } = useSweetAlert();
                                 >Location, LOC</span
                             >
                         </div>
-
                         <div
-                            class="flex items-center gap-2 py-2 px-4 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
+                            class="flex items-center justify-between bg-stone-900 hover:bg-primaryGray gap-4 px-6 py-2 rounded-full cursor-pointer transition-all duration-200"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    fill="currentColor"
-                                    d="M12 20a8 8 0 0 0 8-8a8 8 0 0 0-8-8a8 8 0 0 0-8 8a8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10a10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67l-.75 1.23L11 13V7z"
-                                />
-                            </svg>
-                            <span class="text-textGray text-sm font-semibold"
-                                >Full time</span
-                            >
+                            <span>{{ job_listing.type }}</span>
                         </div>
-                    </div>
-
-                    <div
-                        v-for="(tag, index) in job_listing.tags"
-                        :key="index"
-                        class="flex items-start gap-2 mt-6"
-                    >
-                        <div
-                            class="py-2 px-3 font-semibold text-xs text-white bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
-                        >
-                            <span>{{ tag }}</span>
+                        <div class="flex items-start justify-start gap-2">
+                            <div
+                                v-for="(tag, index) in job_listing.tags"
+                                :key="index"
+                                class="flex items-center justify-between bg-stone-900 hover:bg-primaryGray gap-4 px-6 py-2 rounded-full cursor-pointer transition-all duration-200"
+                            >
+                                <span>{{ tag }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
