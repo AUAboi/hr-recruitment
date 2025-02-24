@@ -1,6 +1,6 @@
 <script setup>
 import SearchBox from "@/Components/SearchBox.vue";
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Head, Link, router, usePoll } from "@inertiajs/vue3";
 import { watchThrottled } from "@vueuse/core";
 import { reactive } from "vue";
 
@@ -76,6 +76,8 @@ function timeAgo(dateString) {
     }
     return "More than a year ago";
 }
+
+usePoll(2000);
 </script>
 <template>
     <Head title="Apply to jobs" />

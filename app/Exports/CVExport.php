@@ -54,7 +54,7 @@ class CVExport implements FromCollection, WithMapping, ShouldAutoSize, WithHeadi
             '#',
             'Name',
             'Email',
-            'Father Name',
+            'Last Name',
             'Phone No.',
             'CV URL',
             'Address',

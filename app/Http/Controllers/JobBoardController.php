@@ -55,7 +55,7 @@ class JobBoardController extends Controller
         
         ### Fields:
         - **name** (str): Name of the applicant.
-        - **last_name** (str): Father's name of the applicant.
+        - **last_name** (str): Last name of the applicant.
         - **phone_no** (str): Phone number of the applicant.
         - **address** (str): Address of the applicant.
         - **skills** (List[str]): List of skills of the applicant.

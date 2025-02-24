@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Head, Link, router, usePoll } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import UserAvatar from "@/Components/UserAvatar.vue";
 import Paginator from "@/Components/Paginator.vue";
@@ -54,6 +54,8 @@ watchThrottled(
     },
     { throttle: 500, deep: true }
 );
+
+usePoll(2000);
 </script>
 
 <template>
@@ -143,7 +145,7 @@ watchThrottled(
         <Link
             :href="route('recruiter.job.edit', job_listing.id)"
             class="button-action"
-            >&nbsp;<span class="hidden md:inline">Edit</span></Link
+            ><span class="hidden md:inline">Edit</span></Link
         >
 
         <MdiClose
