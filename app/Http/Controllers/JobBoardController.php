@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\JobListingResource;
 use Illuminate\Http\Client\ConnectionException;
-use OpenAI\Laravel\Facades\OpenAI;
+use OpenAI;
 use Spatie\PdfToText\Pdf;
 
 class JobBoardController extends Controller
@@ -43,81 +43,113 @@ class JobBoardController extends Controller
 
 
 
-        if ($request->hasFile('pdf')) {
-
-            $text = (new Pdf('E:/project/hr-recruitment/pdftotext.exe'))->setPdf($request->file('pdf')->path())->text();
-            dd($text);
-            foreach ($request->file('pdf') as $file) {
-                // Extract text from PDF
-                $text = Pdf::getText($file->path());
-                dd($text);
-
-                // Define the prompt for structured extraction
-                $prompt = "Extract the following structured data from the CV:
-            Name, Father Name, Phone Number, Address, Skills, Projects, Programming Languages, 
-            Education History, and Summary. Return the response as a valid JSON object.
-            
-            CV Text:
-            ```$text```
-            ";
-
-                // Send extracted text to ChatGPT API
-                $client = OpenAI::client(env('OPENAI_API_KEY'));
-                $response = $client->chat()->create([
-                    'model' => 'gpt-3.5-turbo',
-                    'messages' => [[
-                        'role' => 'user',
-                        'content' => $prompt
-                    ]]
-                ]);
 
 
-                $parsedData = json_decode($response['choices'][0]['message']['content'], true);
+        $text = (new Pdf('E:/project/hr-recruitment/pdftotext.exe'))->setPdf($request->file('pdf')->path())->text();
 
-                dd($parsedData);
+        $file = $request->file('pdf');
+
+
+        // Define the prompt for structured extraction
+        $prompt = "
+        Extract the following structured data from the CV and return it as a valid JSON object with the specified fields:
+        
+        ### Fields:
+        - **name** (str): Name of the applicant.
+        - **father_name** (str): Father's name of the applicant.
+        - **phone_no** (str): Phone number of the applicant.
+        - **address** (str): Address of the applicant.
+        - **skills** (List[str]): List of skills of the applicant.
+        - **project** (List[str]): List of projects made by the applicant.
+        - **programming_language** (List[str]): List of programming languages known by the applicant.
+        - **education_history** (List[str]): Complete educational background of the applicant.
+        - **summary** (str): A brief summary of the applicant.
+        
+        ### CV Text:
+        ```$text```
+        
+        Return the extracted data as a **valid JSON object**.
+        ";
+
+        // Send extracted text to ChatGPT API
+        $client = OpenAI::client(env('OPENAI_API_KEY'));
+        $response = $client->chat()->create([
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [[
+                'role' => 'user',
+                'content' => $prompt
+            ]]
+        ]);
+
+
+        $parsedData = json_decode($response['choices'][0]['message']['content'], true);
+
+        $job_application = $job_listing->jobApplications()->create([
+            'user_id' => auth()->id(),
+            'data' => $parsedData,
+            'score' => null,
+            'uuid' => Str::uuid()
+        ]);
+
+
+        $jobListingMedia = $job_application->media()->create([]);
+        $jobListingMedia->baseMedia()->associate(
+            $jobListingMedia->addMedia($file)->toMediaCollection('pdf')
+        )->save();
+
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $attachment) {
+                $jobListingAtMedia = $job_application->attachmentsMedia()->create([]);
+                $jobListingAtMedia->baseMedia()->associate(
+                    $jobListingAtMedia->addMedia($attachment)->toMediaCollection('attachments')
+                )->save();
             }
         }
 
+        $parsedDataString = json_encode($parsedData);
 
+        $promptScore = "
+You are an expert CV scorer acting as an HR manager. Your task is to evaluate a candidate's CV based on a given job description and provide scores for relevancy, skills, and experience.
 
-        // $job_application = $job_listing->jobApplications()->create([
-        //     'user_id' => auth()->id(),
-        //     'data' => $response->json(),
-        //     'score' => null,
-        //     'uuid' => Str::uuid()
-        // ]);
+### Scoring Criteria (1-100):
+- **Relavancy Score:** How relevant the CV is to the job description.
+- **Skill Score:** How well the candidate's skills match the job requirements.
+- **Exprience Score:** How well the candidate's experience aligns with the job requirements.
 
+### Instructions:
+- Analyze skills, programming languages, and relevant experience from the job description and the user's CV.
+- If the CV is **highly relevant**, assign high scores.
+- If the CV **partially matches**, assign moderate scores.
+- If the CV is **not relevant**, assign very low scores (e.g., below 20).
+- Stricly return only a **valid JSON object** with `relavancy_score`, `skill_score`, and `exprience_score and no extra comments.
+`.
 
-        // $jobListingMedia = $job_application->media()->create([]);
-        // $jobListingMedia->baseMedia()->associate(
-        //     $jobListingMedia->addMedia($file)->toMediaCollection('pdf')
-        // )->save();
+**Profile:**  
+$parsedDataString
 
+**Job Description:**  
+" . (isset($job_listing->api_json) ? json_encode($job_listing->api_json, JSON_PRETTY_PRINT) : json_encode($job_listing->job_details, JSON_PRETTY_PRINT));
 
-        // if ($request->hasFile('attachments')) {
-        //     foreach ($request->file('attachments') as $attachment) {
-        //         $jobListingAtMedia = $job_application->attachmentsMedia()->create([]);
-        //         $jobListingAtMedia->baseMedia()->associate(
-        //             $jobListingAtMedia->addMedia($attachment)->toMediaCollection('attachments')
-        //         )->save();
-        //     }
-        // }
+        $responseScore = $client->chat()->create([
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [[
+                'role' => 'user',
+                'content' => $promptScore
+            ]]
+        ]);
+        $parsedScoreData = json_decode($responseScore['choices'][0]['message']['content'], true);
 
-        // $responseScore = Http::withQueryParameters([
-        //     'profile' => $response->json(),
-        //     'jd' => isset($job_listing->api_json) ? json_encode($job_listing->api_json) : json_encode($job_listing->job_details),
-        // ])->post(config('app.api_url') . '/scoring');
+        if (isset($parsedScoreData['relavancy_score'])) {
+            $job_application->score = $parsedScoreData;
 
-        // if (isset($responseScore->json()['relavancy_score'])) {
-        //     $job_application->score = $responseScore->json();
+            $job_application->relavancy_score = $parsedScoreData['relavancy_score'];
+            $job_application->skill_score = $parsedScoreData['skill_score'];
+            $job_application->experience_score = $parsedScoreData['exprience_score'];
 
-        //     $job_application->relavancy_score = $responseScore->json()['relavancy_score'];
-        //     $job_application->skill_score = $responseScore->json()['skill_score'];
-        //     $job_application->experience_score = $responseScore->json()['exprience_score'];
-
-        //     $job_application->save();
-        // }
-        // return redirect()->route('public.jobs')->with('success', 'Uploaded successfully');
+            $job_application->save();
+        }
+        return redirect()->route('public.jobs')->with('success', 'Uploaded successfully');
     }
 
     public function apply(JobListing $job_listing)
