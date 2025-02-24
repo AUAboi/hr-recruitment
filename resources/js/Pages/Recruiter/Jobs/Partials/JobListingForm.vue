@@ -59,7 +59,7 @@ const frameworks = [
     { value: "ML", label: "ML" },
     { value: "UI/UX", label: "UI/UX" },
     { value: "IOT", label: "IOT" },
-    { value: "Game Developement", label: "Game Developement" },
+    { value: "Game Development", label: "Game Development" },
     { value: "3D Model", label: "3D Model" },
 ];
 const open = ref(false);

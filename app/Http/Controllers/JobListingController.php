@@ -38,6 +38,7 @@ class JobListingController extends Controller
         $job_listing = JobListing::create([
             'user_id' => $request->user()->id,
             'job_details' => $request->job_details,
+            'tags' => $request->tags,
             'status' => $request->status,
             'job_title' => $request->job_title
         ]);
@@ -50,6 +51,7 @@ class JobListingController extends Controller
         return Inertia::render('Recruiter/Jobs/Edit', [
             'id' => $job_listing->id,
             'job_details' => $job_listing->job_details,
+            'tags' => $job_listing->tags,
             'job_title' => $job_listing->job_title,
             'status' => $job_listing->status
         ]);
@@ -60,6 +62,7 @@ class JobListingController extends Controller
         $job_listing->update([
             'job_details' => $request->job_details,
             'job_title' => $request->job_title,
+            'tags' => $request->tags,
             'status' => $request->status
         ]);
 
