@@ -1,8 +1,16 @@
 <script setup>
 import SearchBox from "@/Components/SearchBox.vue";
+import Select from "@/Components/ui/select/Select.vue";
+import SelectContent from "@/Components/ui/select/SelectContent.vue";
+import SelectGroup from "@/Components/ui/select/SelectGroup.vue";
+import SelectItem from "@/Components/ui/select/SelectItem.vue";
+import SelectLabel from "@/Components/ui/select/SelectLabel.vue";
+import SelectTrigger from "@/Components/ui/select/SelectTrigger.vue";
+import SelectValue from "@/Components/ui/select/SelectValue.vue";
 import { Head, Link, router, usePoll } from "@inertiajs/vue3";
 import { watchThrottled } from "@vueuse/core";
-import { reactive } from "vue";
+import axios from "axios";
+import { onMounted, reactive, ref, watch } from "vue";
 
 const props = defineProps({
     job_listings: {
@@ -16,11 +24,17 @@ const props = defineProps({
 const form = reactive({
     search: props.filters.search,
     tags: props.filters.tags ?? [],
+    country: props.filters.country,
+    city: props.filters.city,
+    type: props.filters.type,
 });
 
 const reset = () => {
     form.search = null;
     form.tags = [];
+    form.country = null;
+    form.city = null;
+    form.type = null;
 };
 
 watchThrottled(
@@ -50,34 +64,57 @@ const tags = [
     { value: "3D Model", label: "3D Model" },
 ];
 
-function timeAgo(dateString) {
-    const createdAt = new Date(dateString);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now - createdAt) / 1000);
-
-    const secondsInMinute = 60;
-    const secondsInHour = 60 * secondsInMinute;
-    const secondsInDay = 24 * secondsInHour;
-    const secondsInWeek = 7 * secondsInDay;
-    const secondsInMonth = 4 * secondsInWeek; // Approximate month
-    const secondsInYear = 12 * secondsInMonth;
-
-    if (diffInSeconds < secondsInDay) return "Today";
-    if (diffInSeconds < secondsInDay * 2) return "Yesterday";
-    if (diffInSeconds < secondsInWeek)
-        return `${Math.floor(diffInSeconds / secondsInDay)} days ago`;
-    if (diffInSeconds < secondsInMonth) {
-        const weeks = Math.floor(diffInSeconds / secondsInWeek);
-        return weeks === 1 ? "A week ago" : `${weeks} weeks ago`;
-    }
-    if (diffInSeconds < secondsInYear) {
-        const months = Math.floor(diffInSeconds / secondsInMonth);
-        return months === 1 ? "A month ago" : `${months} months ago`;
-    }
-    return "More than a year ago";
-}
-
 usePoll(2000);
+
+const countryData = ref([]);
+const fetchCountries = async () => {
+    try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        countryData.value = response.data
+            .map((country) => ({
+                name: country.name.common,
+                code: country.cca2,
+            }))
+            .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically
+    } catch (error) {
+        console.error("Error fetching countries:", error);
+    }
+};
+
+const cities = ref([]);
+const fetchCities = async () => {
+    if (!form.country) {
+        console.log("failed");
+        return;
+    }
+
+    try {
+        const response = await axios.get(`/${form.country}/cities`);
+
+        cities.value = response.data.geonames.map((city) => ({
+            id: city.geonameId,
+            name: city.name,
+        }));
+
+        console.log(cities.value);
+    } catch (error) {
+        console.error("Error fetching cities:", error);
+    }
+};
+
+onMounted(async () => {
+    await fetchCountries();
+    await fetchCities();
+});
+watch(
+    () => form.country,
+    () => {
+        if (form.country) {
+            form.city = null;
+            fetchCities();
+        }
+    }
+);
 </script>
 <template>
     <Head title="Apply to jobs" />
@@ -167,6 +204,77 @@ usePoll(2000);
                     </svg>
                 </div>
             </div>
+            <div class="flex gap-4 text-white mb-8">
+                <div class="w-1/2">
+                    <Select v-model="form.country">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Country" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Country</SelectLabel>
+                                <SelectItem :value="null"
+                                    >Filter by Country</SelectItem
+                                >
+                                <SelectItem
+                                    v-for="country in countryData"
+                                    :key="country.code"
+                                    :value="country.code"
+                                >
+                                    {{ country.name }}
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div class="w-1/2">
+                    <Select v-if="form.country" v-model="form.city">
+                        <SelectTrigger>
+                            <SelectValue placeholder="City" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>City</SelectLabel
+                                ><SelectItem :value="null"
+                                    >Filter by City</SelectItem
+                                >
+                                <SelectItem
+                                    v-for="city in cities"
+                                    :key="city.id"
+                                    :value="city.name"
+                                >
+                                    {{ city.name }}
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+            <div class="flex gap-4 text-white mb-8">
+                <div class="w-1/2">
+                    <Select v-model="form.type">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Set Job Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Type</SelectLabel>
+                                <SelectItem :value="null"
+                                    >Filter by Type</SelectItem
+                                >
+                                <SelectItem value="Full Time">
+                                    Full Time
+                                </SelectItem>
+                                <SelectItem value="Part Time">
+                                    Part Time
+                                </SelectItem>
+                                <SelectItem value="Remote"> Remote </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div
                     v-for="(job, index) in job_listings.data"
@@ -215,7 +323,7 @@ usePoll(2000);
                         <span
                             class="text-sm font-semibold leading-3 text-textGray"
                         >
-                            {{ timeAgo(job.created_at) }}</span
+                            {{ job.created_human }}</span
                         >
                         <Link
                             as="button"

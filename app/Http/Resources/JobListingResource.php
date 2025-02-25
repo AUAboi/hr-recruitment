@@ -22,7 +22,8 @@ class JobListingResource extends JsonResource
             'short_description' => $this->short_description,
             'type' => $this->type,
             'country' => $this->country,
-
+            'created_at' => $this->created_at,
+            'created_human' => $this->created_at->diffForHumans(),
             'city' => $this->city
         ];
     }

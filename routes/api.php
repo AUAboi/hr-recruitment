@@ -22,15 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum', 'role:recruiter'])->group(function () {
     Route::post('/generate_job_description', GenerateJobDescription::class);
+});
 
-    Route::get('/{country}/cities', function ($country) {
-        $response = Http::get("http://api.geonames.org/searchJSON", [
-            'country' => $country,
-            'featureClass' => 'P',
-            'maxRows' => 10,
-            'username' => 'tripeasy' // Replace with your GeoNames username
-        ]);
+Route::get('/{country}/cities', function ($country) {
+    $response = Http::get("http://api.geonames.org/searchJSON", [
+        'country' => $country,
+        'featureClass' => 'P',
+        'maxRows' => 10,
+        'username' => 'tripeasy' // Replace with your GeoNames username
+    ]);
 
-        return response($response->body())->header('Content-Type', 'application/json');
-    });
+    return response($response->body())->header('Content-Type', 'application/json');
 });

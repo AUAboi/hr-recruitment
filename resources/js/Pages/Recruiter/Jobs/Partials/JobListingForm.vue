@@ -167,7 +167,7 @@ const fetchCities = async () => {
         console.log("failed");
         return;
     }
-    console.log(props.form.country);
+
     try {
         const response = await axios.get(`/${props.form.country}/cities`);
 
