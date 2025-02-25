@@ -73,7 +73,10 @@ const submit = () => {
 
                 <InputError class="mt-2" :message="form.errors.username" />
             </div>
-            <input v-model="form.role" required hidden />
+            <select v-model="form.role">
+                <option value="applicant">Applicant</option>
+                <option value="recruiter">Recruiter</option>
+            </select>
             <div class="mt-4">
                 <InputLabel for="email" value="Email" />
 

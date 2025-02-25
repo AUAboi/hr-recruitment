@@ -52,6 +52,18 @@ class JobListing extends Model
         $query->when($filters['tags'] ?? null, function ($query, $tags) {
             $query->whereJsonContains('tags', $tags);
         });
+
+        $query->when($filters['country'] ?? null, function ($query, $country) {
+            $query->where('country', $country);
+        });
+
+        $query->when($filters['city'] ?? null, function ($query, $city) {
+            $query->where('city', $city);
+        });
+
+        $query->when($filters['type'] ?? null, function ($query, $type) {
+            $query->where('type', $type);
+        });
     }
 
     // Method to check if a JobListing has an application with a given user

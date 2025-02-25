@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobListingRequest;
 use Inertia\Inertia;
 use App\Models\JobListing;
 use Illuminate\Support\Str;
@@ -16,7 +17,7 @@ class JobBoardController extends Controller
 {
     public function index(Request $request)
     {
-        $filters = $request->all('search', 'tags');
+        $filters = $request->all('search', 'tags', 'type', 'country', 'city');
 
         $job_listings =  JobListing::orderBy('updated_at')->where('status', 'PUBLISHED')
             ->filter($filters)
@@ -27,7 +28,7 @@ class JobBoardController extends Controller
         return Inertia::render(
             'Public/Jobs',
             [
-                'job_listings' => $job_listings,
+                'job_listings' => JobListingResource::collection($job_listings),
                 'filters' => $filters
             ]
         );
