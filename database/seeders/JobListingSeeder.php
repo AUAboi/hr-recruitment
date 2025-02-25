@@ -45,7 +45,9 @@ class JobListingSeeder extends Seeder
              }', true),
          'job_details' => json_decode('{"company_profile":"Our company is a leading tech firm specializing in cutting-edge machine learning solutions. We are dedicated to pushing the boundaries of artificial intelligence and creating innovative products that impact millions of lives.","job_title":"Machine Learning Developer","requirements":["Proficiency in Python programming language","Solid understanding of machine learning algorithms and techniques","Experience with data preprocessing, model training, and evaluation","Strong problem-solving skills and analytical thinking"],"what_will_you_do":["Develop and implement machine learning models and algorithms","Collaborate with cross-functional teams to design and deploy ML solutions","Optimize model performance and scalability","Stay up-to-date with the latest trends and advancements in the field of machine learning"],"benefits":["Competitive salary and bonuses","Flexible work hours and remote work options","Professional development opportunities","Health insurance and wellness programs"]}', true),
          'status' => "PUBLISHED",
-         'tags' => ['ML', 'AI']
+         'tags' => ['ML', 'AI'],
+         'country' => 'IN',
+         'city' => 'Bangalore',
       ]);
 
       JobListing::create([
@@ -76,7 +78,9 @@ class JobListingSeeder extends Seeder
              }', true),
          'job_details' => json_decode('{"company_profile":"We are a leading tech company specializing in creating innovative solutions for various industries. Our team is composed of talented individuals who are passionate about pushing the boundaries of technology.","job_title":"Flutter Developer","requirements":["3+ years of experience in Flutter development","Strong knowledge of Dart programming language","Experience with multiplatform development","Ability to work in a fast-paced environment and meet deadlines"],"what_will_you_do":["Develop and maintain mobile applications using Flutter framework","Collaborate with cross-functional teams to define, design, and ship new features","Optimize applications for maximum speed and scalability","Stay up-to-date with new technologies and trends in the mobile development space"],"benefits":["Competitive salary","Healthcare benefits","Flexible working hours","Professional development opportunities"]}', true),
          'status' => "PUBLISHED",
-         'tags' => ['UI/UX', 'App Development']
+         'tags' => ['UI/UX', 'App Development'],
+         'country' => 'PK',
+         'city' => 'Lahore',
       ]);
 
       JobListing::create([
@@ -112,7 +116,10 @@ class JobListingSeeder extends Seeder
 }', true),
          'job_details' => json_decode('{"company_profile":"We are a leading tech company specializing in creating innovative solutions for our clients. Our team is dedicated to pushing the boundaries of technology and delivering top-notch products to our customers.","job_title":"Javascript Developer","requirements":["Bachelors degree in Computer Science or related field","Strong proficiency in JavaScript, including DOM manipulation and the JavaScript object model","Experience with modern frameworks and libraries such as React, Angular, or Vue","Solid understanding of web development technologies including HTML, CSS, and AJAX","Ability to work in a fast-paced environment and meet deadlines"],"what_will_you_do":["Developing front end website architecture","Designing user interactions on web pages","Creating servers and databases for functionality","Ensuring cross-platform optimization for mobile phones","Ensuring responsiveness of applications"],"benefits":["Competitive salary and benefits package","Opportunity for career growth and advancement","Flexible working hours and remote work options","Dynamic and collaborative work environment","Regular team building activities and events"]}', true),
          'status' => "PUBLISHED",
-         'tags' => ['Web']
+         'tags' => ['Web'],
+         'country' => 'US',
+         'city' => 'Chicago',
+         'type' => 'Full Time'
       ]);
       JobListing::create([
          'user_id' => 1,
@@ -143,7 +150,10 @@ class JobListingSeeder extends Seeder
              }', true),
          'job_details' => json_decode('{"company_profile":"Our company is a leading tech firm specializing in web development solutions.","job_title":"Laravel Developer","requirements":["Proficient in Laravel framework","Experience with PHP, HTML, CSS, and JavaScript","Strong understanding of MVC design patterns","Good communication skills"],"what_will_you_do":["Develop and maintain web applications using Laravel framework","Collaborate with the team to design and implement new features","Optimize application performance","Troubleshoot and debug issues"],"benefits":["Competitive salary","Opportunity for growth and advancement","Flexible work hours","Health insurance and other benefits"]}', true),
          'status' => "PUBLISHED",
-         'tags' => ['Backend', 'Web']
+         'tags' => ['Backend', 'Web'],
+         'country' => 'US',
+         'city' => 'New York',
+         'type' => 'Remote'
       ]);
    }
 }

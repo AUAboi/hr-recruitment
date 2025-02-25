@@ -55,12 +55,38 @@ import {
 
 const frameworks = [
     { value: "AI", label: "AI" },
-    { value: "Web", label: "Web" },
-    { value: "ML", label: "ML" },
-    { value: "UI/UX", label: "UI/UX" },
-    { value: "IOT", label: "IOT" },
+    { value: "Web Development", label: "Web Development" },
+    { value: "Frontend", label: "Frontend" },
+    { value: "Backend", label: "Backend" },
+    { value: "Full Stack", label: "Full Stack" },
+    { value: "ML", label: "Machine Learning" },
+    { value: "Data Science", label: "Data Science" },
+    { value: "Big Data", label: "Big Data" },
+    { value: "Cloud Computing", label: "Cloud Computing" },
+    { value: "DevOps", label: "DevOps" },
+    { value: "Cybersecurity", label: "Cybersecurity" },
+    { value: "UI/UX", label: "UI/UX Design" },
+    { value: "IOT", label: "Internet of Things (IoT)" },
+    { value: "Embedded Systems", label: "Embedded Systems" },
     { value: "Game Development", label: "Game Development" },
-    { value: "3D Model", label: "3D Model" },
+    { value: "3D Modeling", label: "3D Modeling" },
+    { value: "AR/VR", label: "Augmented & Virtual Reality" },
+    { value: "Blockchain", label: "Blockchain" },
+    { value: "Smart Contracts", label: "Smart Contracts" },
+    { value: "Networking", label: "Networking" },
+    { value: "System Administration", label: "System Administration" },
+    { value: "Database Management", label: "Database Management" },
+    { value: "Mobile Development", label: "Mobile Development" },
+    { value: "iOS Development", label: "iOS Development" },
+    { value: "Android Development", label: "Android Development" },
+    { value: "Software Engineering", label: "Software Engineering" },
+    { value: "QA & Testing", label: "QA & Testing" },
+    { value: "IT Support", label: "IT Support" },
+    { value: "Technical Writing", label: "Technical Writing" },
+    { value: "Product Management", label: "Product Management" },
+    { value: "Digital Marketing", label: "Digital Marketing" },
+    { value: "SEO", label: "SEO" },
+    { value: "Social Media Management", label: "Social Media Management" },
 ];
 const open = ref(false);
 const searchTerm = ref("");
@@ -120,6 +146,44 @@ const emits = defineEmits(["send"]);
 
 const showSuccess = ref(false);
 
+const countryData = ref([]);
+const fetchCountries = async () => {
+    try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        countryData.value = response.data
+            .map((country) => ({
+                name: country.name.common,
+                code: country.cca2,
+            }))
+            .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically
+    } catch (error) {
+        console.error("Error fetching countries:", error);
+    }
+};
+
+const cities = ref([]);
+const fetchCities = async () => {
+    if (!props.form.country) {
+        console.log("failed");
+        return;
+    }
+    console.log(props.form.country);
+    try {
+        const response = await axios.get(`/${props.form.country}/cities`);
+
+        cities.value = response.data.geonames.map((city) => ({
+            id: city.geonameId,
+            name: city.name,
+        }));
+
+        console.log(cities.value);
+    } catch (error) {
+        console.error("Error fetching cities:", error);
+    }
+};
+
+fetchCountries();
+
 watch(
     () => isFinished.value,
     () => {
@@ -128,6 +192,15 @@ watch(
             setTimeout(() => {
                 showSuccess.value = false;
             }, 4000);
+        }
+    }
+);
+
+watch(
+    () => props.form.country,
+    () => {
+        if (props.form.country) {
+            fetchCities();
         }
     }
 );
@@ -180,7 +253,45 @@ watch(
             </div>
 
             <div class="flex">
-                <TagsInput class="px-0 gap-0 w-full" :model-value="form.tags">
+                <Select v-model="form.country">
+                    <SelectTrigger>
+                        <SelectValue placeholder="Country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Country</SelectLabel>
+                            <SelectItem
+                                v-for="country in countryData"
+                                :key="country.code"
+                                :value="country.code"
+                            >
+                                {{ country.name }}
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+
+                <Select v-if="form.country" v-model="form.city">
+                    <SelectTrigger>
+                        <SelectValue placeholder="City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>City</SelectLabel>
+                            <SelectItem
+                                v-for="city in cities"
+                                :key="city.id"
+                                :value="city.name"
+                            >
+                                {{ city.name }}
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div>
+
+            <div class="flex">
+                <TagsInput class="px-3 gap-0 w-full" :model-value="form.tags">
                     <div class="flex gap-2 flex-wrap items-center px-3">
                         <TagsInputItem
                             v-for="item in form.tags"

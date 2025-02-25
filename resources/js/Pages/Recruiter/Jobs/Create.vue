@@ -13,6 +13,8 @@ const form = useForm({
     tags: [],
     status: "DRAFT",
     type: "Full Time",
+    country: "",
+    city: "",
 });
 
 const submit = () => {

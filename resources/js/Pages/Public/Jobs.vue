@@ -187,7 +187,7 @@ usePoll(2000);
                                 />
                             </svg>
                             <span class="text-textGray text-sm"
-                                >Location, LOC</span
+                                >{{ job.city }}, {{ job.country }}</span
                             >
                         </div>
                         <div class="flex items-start gap-2 mt-4">

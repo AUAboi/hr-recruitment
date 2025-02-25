@@ -254,7 +254,8 @@ const { alertError } = useSweetAlert();
                                 />
                             </svg>
                             <span class="text-textGray text-sm font-semibold"
-                                >Location, LOC</span
+                                >{{ job_listing.city }},
+                                {{ job_listing.country }}</span
                             >
                         </div>
                         <div

@@ -32,6 +32,8 @@ const form = useForm({
     job_title: props.job_title,
     status: props.status,
     type: props.type,
+    country: "",
+    city: "",
 });
 
 const submit = () => {
