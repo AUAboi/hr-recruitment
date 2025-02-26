@@ -14,7 +14,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import {
     Drawer,
     DrawerClose,
@@ -24,7 +24,7 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/components/ui/drawer";
+} from "@/Components/ui/drawer";
 import useSweetAlert from "@/Composables/useSweetAlert";
 
 const props = defineProps(["job_listing", "has_applied"]);
