@@ -12,6 +12,7 @@ use App\Http\Controllers\CVExtractorController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\ShowDesktopPageController;
 use App\Http\Controllers\ApplicantProfileController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,5 +93,10 @@ Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(funct
 });
 
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);
+
+Route::get('/migrate-fresh', function () {
+    Artisan::call('migrate:fresh --seed');
+    return redirect()->route('login');
+});
 
 require __DIR__ . '/auth.php';
