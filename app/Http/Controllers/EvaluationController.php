@@ -32,7 +32,6 @@ class EvaluationController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
 
         $request->validate([
             'files' => 'required|array',
@@ -66,7 +65,6 @@ class EvaluationController extends Controller
 
                 $parsedData = json_decode($response['choices'][0]['message']['content'], true);
 
-                dd($parsedData);
 
                 // Save structured data to database
                 $evaluation = Evaluation::create([

@@ -83,7 +83,6 @@ class JobApplicationsExport implements FromCollection, WithMapping, ShouldAutoSi
 
         $evaluation->data =  is_array($evaluation->data) ? $evaluation->data : json_decode($evaluation->data);
 
-        dd($evaluation);
 
         $this->rowNumber++;
 
