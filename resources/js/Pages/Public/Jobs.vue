@@ -149,7 +149,7 @@ watch(
             @reset="reset"
         />
         <div>
-            <div class="flex items-start justify-start gap-4 mb-4">
+            <div class="flex flex-wrap items-start justify-start gap-4 mb-4">
                 <div
                     class="flex items-center justify-between gap-4 bg-primaryWhite px-6 py-2 rounded-full cursor-pointer"
                 >
@@ -251,7 +251,7 @@ watch(
                 </div>
             </div>
             <div class="flex gap-4 text-white mb-8">
-                <div class="w-1/2">
+                <div class="w-full">
                     <Select v-model="form.type">
                         <SelectTrigger>
                             <SelectValue placeholder="Set Job Type" />
@@ -298,7 +298,7 @@ watch(
                                 >{{ job.city }}, {{ job.country }}</span
                             >
                         </div>
-                        <div class="flex items-start gap-2 mt-4">
+                        <div class="flex flex-wrap items-start gap-2 mt-4">
                             <div
                                 class="px-6 py-2 text-xs text-textGray bg-primaryGray rounded-full hover:brightness-150 transition-all duration-200"
                                 v-for="(tag, index) in job.tags"

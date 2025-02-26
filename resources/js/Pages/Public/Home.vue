@@ -14,21 +14,15 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
                 Job Nexus. We are a global recruitment company that provides a
                 unique service to job seekers and employers. We are a team of
                 professionals who are passionate about helping you find the
-                right job or the right candidate. We have a proven track record
-                of success in the recruitment industry and we are confident that
-                we can help you achieve your goals. Our mission is to make the
-                recruitment process as simple and efficient as possible for both
-                job seekers and employers. We are committed to providing you
-                with the best possible service and we look forward to working
-                with you.
+                right job or the right candidate.
             </p>
-
             <PrimaryButton
                 ><Link :href="route('public.jobs')"
                     >Apply Now</Link
                 ></PrimaryButton
             >
         </div>
+
         <div>
             <img src="/images/qluBotUpperBody.webp" alt="" />
         </div>

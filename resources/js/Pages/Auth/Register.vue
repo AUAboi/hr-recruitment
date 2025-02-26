@@ -28,7 +28,17 @@ const submit = () => {
         <Head title="Register" />
 
         <form @submit.prevent="submit">
-            <div>
+            <label class="block font-medium text-sm text-white" for=""
+                >Type</label
+            >
+            <select
+                v-model="form.role"
+                class="border-gray-300 mt-1 block focus:border-orange-500 p-2 focus:ring-orange-500 rounded-md shadow-sm bg-neutral-700 border-0 text-white w-full"
+            >
+                <option value="applicant">Applicant</option>
+                <option value="recruiter">Recruiter</option>
+            </select>
+            <div class="mt-4">
                 <InputLabel for="first_name" value="First Name" />
 
                 <TextInput
@@ -73,10 +83,7 @@ const submit = () => {
 
                 <InputError class="mt-2" :message="form.errors.username" />
             </div>
-            <select v-model="form.role">
-                <option value="applicant">Applicant</option>
-                <option value="recruiter">Recruiter</option>
-            </select>
+
             <div class="mt-4">
                 <InputLabel for="email" value="Email" />
 

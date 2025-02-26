@@ -263,7 +263,9 @@ const { alertError } = useSweetAlert();
                         >
                             <span>{{ job_listing.type }}</span>
                         </div>
-                        <div class="flex items-start justify-start gap-2">
+                        <div
+                            class="flex flex-wrap items-start justify-start gap-2"
+                        >
                             <div
                                 v-for="(tag, index) in job_listing.tags"
                                 :key="index"
