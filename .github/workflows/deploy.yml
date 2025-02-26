@@ -1,0 +1,87 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout code
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      # Cache Composer dependencies
+      - name: 📦 Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      # Cache Node.js dependencies
+      - name: 📦 Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Set up PHP
+      - name: 🛠 Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2" # Specify the PHP version
+          extensions: mbstring, bcmath, mysql, zip
+
+      # Set up Node.js
+      - name: 🛠 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      # Check if composer.lock has changed
+      - name: 🔍 Check for Composer lock file changes
+        id: composer_lock_changed
+        run: |
+          if git diff --quiet HEAD^ HEAD -- composer.lock; then
+            echo "composer_lock_changed=false" >> $GITHUB_ENV
+          else
+            echo "composer_lock_changed=true" >> $GITHUB_ENV
+          fi
+
+      # Install Composer dependencies if needed
+      - name: 📦 Install Composer dependencies
+        if: env.composer_lock_changed == 'true' || steps.cache-composer-dependencies.outputs.cache-hit != 'true'
+        run: composer install --no-dev --optimize-autoloader --prefer-dist
+
+      # Check if package-lock.json has changed
+      - name: 🔍 Check for npm package-lock.json changes
+        id: npm_lock_changed
+        run: |
+          if git diff --quiet HEAD^ HEAD -- package-lock.json; then
+            echo "npm_lock_changed=false" >> $GITHUB_ENV
+          else
+            echo "npm_lock_changed=true" >> $GITHUB_ENV
+          fi
+
+      # Install npm dependencies if needed
+      - name: 📦 Install npm dependencies
+        if: env.npm_lock_changed == 'true' || steps.cache-npm-dependencies.outputs.cache-hit != 'true'
+        run: npm install
+
+      # Build the frontend assets
+      - name: 🏗 Build frontend assets
+        run: npm run build
+
+      # Deploy files via FTP to the second server
+      - name: 📂 Sync files to Production Server 2
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
