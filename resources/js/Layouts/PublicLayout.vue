@@ -47,6 +47,17 @@ import { Link } from "@inertiajs/vue3";
                         </ContextMenuContent>
                     </ContextMenu>
                 </div>
+                <div v-else>
+                    <Link :href="route('register')" class="mr-4 text-white">
+                        Register
+                    </Link>
+                    <Link
+                        :href="route('login')"
+                        class="text-white bg-orange-600 px-4 py-2 rounded"
+                    >
+                        Login
+                    </Link>
+                </div>
             </div>
         </header>
 
