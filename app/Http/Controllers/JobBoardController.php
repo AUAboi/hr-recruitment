@@ -44,8 +44,7 @@ class JobBoardController extends Controller
 
 
 
-
-        $text = (new Pdf('D:/web_projects/hr-recruitment/pdftotext.exe'))->setPdf($request->file('pdf')->path())->text();
+        $text = (new Pdf(env('PDF_PATH')))->setPdf($request->file('pdf')->path())->text();
 
         $file = $request->file('pdf');
 

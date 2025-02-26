@@ -95,8 +95,21 @@ Route::middleware(['auth', 'role:recruiter'])->prefix('/recruiter')->group(funct
 Route::get('/role-login', [RoleController::class, 'index'])->name('role-login')->middleware(['auth']);
 
 Route::get('/migrate-fresh', function () {
-    Artisan::call('migrate:fresh --seed');
-    return redirect()->route('login');
+    try {
+        // Run migrations
+        Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
+
+        $migrationOutput = Artisan::output();
+        return response()->json([
+            'message' => 'Commands executed successfully',
+            'migration_output' => $migrationOutput,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Error executing commands',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
 });
 
 require __DIR__ . '/auth.php';
