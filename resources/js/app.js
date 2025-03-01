@@ -14,7 +14,7 @@ import PublicLayout from "@/Layouts/PublicLayout.vue";
 
 axios.defaults.baseURL = "https://job-nexus.mundanedev.com" + "/api";
 
-console.log(VITE_API_URL);
+console.log(import.meta.env.VITE_API_URL);
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
