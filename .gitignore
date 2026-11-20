@@ -15,3 +15,5 @@ yarn-error.log
 /.fleet
 /.idea
 config.bat
+.env
+.env.production

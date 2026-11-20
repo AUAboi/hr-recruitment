@@ -2,8 +2,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node init && vite",
-    "build": "node init && vite build"
+    "dev": "vite",
+    "build": "vite build"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.64",
